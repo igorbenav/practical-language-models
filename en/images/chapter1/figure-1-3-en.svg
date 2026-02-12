@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .boundary-line { stroke: #52c41a; stroke-width: 2; fill: none; }
+    .regression-line { stroke: #1890ff; stroke-width: 2; fill: none; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .predict-line { stroke: #fa8c16; stroke-width: 1.5; stroke-dasharray: 4,3; }
+    .question-text { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #fa8c16; }
+  </style>
+
+  <!-- Background -->
+  <rect width="750" height="340" class="background" />
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">Classification vs Regression</text>
+
+  <!-- Vertical divider -->
+  <line x1="375" y1="42" x2="375" y2="330" class="divider" />
+
+  <!-- === Left side: Classification === -->
+
+  <text x="187" y="58" class="col-title">Classification</text>
+
+  <!-- Plot area -->
+  <rect x="47" y="70" width="280" height="220" rx="3" ry="3" class="plot-border" />
+
+  <!-- Decision boundary (smooth curve) -->
+  <path d="M 60,260 Q 120,200 160,175 Q 200,150 240,130 Q 280,110 320,95" class="boundary-line" />
+
+  <!-- Blue circles (class A) — above boundary -->
+  <circle cx="85" cy="115" r="5" fill="#1890ff" />
+  <circle cx="108" cy="132" r="5" fill="#1890ff" />
+  <circle cx="78" cy="145" r="5" fill="#1890ff" />
+  <circle cx="132" cy="108" r="5" fill="#1890ff" />
+  <circle cx="155" cy="120" r="5" fill="#1890ff" />
+  <circle cx="120" cy="148" r="5" fill="#1890ff" />
+  <circle cx="95" cy="162" r="5" fill="#1890ff" />
+  <circle cx="172" cy="108" r="5" fill="#1890ff" />
+  <circle cx="145" cy="140" r="5" fill="#1890ff" />
+  <circle cx="198" cy="102" r="5" fill="#1890ff" />
+  <circle cx="168" cy="135" r="5" fill="#1890ff" />
+  <circle cx="218" cy="95" r="5" fill="#1890ff" />
+  <circle cx="242" cy="88" r="5" fill="#1890ff" />
+
+  <!-- Orange squares (class B) — below boundary -->
+  <rect x="98" y="198" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="128" y="215" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="148" y="195" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="170" y="210" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="118" y="235" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="195" y="185" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="215" y="195" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="238" y="170" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="258" y="155" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="158" y="240" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="200" y="225" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="278" y="145" width="10" height="10" rx="1" fill="#fa8c16" />
+  <rect x="245" y="180" width="10" height="10" rx="1" fill="#fa8c16" />
+
+  <!-- New point with "?" -->
+  <circle cx="190" cy="158" r="7" fill="none" stroke="#fa8c16" stroke-width="2" />
+  <text x="190" y="162" class="question-text">?</text>
+
+  <!-- Label below -->
+  <text x="187" y="310" class="label-small">Which category does the new point belong to?</text>
+
+  <!-- === Right side: Regression === -->
+
+  <text x="562" y="58" class="col-title">Regression</text>
+
+  <!-- Plot area -->
+  <rect x="422" y="70" width="280" height="220" rx="3" ry="3" class="plot-border" />
+
+  <!-- Scatter points roughly following a curve -->
+  <circle cx="445" cy="248" r="4" fill="#999" />
+  <circle cx="458" cy="238" r="4" fill="#999" />
+  <circle cx="470" cy="242" r="4" fill="#999" />
+  <circle cx="482" cy="225" r="4" fill="#999" />
+  <circle cx="495" cy="218" r="4" fill="#999" />
+  <circle cx="505" cy="228" r="4" fill="#999" />
+  <circle cx="518" cy="205" r="4" fill="#999" />
+  <circle cx="530" cy="195" r="4" fill="#999" />
+  <circle cx="542" cy="200" r="4" fill="#999" />
+  <circle cx="555" cy="182" r="4" fill="#999" />
+  <circle cx="568" cy="175" r="4" fill="#999" />
+  <circle cx="580" cy="168" r="4" fill="#999" />
+  <circle cx="593" cy="155" r="4" fill="#999" />
+  <circle cx="608" cy="148" r="4" fill="#999" />
+  <circle cx="620" cy="138" r="4" fill="#999" />
+  <circle cx="635" cy="125" r="4" fill="#999" />
+  <circle cx="648" cy="130" r="4" fill="#999" />
+  <circle cx="660" cy="115" r="4" fill="#999" />
+  <circle cx="672" cy="108" r="4" fill="#999" />
+  <circle cx="685" cy="100" r="4" fill="#999" />
+
+  <!-- Fitted curve through the points -->
+  <path d="M 438,255 Q 500,220 550,195 Q 600,165 650,128 Q 680,108 695,95" class="regression-line" />
+
+  <!-- New x-value with dotted prediction line -->
+  <line x1="575" y1="280" x2="575" y2="170" class="predict-line" />
+  <!-- Prediction dot on the curve -->
+  <circle cx="575" cy="170" r="6" fill="#fa8c16" />
+
+  <!-- Label below -->
+  <text x="562" y="310" class="label-small">What value does the curve predict here?</text>
+
+  <!-- Bottom note -->
+  <text x="375" y="335" class="label-small">Classification picks a category. Regression predicts a number.</text>
+</svg>

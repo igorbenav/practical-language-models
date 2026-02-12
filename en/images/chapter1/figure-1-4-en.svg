@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 310">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-desc { font-family: 'Arial', sans-serif; font-size: 12px; text-anchor: middle; fill: #888; }
+    .pixel-val { font-family: 'Consolas', 'Monaco', monospace; font-size: 8px; text-anchor: middle; fill: #333; dominant-baseline: central; }
+    .pixel-val-light { font-family: 'Consolas', 'Monaco', monospace; font-size: 8px; text-anchor: middle; fill: #ddd; dominant-baseline: central; }
+    .equals { font-family: 'Arial', sans-serif; font-size: 36px; font-weight: bold; text-anchor: middle; fill: #999; dominant-baseline: central; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #555; text-anchor: middle; font-style: italic; }
+  </style>
+
+  <rect width="480" height="310" class="background" />
+  <text x="240" y="30" class="title">Human vs Machine</text>
+
+  <!-- Left image: x=40..200, center=120 -->
+  <text x="120" y="58" class="col-title">What you see</text>
+  <rect x="40" y="70" width="160" height="160" rx="4" ry="4" fill="#111" stroke="#ccc" stroke-width="1" />
+  <path d="M 70,95 L 82,93 L 110,90 L 138,88 L 168,90
+           L 163,101 L 155,118 L 144,140 L 134,163 L 127,185 L 122,205"
+        stroke="#e8e8e8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.95" />
+  <path d="M 118,133 L 152,131"
+        stroke="#e8e8e8" stroke-width="9" stroke-linecap="round" fill="none" opacity="0.7" />
+  <text x="120" y="250" class="label-desc">a shape</text>
+
+  <!-- Equals at center: x=240 -->
+  <text x="240" y="150" class="equals">=</text>
+
+  <!-- Right grid: x=280..440, center=360 -->
+  <text x="360" y="58" class="col-title">What the machine sees</text>
+  <g transform="translate(280, 70)">
+    <rect x="0" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="0" width="20" height="20" fill="rgb(18,18,18)" stroke="#444" stroke-width="0.5"/><rect x="80" y="0" width="20" height="20" fill="rgb(60,60,60)" stroke="#444" stroke-width="0.5"/><rect x="100" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="120" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="140" y="0" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="10" class="pixel-val-light">0</text><text x="30" y="10" class="pixel-val-light">0</text><text x="50" y="10" class="pixel-val-light">0</text><text x="70" y="10" class="pixel-val-light">18</text><text x="90" y="10" class="pixel-val-light">60</text><text x="110" y="10" class="pixel-val-light">0</text><text x="130" y="10" class="pixel-val-light">0</text><text x="150" y="10" class="pixel-val-light">0</text>
+
+    <rect x="0" y="20" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="20" width="20" height="20" fill="rgb(42,42,42)" stroke="#444" stroke-width="0.5"/><rect x="40" y="20" width="20" height="20" fill="rgb(180,180,180)" stroke="#444" stroke-width="0.5"/><rect x="60" y="20" width="20" height="20" fill="rgb(253,253,253)" stroke="#444" stroke-width="0.5"/><rect x="80" y="20" width="20" height="20" fill="rgb(255,255,255)" stroke="#444" stroke-width="0.5"/><rect x="100" y="20" width="20" height="20" fill="rgb(253,253,253)" stroke="#444" stroke-width="0.5"/><rect x="120" y="20" width="20" height="20" fill="rgb(142,142,142)" stroke="#444" stroke-width="0.5"/><rect x="140" y="20" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="30" class="pixel-val-light">0</text><text x="30" y="30" class="pixel-val-light">42</text><text x="50" y="30" class="pixel-val">180</text><text x="70" y="30" class="pixel-val">253</text><text x="90" y="30" class="pixel-val">255</text><text x="110" y="30" class="pixel-val">253</text><text x="130" y="30" class="pixel-val">142</text><text x="150" y="30" class="pixel-val-light">0</text>
+
+    <rect x="0" y="40" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="40" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="40" width="20" height="20" fill="rgb(12,12,12)" stroke="#444" stroke-width="0.5"/><rect x="60" y="40" width="20" height="20" fill="rgb(48,48,48)" stroke="#444" stroke-width="0.5"/><rect x="80" y="40" width="20" height="20" fill="rgb(215,215,215)" stroke="#444" stroke-width="0.5"/><rect x="100" y="40" width="20" height="20" fill="rgb(240,240,240)" stroke="#444" stroke-width="0.5"/><rect x="120" y="40" width="20" height="20" fill="rgb(38,38,38)" stroke="#444" stroke-width="0.5"/><rect x="140" y="40" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="50" class="pixel-val-light">0</text><text x="30" y="50" class="pixel-val-light">0</text><text x="50" y="50" class="pixel-val-light">12</text><text x="70" y="50" class="pixel-val-light">48</text><text x="90" y="50" class="pixel-val">215</text><text x="110" y="50" class="pixel-val">240</text><text x="130" y="50" class="pixel-val-light">38</text><text x="150" y="50" class="pixel-val-light">0</text>
+
+    <rect x="0" y="60" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="60" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="60" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="60" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="80" y="60" width="20" height="20" fill="rgb(128,128,128)" stroke="#444" stroke-width="0.5"/><rect x="100" y="60" width="20" height="20" fill="rgb(245,245,245)" stroke="#444" stroke-width="0.5"/><rect x="120" y="60" width="20" height="20" fill="rgb(82,82,82)" stroke="#444" stroke-width="0.5"/><rect x="140" y="60" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="70" class="pixel-val-light">0</text><text x="30" y="70" class="pixel-val-light">0</text><text x="50" y="70" class="pixel-val-light">0</text><text x="70" y="70" class="pixel-val-light">0</text><text x="90" y="70" class="pixel-val">128</text><text x="110" y="70" class="pixel-val">245</text><text x="130" y="70" class="pixel-val-light">82</text><text x="150" y="70" class="pixel-val-light">0</text>
+
+    <rect x="0" y="80" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="80" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="80" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="80" width="20" height="20" fill="rgb(22,22,22)" stroke="#444" stroke-width="0.5"/><rect x="80" y="80" width="20" height="20" fill="rgb(210,210,210)" stroke="#444" stroke-width="0.5"/><rect x="100" y="80" width="20" height="20" fill="rgb(195,195,195)" stroke="#444" stroke-width="0.5"/><rect x="120" y="80" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="140" y="80" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="90" class="pixel-val-light">0</text><text x="30" y="90" class="pixel-val-light">0</text><text x="50" y="90" class="pixel-val-light">0</text><text x="70" y="90" class="pixel-val-light">22</text><text x="90" y="90" class="pixel-val">210</text><text x="110" y="90" class="pixel-val">195</text><text x="130" y="90" class="pixel-val-light">0</text><text x="150" y="90" class="pixel-val-light">0</text>
+
+    <rect x="0" y="100" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="100" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="100" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="100" width="20" height="20" fill="rgb(105,105,105)" stroke="#444" stroke-width="0.5"/><rect x="80" y="100" width="20" height="20" fill="rgb(248,248,248)" stroke="#444" stroke-width="0.5"/><rect x="100" y="100" width="20" height="20" fill="rgb(68,68,68)" stroke="#444" stroke-width="0.5"/><rect x="120" y="100" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="140" y="100" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="110" class="pixel-val-light">0</text><text x="30" y="110" class="pixel-val-light">0</text><text x="50" y="110" class="pixel-val-light">0</text><text x="70" y="110" class="pixel-val-light">105</text><text x="90" y="110" class="pixel-val">248</text><text x="110" y="110" class="pixel-val-light">68</text><text x="130" y="110" class="pixel-val-light">0</text><text x="150" y="110" class="pixel-val-light">0</text>
+
+    <rect x="0" y="120" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="120" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="120" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="120" width="20" height="20" fill="rgb(168,168,168)" stroke="#444" stroke-width="0.5"/><rect x="80" y="120" width="20" height="20" fill="rgb(225,225,225)" stroke="#444" stroke-width="0.5"/><rect x="100" y="120" width="20" height="20" fill="rgb(15,15,15)" stroke="#444" stroke-width="0.5"/><rect x="120" y="120" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="140" y="120" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="130" class="pixel-val-light">0</text><text x="30" y="130" class="pixel-val-light">0</text><text x="50" y="130" class="pixel-val-light">0</text><text x="70" y="130" class="pixel-val">168</text><text x="90" y="130" class="pixel-val">225</text><text x="110" y="130" class="pixel-val-light">15</text><text x="130" y="130" class="pixel-val-light">0</text><text x="150" y="130" class="pixel-val-light">0</text>
+
+    <rect x="0" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="20" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="40" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="60" y="140" width="20" height="20" fill="rgb(32,32,32)" stroke="#444" stroke-width="0.5"/><rect x="80" y="140" width="20" height="20" fill="rgb(72,72,72)" stroke="#444" stroke-width="0.5"/><rect x="100" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="120" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/><rect x="140" y="140" width="20" height="20" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="10" y="150" class="pixel-val-light">0</text><text x="30" y="150" class="pixel-val-light">0</text><text x="50" y="150" class="pixel-val-light">0</text><text x="70" y="150" class="pixel-val-light">32</text><text x="90" y="150" class="pixel-val-light">72</text><text x="110" y="150" class="pixel-val-light">0</text><text x="130" y="150" class="pixel-val-light">0</text><text x="150" y="150" class="pixel-val-light">0</text>
+  </g>
+
+  <text x="360" y="250" class="label-desc">a grid of numbers (0–255)</text>
+
+  <text x="240" y="280" class="math-text">x = [0, 0, 42, 180, 253, 255, 253, 142, 0, …]    784 values</text>
+  <text x="240" y="300" class="label-small">The shape is the numbers. Every pixel is a feature.</text>
+</svg>

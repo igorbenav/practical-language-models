@@ -1,0 +1,274 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 420">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-desc { font-family: 'Arial', sans-serif; font-size: 12px; text-anchor: middle; fill: #888; }
+    .stat-text { font-family: 'Arial', sans-serif; font-size: 12px; font-weight: bold; text-anchor: middle; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .img-border { stroke: #ccc; stroke-width: 0.8; }
+    .connect-line { stroke-width: 1; fill: none; opacity: 0.35; }
+    .connect-line-strong { stroke-width: 1.5; fill: none; opacity: 0.6; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .tag { font-family: 'Arial', sans-serif; font-size: 10px; text-anchor: middle; font-weight: bold; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <path d="M0,0 L6,2.5 L0,5 Z" fill="#999" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="420" class="background" />
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">Nearest Neighbor vs Template Matching</text>
+
+  <!-- Vertical divider -->
+  <line x1="375" y1="40" x2="375" y2="400" class="divider" />
+
+  <!-- ============================================ -->
+  <!-- === LEFT: Nearest Neighbor === -->
+  <!-- ============================================ -->
+  <text x="188" y="52" class="col-title">Nearest Neighbor</text>
+
+  <!-- New image (center, prominent) -->
+  <rect x="155" y="68" width="64" height="64" rx="3" fill="#111" stroke="#1890ff" stroke-width="2"/>
+  <!-- Draw a 7 inside -->
+  <path d="M 170,82 L 180,80 L 192,79 L 204,80 L 200,90 L 194,102 L 189,115 L 186,124"
+        stroke="#e0e0e0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="188" y="148" class="label-small">new image</text>
+  <text x="225" y="80" class="tag" fill="#1890ff">?</text>
+
+  <!-- Cloud of tiny training images (scattered around) -->
+  <!-- Row 1 of training images -->
+  <g opacity="0.8">
+    <!-- Tiny image placeholders: small dark rectangles with faint digit strokes -->
+    <!-- Top row -->
+    <rect x="30"  y="170" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="58"  y="175" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="86"  y="168" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="114" y="173" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="142" y="170" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="170" y="167" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="198" y="172" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="226" y="169" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="254" y="174" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="282" y="168" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="310" y="173" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+
+    <!-- Row 2 -->
+    <rect x="30"  y="200" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="58"  y="205" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="86"  y="198" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="114" y="203" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="142" y="200" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="170" y="198" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="198" y="202" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="226" y="200" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="254" y="204" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="282" y="199" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="310" y="203" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+
+    <!-- Row 3 -->
+    <rect x="30"  y="230" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="58"  y="235" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="86"  y="228" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="114" y="233" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="142" y="230" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="170" y="228" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="198" y="232" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="226" y="229" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="254" y="234" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="282" y="228" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="310" y="233" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+
+    <!-- Row 4 -->
+    <rect x="30"  y="260" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="58"  y="265" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="86"  y="258" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="114" y="263" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="142" y="260" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="170" y="258" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="198" y="262" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="226" y="260" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="254" y="264" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="282" y="259" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="310" y="263" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+
+    <!-- Row 5 (partial) -->
+    <rect x="58"  y="293" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="86"  y="290" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="114" y="295" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="142" y="290" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="170" y="288" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="198" y="292" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="226" y="290" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="254" y="294" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+    <rect x="282" y="289" width="22" height="22" rx="2" fill="#1a1a1a" class="img-border"/>
+  </g>
+
+  <!-- Faint tiny digit strokes inside some training images for variety -->
+  <g stroke="#666" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5">
+    <!-- Some 7s -->
+    <path d="M 34,175 L 44,175 L 40,187"/>
+    <path d="M 174,172 L 184,172 L 180,184"/>
+    <path d="M 230,174 L 240,174 L 236,186"/>
+    <path d="M 118,263 L 128,263 L 124,278"/>
+    <!-- Some other digits: 0s -->
+    <ellipse cx="69" cy="186" rx="5" ry="7"/>
+    <ellipse cx="153" cy="241" rx="5" ry="7"/>
+    <ellipse cx="293" cy="179" rx="5" ry="7"/>
+    <!-- 1s -->
+    <line x1="97" y1="173" x2="97" y2="185"/>
+    <line x1="237" y1="203" x2="237" y2="217"/>
+    <line x1="69" y1="237" x2="69" y2="252"/>
+    <!-- 3s -->
+    <path d="M 145,203 Q 157,203 155,208 Q 153,213 145,213 Q 157,213 155,218 Q 153,223 145,223" />
+    <!-- 9s -->
+    <circle cx="209" cy="205" r="4"/><line x1="213" y1="205" x2="212" y2="219"/>
+    <!-- 5s -->
+    <path d="M 265" />
+  </g>
+
+  <!-- Connection lines from new image to ALL training images (thin, numerous) -->
+  <g stroke="#1890ff" class="connect-line">
+    <line x1="187" y1="132" x2="41" y2="170"/>
+    <line x1="187" y1="132" x2="69" y2="175"/>
+    <line x1="187" y1="132" x2="97" y2="168"/>
+    <line x1="187" y1="132" x2="125" y2="173"/>
+    <line x1="187" y1="132" x2="153" y2="170"/>
+    <line x1="187" y1="132" x2="181" y2="167"/>
+    <line x1="187" y1="132" x2="209" y2="172"/>
+    <line x1="187" y1="132" x2="237" y2="169"/>
+    <line x1="187" y1="132" x2="265" y2="174"/>
+    <line x1="187" y1="132" x2="293" y2="168"/>
+    <line x1="187" y1="132" x2="321" y2="173"/>
+    <line x1="187" y1="132" x2="41" y2="211"/>
+    <line x1="187" y1="132" x2="69" y2="216"/>
+    <line x1="187" y1="132" x2="97" y2="209"/>
+    <line x1="187" y1="132" x2="125" y2="214"/>
+    <line x1="187" y1="132" x2="153" y2="211"/>
+    <line x1="187" y1="132" x2="181" y2="209"/>
+    <line x1="187" y1="132" x2="209" y2="213"/>
+    <line x1="187" y1="132" x2="237" y2="211"/>
+    <line x1="187" y1="132" x2="265" y2="215"/>
+    <line x1="187" y1="132" x2="293" y2="210"/>
+    <line x1="187" y1="132" x2="321" y2="214"/>
+    <line x1="187" y1="132" x2="41" y2="241"/>
+    <line x1="187" y1="132" x2="69" y2="246"/>
+    <line x1="187" y1="132" x2="97" y2="239"/>
+    <line x1="187" y1="132" x2="125" y2="244"/>
+    <line x1="187" y1="132" x2="181" y2="239"/>
+    <line x1="187" y1="132" x2="237" y2="240"/>
+  </g>
+
+  <!-- Highlight the nearest neighbor with a stronger line -->
+  <line x1="187" y1="132" x2="181" y2="167" stroke="#1890ff" stroke-width="2.5" opacity="0.9"/>
+  <!-- Highlight box on the nearest one -->
+  <rect x="170" y="167" width="22" height="22" rx="2" fill="none" stroke="#1890ff" stroke-width="2"/>
+
+  <!-- "..." label for more images -->
+  <text x="188" y="330" class="label-desc">56,000 comparisons</text>
+
+  <!-- Stats -->
+  <rect x="80" y="345" width="215" height="52" rx="6" fill="#e6f7ff" stroke="#1890ff" stroke-width="1"/>
+  <text x="188" y="366" class="stat-text" fill="#1890ff">56,000 distance calculations</text>
+  <text x="188" y="383" class="label-small">Slow, but uses every example</text>
+
+  <!-- ============================================ -->
+  <!-- === RIGHT: Template Matching === -->
+  <!-- ============================================ -->
+  <text x="562" y="52" class="col-title">Template Matching</text>
+
+  <!-- New image (same as left) -->
+  <rect x="530" y="68" width="64" height="64" rx="3" fill="#111" stroke="#1890ff" stroke-width="2"/>
+  <path d="M 545,82 L 555,80 L 567,79 L 579,80 L 575,90 L 569,102 L 564,115 L 561,124"
+        stroke="#e0e0e0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="562" y="148" class="label-small">new image</text>
+  <text x="600" y="80" class="tag" fill="#1890ff">?</text>
+
+  <!-- 10 blurry templates in two rows of 5 -->
+  <g opacity="0.85">
+    <!-- Row 1: digits 0-4 -->
+    <!-- 0: blurry oval -->
+    <rect x="400" y="185" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <ellipse cx="421" cy="206" rx="10" ry="13" stroke="#888" stroke-width="4" fill="none" opacity="0.6"/>
+    <text x="421" y="240" class="tag" fill="#999">0</text>
+
+    <!-- 1: vertical smear -->
+    <rect x="452" y="185" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <line x1="473" y1="193" x2="473" y2="220" stroke="#888" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+    <text x="473" y="240" class="tag" fill="#999">1</text>
+
+    <!-- 2: blurry curve -->
+    <rect x="504" y="185" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <path d="M 514,198 Q 525,190 533,198 Q 537,205 525,212 L 514,220 L 535,220" stroke="#888" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <text x="525" y="240" class="tag" fill="#999">2</text>
+
+    <!-- 3: blurry bumps -->
+    <rect x="556" y="185" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <path d="M 566,195 Q 580,192 578,201 Q 576,206 568,206 Q 578,206 580,213 Q 582,222 566,222" stroke="#888" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <text x="577" y="240" class="tag" fill="#999">3</text>
+
+    <!-- 4: blurry angular -->
+    <rect x="608" y="185" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <path d="M 626,193 L 616,210 L 635,210 M 628,193 L 628,222" stroke="#888" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <text x="629" y="240" class="tag" fill="#999">4</text>
+
+    <!-- Row 2: digits 5-9 -->
+    <!-- 5 -->
+    <rect x="400" y="255" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <path d="M 430,263 L 414,263 L 412,275 Q 425,272 430,278 Q 434,285 425,292 L 412,292" stroke="#888" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <text x="421" y="310" class="tag" fill="#999">5</text>
+
+    <!-- 6 -->
+    <rect x="452" y="255" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <path d="M 480,265 Q 462,268 462,280 Q 462,292 473,292 Q 484,292 484,282 Q 484,274 473,274" stroke="#888" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.6"/>
+    <text x="473" y="310" class="tag" fill="#999">6</text>
+
+    <!-- 7: blurry but recognizable (this is the matching template) -->
+    <rect x="504" y="255" width="42" height="42" rx="3" fill="#1a1a1a" stroke="#52c41a" stroke-width="2"/>
+    <path d="M 514,265 L 535,265 L 525,292" stroke="#aaa" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.7"/>
+    <text x="525" y="310" class="tag" fill="#52c41a">7 ✓</text>
+
+    <!-- 8: blurry snowman -->
+    <rect x="556" y="255" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <circle cx="577" cy="270" r="7" stroke="#888" stroke-width="3.5" fill="none" opacity="0.6"/>
+    <circle cx="577" cy="286" r="8" stroke="#888" stroke-width="3.5" fill="none" opacity="0.6"/>
+    <text x="577" y="310" class="tag" fill="#999">8</text>
+
+    <!-- 9 -->
+    <rect x="608" y="255" width="42" height="42" rx="3" fill="#1a1a1a" class="img-border"/>
+    <circle cx="629" cy="270" r="7" stroke="#888" stroke-width="3.5" fill="none" opacity="0.6"/>
+    <line x1="636" y1="270" x2="632" y2="292" stroke="#888" stroke-width="3.5" stroke-linecap="round" opacity="0.6"/>
+    <text x="629" y="310" class="tag" fill="#999">9</text>
+  </g>
+
+  <!-- Connection lines from new image to each of the 10 templates -->
+  <g stroke="#52c41a" class="connect-line">
+    <line x1="562" y1="132" x2="421" y2="185"/>
+    <line x1="562" y1="132" x2="473" y2="185"/>
+    <line x1="562" y1="132" x2="525" y2="185"/>
+    <line x1="562" y1="132" x2="577" y2="185"/>
+    <line x1="562" y1="132" x2="629" y2="185"/>
+    <line x1="562" y1="132" x2="421" y2="255"/>
+    <line x1="562" y1="132" x2="473" y2="255"/>
+    <line x1="562" y1="132" x2="577" y2="255"/>
+    <line x1="562" y1="132" x2="629" y2="255"/>
+  </g>
+  <!-- Strongest line to template 7 -->
+  <line x1="562" y1="132" x2="525" y2="255" stroke="#52c41a" stroke-width="2.5" opacity="0.9"/>
+
+  <text x="562" y="330" class="label-desc">10 comparisons</text>
+
+  <!-- Stats -->
+  <rect x="455" y="345" width="215" height="52" rx="6" fill="#f6ffed" stroke="#52c41a" stroke-width="1"/>
+  <text x="562" y="366" class="stat-text" fill="#389e0d">10 distance calculations</text>
+  <text x="562" y="383" class="label-small">Fast, but averages blur details</text>
+
+  <!-- Bottom label -->
+  <text x="375" y="415" class="label-small">Same idea (find the closest match), different tradeoffs.</text>
+</svg>

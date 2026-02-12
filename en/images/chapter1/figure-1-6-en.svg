@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .axis { stroke: #ccc; stroke-width: 1.2; }
+    .axis-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #999; font-style: italic; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .dist-line { stroke: #1890ff; stroke-width: 2.5; }
+    .delta-line { stroke: #d46b08; stroke-width: 1.5; stroke-dasharray: 5,3; }
+    .point-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 14px; font-style: italic; fill: #333; }
+    .dim-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; font-style: italic; fill: #d46b08; }
+    .dist-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; font-style: italic; fill: #1890ff; font-weight: bold; }
+    .coord-label { font-family: 'Consolas', 'Monaco', monospace; font-size: 9px; fill: #999; }
+  </style>
+
+  <rect width="400" height="300" class="background" />
+  <text x="200" y="26" class="title">Images as Points in Space</text>
+
+  <!-- Grid lines -->
+  <line x1="80" y1="230" x2="80" y2="50" class="grid-line"/>
+  <line x1="140" y1="230" x2="140" y2="50" class="grid-line"/>
+  <line x1="200" y1="230" x2="200" y2="50" class="grid-line"/>
+  <line x1="260" y1="230" x2="260" y2="50" class="grid-line"/>
+  <line x1="320" y1="230" x2="320" y2="50" class="grid-line"/>
+
+  <line x1="60" y1="230" x2="340" y2="230" class="grid-line"/>
+  <line x1="60" y1="190" x2="340" y2="190" class="grid-line"/>
+  <line x1="60" y1="150" x2="340" y2="150" class="grid-line"/>
+  <line x1="60" y1="110" x2="340" y2="110" class="grid-line"/>
+  <line x1="60" y1="70" x2="340" y2="70" class="grid-line"/>
+
+  <!-- Axes -->
+  <line x1="60" y1="238" x2="355" y2="238" class="axis"/>
+  <line x1="60" y1="238" x2="60" y2="42" class="axis"/>
+
+  <!-- Arrowheads -->
+  <polygon points="355,238 348,234 348,242" fill="#ccc"/>
+  <polygon points="60,42 56,49 64,49" fill="#ccc"/>
+
+  <!-- Axis labels -->
+  <text x="345" y="254" class="axis-label" text-anchor="end">pixel j</text>
+  <text x="44" y="50" class="axis-label" text-anchor="end">pixel k</text>
+
+  <!-- Right triangle -->
+  <line x1="120" y1="190" x2="290" y2="190" class="delta-line"/>
+  <line x1="120" y1="80" x2="120" y2="190" class="delta-line"/>
+
+  <!-- Hypotenuse -->
+  <line x1="120" y1="80" x2="290" y2="190" class="dist-line"/>
+
+  <!-- Right angle marker -->
+  <path d="M 120,176 L 134,176 L 134,190" fill="none" stroke="#bbb" stroke-width="1"/>
+
+  <!-- Delta labels -->
+  <text x="205" y="210" class="dim-label">aⱼ − bⱼ</text>
+  <text x="105" y="138" class="dim-label" text-anchor="end">aₖ − bₖ</text>
+
+  <!-- Distance label -->
+  <text x="225" y="122" class="dist-label" transform="rotate(33, 225, 122)">d(a, b)</text>
+
+  <!-- Point A -->
+  <circle cx="120" cy="80" r="7" fill="#1890ff" stroke="#fff" stroke-width="2"/>
+  <text x="108" y="68" class="point-label" text-anchor="end">a</text>
+  <text x="135" y="68" class="coord-label" text-anchor="start">(180, 253, …)</text>
+
+  <!-- Point B -->
+  <circle cx="290" cy="190" r="7" fill="#fa8c16" stroke="#fff" stroke-width="2"/>
+  <text x="304" y="200" class="point-label" text-anchor="start">b</text>
+  <text x="304" y="216" class="coord-label" text-anchor="start">(160, 240, …)</text>
+
+  <!-- Bottom notes - well below axis -->
+  <text x="200" y="272" class="label-small">Each image is a point. Distance = how far apart they are.</text>
+  <text x="200" y="290" class="label-small">Same formula as Pythagoras, extended to 784 dimensions.</text>
+</svg>

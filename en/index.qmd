@@ -1,0 +1,75 @@
+# Preface {.unnumbered}
+
+To be written.
+
+## About This Book {.unnumbered}
+
+Most machine learning resources fall into two camps: API tutorials that have you calling `.fit()` without understanding the mechanics, or textbooks dense with notation that are targeted on researchers. This book tries to find a middle ground.
+
+I'm not a researcher. I'm a developer who maintains open-source libraries and builds production AI pipelines for enterprise clients. In my experience, the biggest bottleneck in AI engineering isn't the model's complexity; it's building a system that is reliable, efficient, and maintainable. I wrote this book to give you the mental model I use to ship these systems.
+
+We start with the mathematical definition of learning before touching any library. This isn't for academic rigor; it's for survival. When your model fails in production, you need to know if the problem is your data, your architecture, or your loss function. If you skip the math, you'll still know what's happening. If you engage with it, you'll be able to reason about new problems on your own.
+
+We build neural networks from scratch in NumPy before using any framework. We use Python throughout, uv for package management, FastAPI for serving models, and PydanticAI for building LLM applications. We're not surveying every algorithm or teaching you the "best" approach. We're teaching you one coherent path from mathematical foundations to deployed applications, so you have solid ground to stand on when you explore other directions later.
+
+The math is important, but it's not the gatekeeper. Every concept is introduced with intuition first: what we're trying to do and why. The equations formalize what you already understand. If you skip the math, you'll still know what's happening and why. If you engage with it, you'll know how and be able to reason about new problems on your own.
+
+## What You'll Build {.unnumbered}
+
+The book follows a single thread: by the end, you'll have a good understanding of how language models work from the ground up and have built systems that people can actually use.
+
+We start with the learning problem itself: what it means for a machine to learn, what can go wrong, and how you know it's working. Then we build neural networks from scratch in NumPy: perceptrons, forward passes, backpropagation, gradient descent. You'll train a network by hand before any framework does it for you.
+
+Then we tackle the core challenge of this book: how to represent language as numbers. We'll cover word embeddings, attention mechanisms, and the transformer architecture that powers modern language models. You'll understand why these models work, where they break, and what the math is actually doing.
+
+Finally, we build. You'll create LLM-powered agents with tools, structured output, and retrieval-augmented generation (RAG). You'll design multi-step pipelines that combine what LLMs are good at with what code is good at. And you'll deploy the result with FastAPI so it's not just running on your machine.
+
+## How to Use This Book {.unnumbered}
+
+This book assumes you know Python. You should be comfortable with classes, decorators, and asyncio, we'll also use NumPy. Some background in linear algebra and calculus is also necessary; specifically dot products and the chain rule. If you haven't seen these in a while, the book explains what you need when you need it. You don't need a math degree.
+
+The chapters are meant to be read in order. Each one builds on the previous.
+
+Each chapter should have these:
+
+- **Intuition first**: What are we trying to do and why?
+- **The math**: Formalizing the intuition with equations and concrete numbers
+- **Implementation**: How to actually do it in code
+- **Hands-on project**: A practical exercise that uses what you just learned
+- **Exercises**: More practice on your own
+
+Type the code yourself. Don't copy and paste. The errors you make and fix along the way are part of learning. Change things. Break things. See what happens.
+
+When you get stuck, resist asking AI for the solution (yes, even though this is a book about AI). Ask for a hint if you need to, but do the thinking yourself. Struggling is normal. It's also how you actually learn, rather than just feeling like you're learning.
+
+The complete code for each chapter's hands-on project is available at [github.com/Applied-Computing-League/applied-ai](https://github.com/igorbenav/practical-language-models). Consider it a last resort. If you look at the solution before genuinely struggling with the problem, you're only cheating yourself out of the learning.
+
+## Prerequisites {.unnumbered}
+
+You'll need:
+
+- Python 3.11 or newer installed
+- A code editor (VS Code works well, I like Zed)
+- A terminal you're comfortable using
+- Comfortable Python knowledge (variables, functions, loops, lists, dictionaries, classes, decorators, asyncio)
+- Basic linear algebra (vectors, dot products, matrix multiplication)
+- Basic calculus (derivatives, chain rule)
+- Willingness to read error messages instead of panicking
+
+You don't need prior machine learning experience. You don't need to know NumPy, PyTorch, or any ML framework. We'll cover what you need as we go.
+
+## Book Structure {.unnumbered}
+
+The book is organized in three parts.
+
+**Part I: Foundations** covers the math and intuition you need before touching an API. What learning means, how neural networks work, how to represent text as numbers, how attention and transformers work, and how text generation actually happens. By the end of Part I, you'll understand what's going on inside a language model.
+
+**Part II: Building with LLMs** takes you from understanding to building. You'll work with LLM APIs, create agents with tools, get structured data back from models, build retrieval-augmented generation systems, and design multi-step pipelines. By the end of Part II, you'll have built real AI applications.
+
+**Part III: Deploying to Production** gets your applications off your laptop. You'll serve models with FastAPI, handle the reliability problems that come with depending on external AI services, and deploy to a real server.
+
+## Contributors {.unnumbered}
+
+| Name | Role |
+|------|------|
+| [Igor Benav](https://github.com/igorbenav) | Author |

@@ -1,0 +1,23 @@
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+<style>
+.csl-entry {
+  margin-bottom: 1.5em;
+  padding-left: 2em;
+  text-indent: -2em;
+  line-height: 1.5;
+}
+
+.csl-entry::after {
+  content: "";
+  display: block;
+  margin-bottom: 1em;
+}
+
+#refs {
+  font-size: 0.9em;
+}
+</style> 

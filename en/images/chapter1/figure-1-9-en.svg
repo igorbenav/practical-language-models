@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-30 0 550 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-left { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: end; fill: #666; }
+    .img-border { stroke: #ccc; stroke-width: 1; }
+    .dist-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; font-weight: bold; text-anchor: middle; }
+    .compare-label { font-family: 'Arial', sans-serif; font-size: 12px; font-weight: bold; text-anchor: middle; }
+    .arrow-line { stroke: #999; stroke-width: 1.5; fill: none; }
+    .divider { stroke: #ddd; stroke-width: 1; stroke-dasharray: 4,3; }
+    .edge-label { font-family: 'Arial', sans-serif; font-size: 9px; text-anchor: middle; fill: #999; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #555; font-style: italic; text-anchor: middle; }
+  </style>
+
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#999"/>
+    </marker>
+
+    <!-- A handwritten 7 centered -->
+    <g id="seven-center">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 18,18 L 30,16 L 42,15 L 54,16
+               L 50,25 L 45,35 L 40,47 L 37,56"
+            stroke="#e0e0e0" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- Same 7 shifted right ~3px -->
+    <g id="seven-shifted">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 21,18 L 33,16 L 45,15 L 57,16
+               L 53,25 L 48,35 L 43,47 L 40,56"
+            stroke="#e0e0e0" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- A handwritten 3 -->
+    <g id="three">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 20,18 L 38,15 Q 55,15 52,27 Q 49,36 35,37
+               Q 50,38 52,48 Q 54,60 38,60 L 20,58"
+            stroke="#e0e0e0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- Edge disagreement strip: shows original edge and shifted edge side by side -->
+    <!-- A 1D slice showing where edges clash -->
+  </defs>
+
+  <rect x="-30" width="550" height="340" class="background"/>
+  <text x="260" y="28" class="title">Why Shifting Breaks Euclidean Distance</text>
+
+  <!-- === TOP ROW: same 7, shifted 3px === -->
+  <text x="30" y="68" class="label-left">same</text>
+  <text x="30" y="82" class="label-left">digit</text>
+
+  <use href="#seven-center" x="50" y="55"/>
+  <text x="85" y="140" class="label-small">original 7</text>
+
+  <!-- Arrow -->
+  <line x1="130" y1="90" x2="175" y2="90" class="arrow-line" marker-end="url(#arr)"/>
+  <text x="152" y="83" class="edge-label">3px shift</text>
+
+  <use href="#seven-shifted" x="185" y="55"/>
+  <text x="220" y="140" class="label-small">shifted 7</text>
+
+  <!-- Difference strip: vertical slice showing edge disagreement -->
+  <g transform="translate(280, 58)">
+    <!-- Show a 1D column slice: original vs shifted -->
+    <!-- 8 cells showing the edge "echo" effect -->
+    <rect x="0" y="0" width="14" height="8" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="8" width="14" height="8" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="16" width="14" height="8" fill="rgb(230,100,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="24" width="14" height="8" fill="rgb(255,140,20)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="32" width="14" height="8" fill="rgb(40,10,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="40" width="14" height="8" fill="rgb(255,140,20)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="48" width="14" height="8" fill="rgb(230,100,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="56" width="14" height="8" fill="rgb(0,0,0)" stroke="#444" stroke-width="0.5"/>
+    <!-- tiny label -->
+    <text x="7" y="76" class="edge-label">|diff|</text>
+  </g>
+
+  <!-- Arrow to distance -->
+  <line x1="305" y1="90" x2="340" y2="90" class="arrow-line" marker-end="url(#arr)"/>
+
+  <!-- Distance badge: LARGE (red/warning) -->
+  <rect x="350" y="68" width="155" height="44" rx="22" fill="#fff1f0" stroke="#cf1322" stroke-width="1.5"/>
+  <text x="427" y="86" class="dist-label" fill="#cf1322">d = 3,180</text>
+  <text x="427" y="102" class="label-small" style="fill: #cf1322">edges disagree everywhere</text>
+
+  <!-- Divider -->
+  <line x1="40" y1="160" x2="500" y2="160" class="divider"/>
+
+  <!-- === BOTTOM ROW: 7 vs 3 === -->
+  <text x="30" y="195" class="label-left">different</text>
+  <text x="30" y="209" class="label-left">digit</text>
+
+  <use href="#seven-center" x="50" y="180"/>
+  <text x="85" y="265" class="label-small">a 7</text>
+
+  <!-- Arrow -->
+  <line x1="130" y1="215" x2="175" y2="215" class="arrow-line" marker-end="url(#arr)"/>
+  <text x="152" y="208" class="edge-label">compare</text>
+
+  <use href="#three" x="185" y="180"/>
+  <text x="220" y="265" class="label-small">a 3</text>
+
+  <!-- Difference strip for 7 vs 3 -->
+  <g transform="translate(280, 183)">
+    <rect x="0" y="0" width="14" height="8" fill="rgb(180,70,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="8" width="14" height="8" fill="rgb(120,50,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="16" width="14" height="8" fill="rgb(60,20,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="24" width="14" height="8" fill="rgb(100,40,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="32" width="14" height="8" fill="rgb(140,55,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="40" width="14" height="8" fill="rgb(80,30,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="48" width="14" height="8" fill="rgb(100,40,0)" stroke="#444" stroke-width="0.5"/>
+    <rect x="0" y="56" width="14" height="8" fill="rgb(60,20,0)" stroke="#444" stroke-width="0.5"/>
+    <text x="7" y="76" class="edge-label">|diff|</text>
+  </g>
+
+  <!-- Arrow to distance -->
+  <line x1="305" y1="215" x2="340" y2="215" class="arrow-line" marker-end="url(#arr)"/>
+
+  <!-- Distance badge: smaller (blue — the "expected" large one is actually smaller) -->
+  <rect x="350" y="193" width="155" height="44" rx="22" fill="#e6f7ff" stroke="#1890ff" stroke-width="1.5"/>
+  <text x="427" y="211" class="dist-label" fill="#1890ff">d = 2,840</text>
+  <text x="427" y="227" class="label-small" style="fill: #1890ff">spread out, moderate</text>
+
+  <!-- The punchline -->
+  <rect x="100" y="285" width="320" height="40" rx="6" fill="#fff" stroke="#cf1322" stroke-width="1.2"/>
+  <text x="260" y="302" class="compare-label" style="fill: #cf1322">A 3-pixel shift is farther than a different digit.</text>
+  <text x="260" y="318" class="math-text">The distance measures edge displacement, not shape difference.</text>
+</svg>
