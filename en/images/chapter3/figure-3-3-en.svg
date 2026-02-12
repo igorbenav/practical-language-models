@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 370">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .word-main { font-family: 'Arial', sans-serif; font-size: 15px; font-weight: bold; text-anchor: middle; fill: #fff; }
+    .word-main-sm { font-family: 'Arial', sans-serif; font-size: 12px; font-weight: bold; text-anchor: middle; fill: #fff; }
+    .word-context { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #555; }
+    .word-shared { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .context-box { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .context-box-shared { fill: #f6ffed; stroke: #52c41a; stroke-width: 1.2; }
+    .link { stroke: #ccc; stroke-width: 1; fill: none; }
+    .link-shared { stroke: #52c41a; stroke-width: 1.2; fill: none; }
+    .link-separate { stroke: #ccc; stroke-width: 1; fill: none; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .overlap-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; font-style: italic; fill: #52c41a; text-anchor: middle; }
+    .no-overlap-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; font-style: italic; fill: #cf1322; text-anchor: middle; }
+    .section-title { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #333; }
+  </style>
+
+  <!-- Background -->
+  <rect width="750" height="370" class="background"/>
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">Words Known by Their Contexts</text>
+
+  <!-- Divider -->
+  <line x1="510" y1="42" x2="510" y2="340" class="divider"/>
+
+  <!-- ============ LEFT: cat and dog with shared contexts ============ -->
+  <text x="250" y="56" class="section-title">cat and dog: overlapping contexts</text>
+
+  <!-- Main word nodes: cat at (120, 185), dog at (380, 185) -->
+  <circle cx="120" cy="185" r="22" fill="#1890ff"/>
+  <text x="120" y="190" class="word-main">cat</text>
+
+  <circle cx="380" cy="185" r="22" fill="#1890ff"/>
+  <text x="380" y="190" class="word-main">dog</text>
+
+  <!--
+    Shared context boxes centered at x=250, width=50 (except adopted=58), height=22
+    Lines start at cat/dog circle edge, end at box left/right edge
+    Box edges: left=225 right=275 (adopted: left=221 right=279)
+  -->
+
+  <!-- pet: box y=78, center-y=89 -->
+  <rect x="225" y="78" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="93" class="word-shared">pet</text>
+  <line x1="136" y1="170" x2="225" y2="89" class="link-shared"/>
+  <line x1="364" y1="170" x2="275" y2="89" class="link-shared"/>
+
+  <!-- fur: box y=110, center-y=121 -->
+  <rect x="225" y="110" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="125" class="word-shared">fur</text>
+  <line x1="139" y1="174" x2="225" y2="121" class="link-shared"/>
+  <line x1="361" y1="174" x2="275" y2="121" class="link-shared"/>
+
+  <!-- vet: box y=142, center-y=153 -->
+  <rect x="225" y="142" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="157" class="word-shared">vet</text>
+  <line x1="141" y1="179" x2="225" y2="153" class="link-shared"/>
+  <line x1="359" y1="179" x2="275" y2="153" class="link-shared"/>
+
+  <!-- adopted: box y=174, center-y=185, width=58 -->
+  <rect x="221" y="174" width="58" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="189" class="word-shared">adopted</text>
+  <line x1="142" y1="185" x2="221" y2="185" class="link-shared"/>
+  <line x1="358" y1="185" x2="279" y2="185" class="link-shared"/>
+
+  <!-- cute: box y=206, center-y=217 -->
+  <rect x="225" y="206" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="221" class="word-shared">cute</text>
+  <line x1="141" y1="191" x2="225" y2="217" class="link-shared"/>
+  <line x1="359" y1="191" x2="275" y2="217" class="link-shared"/>
+
+  <!-- fed: box y=238, center-y=249 -->
+  <rect x="225" y="238" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="253" class="word-shared">fed</text>
+  <line x1="139" y1="196" x2="225" y2="249" class="link-shared"/>
+  <line x1="361" y1="196" x2="275" y2="249" class="link-shared"/>
+
+  <!-- lap: box y=270, center-y=281 -->
+  <rect x="225" y="270" width="50" height="22" rx="4" class="context-box-shared"/>
+  <text x="250" y="285" class="word-shared">lap</text>
+  <line x1="136" y1="200" x2="225" y2="281" class="link-shared"/>
+  <line x1="364" y1="200" x2="275" y2="281" class="link-shared"/>
+
+  <!-- Cat-only contexts (far left, lines to box right edge) -->
+
+  <!-- purred: box (28, 92), w=56, right edge=84 -->
+  <rect x="28" y="92" width="56" height="22" rx="4" class="context-box"/>
+  <text x="56" y="107" class="word-context">purred</text>
+  <line x1="111" y1="165" x2="84" y2="103" class="link"/>
+
+  <!-- meow: box (28, 130), w=50, right edge=78 -->
+  <rect x="28" y="130" width="50" height="22" rx="4" class="context-box"/>
+  <text x="53" y="145" class="word-context">meow</text>
+  <line x1="105" y1="169" x2="78" y2="141" class="link"/>
+
+  <!-- litter: box (28, 248), w=48, right edge=76 -->
+  <rect x="28" y="248" width="48" height="22" rx="4" class="context-box"/>
+  <text x="52" y="263" class="word-context">litter</text>
+  <line x1="109" y1="204" x2="76" y2="259" class="link"/>
+
+  <!-- Dog-only contexts (right of dog, lines from dog circle edge to box left edge) -->
+
+  <!-- walk: box (420, 92), w=46, left edge=420 -->
+  <rect x="420" y="92" width="46" height="22" rx="4" class="context-box"/>
+  <text x="443" y="107" class="word-context">walk</text>
+  <line x1="390" y1="165" x2="420" y2="103" class="link"/>
+
+  <!-- bark: box (420, 130), w=44, left edge=420 -->
+  <rect x="420" y="130" width="44" height="22" rx="4" class="context-box"/>
+  <text x="442" y="145" class="word-context">bark</text>
+  <line x1="395" y1="169" x2="420" y2="141" class="link"/>
+
+  <!-- fetch: box (420, 248), w=46, left edge=420 -->
+  <rect x="420" y="248" width="46" height="22" rx="4" class="context-box"/>
+  <text x="443" y="263" class="word-context">fetch</text>
+  <line x1="391" y1="204" x2="420" y2="259" class="link"/>
+
+  <!-- Overlap annotation -->
+  <text x="250" y="316" class="overlap-label">large context overlap → similar meaning</text>
+
+  <!-- ============ RIGHT: democracy with different contexts ============ -->
+  <text x="630" y="56" class="section-title">democracy</text>
+
+  <!-- Democracy: cx=615, cy=100, r=34 -->
+  <circle cx="615" cy="100" r="34" fill="#fa8c16"/>
+  <text x="615" y="105" class="word-main-sm">democracy</text>
+
+  <!--
+    Context words in a fan below democracy.
+    Staggered: outer words higher, inner words lower, so lines don't cross boxes.
+    Row 1 (y=179): vote (left), constitution (right)
+    Row 2 (y=224): government (left), freedom (right)
+    Row 3 (y=249): election (center)
+  -->
+
+  <!-- vote: box (510, 179), w=40, top-center=(530, 179) -->
+  <rect x="510" y="179" width="40" height="22" rx="4" class="context-box"/>
+  <text x="530" y="194" class="word-context">vote</text>
+  <line x1="590" y1="123" x2="530" y2="179" class="link-separate"/>
+
+  <!-- government: box (537, 224), w=76, top-center=(575, 224) -->
+  <rect x="537" y="224" width="76" height="22" rx="4" class="context-box"/>
+  <text x="575" y="239" class="word-context">government</text>
+  <line x1="605" y1="132" x2="575" y2="224" class="link-separate"/>
+
+  <!-- election: box (599, 249), w=52, top-center=(625, 249) -->
+  <rect x="599" y="249" width="52" height="22" rx="4" class="context-box"/>
+  <text x="625" y="264" class="word-context">election</text>
+  <line x1="617" y1="134" x2="625" y2="249" class="link-separate"/>
+
+  <!-- freedom: box (647, 224), w=56, top-center=(675, 224) -->
+  <rect x="647" y="224" width="56" height="22" rx="4" class="context-box"/>
+  <text x="675" y="239" class="word-context">freedom</text>
+  <line x1="630" y1="131" x2="675" y2="224" class="link-separate"/>
+
+  <!-- constitution: box (666, 179), w=78, top-center=(705, 179) -->
+  <rect x="666" y="179" width="78" height="22" rx="4" class="context-box"/>
+  <text x="705" y="194" class="word-context">constitution</text>
+  <line x1="641" y1="122" x2="705" y2="179" class="link-separate"/>
+
+  <!-- No overlap annotation -->
+  <text x="625" y="295" class="no-overlap-label">zero overlap with cat / dog</text>
+
+  <!-- Bottom takeaway -->
+  <text x="375" y="355" class="label-small">Words that keep the same company have similar meanings. Words in different neighborhoods are unrelated.</text>
+</svg>

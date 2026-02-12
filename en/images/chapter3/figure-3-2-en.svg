@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .word-label { font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; fill: #333; text-anchor: middle; }
+    .dist-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #999; font-style: italic; text-anchor: middle; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #555; font-style: italic; text-anchor: middle; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .dist-line { stroke: #ccc; stroke-width: 1; }
+    .dist-line-highlight { stroke: #cf1322; stroke-width: 1.5; }
+    .word-circle { stroke: #fff; stroke-width: 2; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .cluster-circle { fill: none; stroke-width: 1.5; stroke-dasharray: 6,3; }
+  </style>
+
+  <!-- Background -->
+  <rect width="750" height="340" class="background"/>
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">One-Hot Encoding: Every Word Is Equally Far Apart</text>
+
+  <!-- Divider -->
+  <line x1="375" y1="42" x2="375" y2="310" class="divider"/>
+
+  <!-- ============ LEFT: What one-hot gives us ============ -->
+  <text x="187" y="58" class="col-title">What one-hot gives us</text>
+
+  <!--
+    6 words on a regular hexagon, center (187, 180), radius 95.
+    Angles: 0°, 60°, 120°, 180°, 240°, 300° (starting from top: -90°)
+    cat:       -90° → (187, 85)
+    dog:       -30° → (269, 133)
+    car:        30° → (269, 228)
+    democracy:  90° → (187, 275)
+    happy:     150° → (105, 228)
+    bank:      210° → (105, 133)
+  -->
+
+  <!-- All connecting lines (all same distance) -->
+  <!-- cat-dog -->
+  <line x1="187" y1="85" x2="269" y2="133" class="dist-line"/>
+  <!-- cat-bank -->
+  <line x1="187" y1="85" x2="105" y2="133" class="dist-line"/>
+  <!-- dog-car -->
+  <line x1="269" y1="133" x2="269" y2="228" class="dist-line"/>
+  <!-- car-democracy -->
+  <line x1="269" y1="228" x2="187" y2="275" class="dist-line"/>
+  <!-- democracy-happy -->
+  <line x1="187" y1="275" x2="105" y2="228" class="dist-line"/>
+  <!-- happy-bank -->
+  <line x1="105" y1="228" x2="105" y2="133" class="dist-line"/>
+
+  <!-- Cross lines (also same distance) -->
+  <!-- cat-car -->
+  <line x1="187" y1="85" x2="269" y2="228" class="dist-line"/>
+  <!-- cat-democracy -->
+  <line x1="187" y1="85" x2="187" y2="275" class="dist-line"/>
+  <!-- cat-happy -->
+  <line x1="187" y1="85" x2="105" y2="228" class="dist-line"/>
+  <!-- dog-happy -->
+  <line x1="269" y1="133" x2="105" y2="228" class="dist-line"/>
+  <!-- dog-democracy -->
+  <line x1="269" y1="133" x2="187" y2="275" class="dist-line"/>
+  <!-- car-bank -->
+  <line x1="269" y1="228" x2="105" y2="133" class="dist-line"/>
+  <!-- bank-democracy -->
+  <line x1="105" y1="133" x2="187" y2="275" class="dist-line"/>
+  <!-- bank-car -->
+  <line x1="105" y1="133" x2="269" y2="228" class="dist-line"/>
+  <!-- happy-dog -->
+  <line x1="105" y1="228" x2="269" y2="133" class="dist-line"/>
+
+  <!-- Highlight cat-dog and cat-democracy in red -->
+  <line x1="187" y1="85" x2="269" y2="133" class="dist-line-highlight"/>
+  <line x1="187" y1="85" x2="187" y2="275" class="dist-line-highlight"/>
+
+  <!-- √2 labels on highlighted lines -->
+  <text x="240" y="102" class="dist-text" style="fill: #cf1322">√2</text>
+  <text x="198" y="180" class="dist-text" style="fill: #cf1322">√2</text>
+
+  <!-- Word nodes (drawn on top of lines) -->
+  <circle cx="187" cy="85" r="8" fill="#fa8c16" class="word-circle"/>
+  <circle cx="269" cy="133" r="8" fill="#fa8c16" class="word-circle"/>
+  <circle cx="269" cy="228" r="8" fill="#fa8c16" class="word-circle"/>
+  <circle cx="187" cy="275" r="8" fill="#fa8c16" class="word-circle"/>
+  <circle cx="105" cy="228" r="8" fill="#fa8c16" class="word-circle"/>
+  <circle cx="105" cy="133" r="8" fill="#fa8c16" class="word-circle"/>
+
+  <!-- Word labels -->
+  <text x="187" y="73" class="word-label">cat</text>
+  <text x="296" y="137" class="word-label" text-anchor="start">dog</text>
+  <text x="296" y="232" class="word-label" text-anchor="start">car</text>
+  <text x="187" y="298" class="word-label">democracy</text>
+  <text x="78" y="232" class="word-label" text-anchor="end">happy</text>
+  <text x="78" y="137" class="word-label" text-anchor="end">bank</text>
+
+  <!-- Annotation -->
+  <text x="187" y="322" class="label-small">All distances identical. No semantic information.</text>
+
+  <!-- ============ RIGHT: What we actually want ============ -->
+  <text x="562" y="58" class="col-title">What we want</text>
+
+  <!-- Plot area -->
+  <rect x="412" y="70" width="300" height="240" rx="3" class="plot-border"/>
+
+  <!-- Grid -->
+  <line x1="412" y1="110" x2="712" y2="110" class="grid-line"/>
+  <line x1="412" y1="150" x2="712" y2="150" class="grid-line"/>
+  <line x1="412" y1="190" x2="712" y2="190" class="grid-line"/>
+  <line x1="412" y1="230" x2="712" y2="230" class="grid-line"/>
+  <line x1="412" y1="270" x2="712" y2="270" class="grid-line"/>
+  <line x1="452" y1="70" x2="452" y2="310" class="grid-line"/>
+  <line x1="492" y1="70" x2="492" y2="310" class="grid-line"/>
+  <line x1="532" y1="70" x2="532" y2="310" class="grid-line"/>
+  <line x1="572" y1="70" x2="572" y2="310" class="grid-line"/>
+  <line x1="612" y1="70" x2="612" y2="310" class="grid-line"/>
+  <line x1="652" y1="70" x2="652" y2="310" class="grid-line"/>
+  <line x1="692" y1="70" x2="692" y2="310" class="grid-line"/>
+
+  <!-- Animal cluster: cat, dog near each other -->
+  <circle cx="485" cy="130" r="6" fill="#1890ff" stroke="#fff" stroke-width="2"/>
+  <text x="485" y="120" class="word-label" style="font-size: 10px">cat</text>
+  <circle cx="510" cy="142" r="6" fill="#1890ff" stroke="#fff" stroke-width="2"/>
+  <text x="528" y="139" class="word-label" style="font-size: 10px" text-anchor="start">dog</text>
+
+  <!-- Vehicle: car alone -->
+  <circle cx="610" cy="250" r="6" fill="#52c41a" stroke="#fff" stroke-width="2"/>
+  <text x="610" y="270" class="word-label" style="font-size: 10px">car</text>
+
+  <!-- Abstract: democracy, bank far from animals -->
+  <circle cx="660" cy="110" r="6" fill="#999" stroke="#fff" stroke-width="2"/>
+  <text x="660" y="100" class="word-label" style="font-size: 10px">democracy</text>
+  <circle cx="640" cy="145" r="6" fill="#999" stroke="#fff" stroke-width="2"/>
+  <text x="658" y="142" class="word-label" style="font-size: 10px" text-anchor="start">bank</text>
+
+  <!-- Emotion: happy off by itself -->
+  <circle cx="460" cy="250" r="6" fill="#fa8c16" stroke="#fff" stroke-width="2"/>
+  <text x="460" y="270" class="word-label" style="font-size: 10px">happy</text>
+
+  <!-- Cluster outlines -->
+  <ellipse cx="497" cy="136" rx="40" ry="25" class="cluster-circle" stroke="#1890ff"/>
+  <ellipse cx="650" cy="128" rx="32" ry="32" class="cluster-circle" stroke="#999"/>
+
+  <!-- Annotation -->
+  <text x="562" y="322" class="label-small">Similar words cluster. Distances reflect meaning.</text>
+</svg>

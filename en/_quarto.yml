@@ -10,6 +10,8 @@ book:
   chapters:
     - index.qmd
     - chapters/chapter1.qmd
+    - chapters/chapter2.qmd
+    - chapters/chapter3.qmd
     # - references.qmd
 
 format:

@@ -1,0 +1,10 @@
+[project]
+name = "chapter3"
+version = "0.1.0"
+description = "Chapter 3: From Words to Numbers"
+requires-python = ">=3.11"
+dependencies = [
+    "huggingface-hub>=1.4.1",
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.4",
+]

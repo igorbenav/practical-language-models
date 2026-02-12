@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 250">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .section-title { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .word-token { font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; text-anchor: middle; fill: #333; }
+    .tag-text { font-family: 'Arial', sans-serif; font-size: 10px; text-anchor: middle; font-weight: bold; }
+    .pair-text { font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; text-anchor: middle; fill: #333; }
+    .token-box-outside { fill: #f5f5f5; stroke: #ddd; stroke-width: 1; }
+    .token-box-context { fill: #e6f7ff; stroke: #1890ff; stroke-width: 1.5; }
+    .token-box-target { fill: #fa8c16; stroke: #d46b08; stroke-width: 1.5; }
+    .pair-box { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .window-bracket { fill: none; stroke: #666; stroke-width: 1.5; }
+    .arrow { stroke: #666; stroke-width: 1.2; fill: none; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="250" class="background"/>
+
+  <!-- Title -->
+  <text x="375" y="26" class="title">The Skip-Gram Training Setup</text>
+
+  <!--
+    === SENTENCE ROW ===
+    8 words: She poured the cold water into the glass
+    Box: 68w x 32h, gap=8
+    Total width: 8*68 + 7*8 = 600
+    Start x: (750 - 600) / 2 = 75
+    Box x: 75, 151, 227, 303, 379, 455, 531, 607
+    Box centers: 109, 185, 261, 337, 413, 489, 565, 641
+    Box y: 56, bottom: 88
+  -->
+
+  <!-- "target" label above water only -->
+  <text x="413" y="48" class="tag-text" style="fill: #d46b08">target</text>
+
+  <!-- She (outside) -->
+  <rect x="75" y="56" width="68" height="32" rx="4" class="token-box-outside"/>
+  <text x="109" y="77" class="word-token" style="fill: #999">She</text>
+
+  <!-- poured (outside) -->
+  <rect x="151" y="56" width="68" height="32" rx="4" class="token-box-outside"/>
+  <text x="185" y="77" class="word-token" style="fill: #999">poured</text>
+
+  <!-- the (context) -->
+  <rect x="227" y="56" width="68" height="32" rx="4" class="token-box-context"/>
+  <text x="261" y="77" class="word-token" style="fill: #1890ff">the</text>
+
+  <!-- cold (context) -->
+  <rect x="303" y="56" width="68" height="32" rx="4" class="token-box-context"/>
+  <text x="337" y="77" class="word-token" style="fill: #1890ff">cold</text>
+
+  <!-- water (TARGET) -->
+  <rect x="379" y="56" width="68" height="32" rx="4" class="token-box-target"/>
+  <text x="413" y="77" class="word-token" style="fill: #fff; font-weight: bold">water</text>
+
+  <!-- into (context) -->
+  <rect x="455" y="56" width="68" height="32" rx="4" class="token-box-context"/>
+  <text x="489" y="77" class="word-token" style="fill: #1890ff">into</text>
+
+  <!-- the (context) -->
+  <rect x="531" y="56" width="68" height="32" rx="4" class="token-box-context"/>
+  <text x="565" y="77" class="word-token" style="fill: #1890ff">the</text>
+
+  <!-- glass (outside) -->
+  <rect x="607" y="56" width="68" height="32" rx="4" class="token-box-outside"/>
+  <text x="641" y="77" class="word-token" style="fill: #999">glass</text>
+
+  <!-- Window bracket below sentence -->
+  <path d="M231,94 L231,102 L595,102 L595,94" class="window-bracket"/>
+  <text x="413" y="118" class="label-small">window size = 2 (two words on each side)</text>
+
+  <!-- Arrow down -->
+  <line x1="375" y1="126" x2="375" y2="150" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <!--
+    === TRAINING PAIRS ROW ===
+    4 pairs: (water → the), (water → cold), (water → into), (water → the)
+    Box: 130w x 30h, gap=14
+    Total: 4*130 + 3*14 = 562
+    Start x: (750 - 562) / 2 = 94
+    Box x: 94, 238, 382, 526
+    Box centers: 159, 303, 447, 591
+    Box y: 160, bottom: 190
+  -->
+
+  <text x="375" y="165" class="section-title">Training pairs generated</text>
+
+  <!-- Pair 1: water → the -->
+  <rect x="94" y="176" width="130" height="30" rx="4" class="pair-box"/>
+  <text x="132" y="196" class="pair-text" style="fill: #d46b08; font-weight: bold">water</text>
+  <text x="159" y="196" class="pair-text" style="fill: #999">→</text>
+  <text x="186" y="196" class="pair-text" style="fill: #1890ff">the</text>
+
+  <!-- Pair 2: water → cold -->
+  <rect x="238" y="176" width="130" height="30" rx="4" class="pair-box"/>
+  <text x="276" y="196" class="pair-text" style="fill: #d46b08; font-weight: bold">water</text>
+  <text x="303" y="196" class="pair-text" style="fill: #999">→</text>
+  <text x="333" y="196" class="pair-text" style="fill: #1890ff">cold</text>
+
+  <!-- Pair 3: water → into -->
+  <rect x="382" y="176" width="130" height="30" rx="4" class="pair-box"/>
+  <text x="420" y="196" class="pair-text" style="fill: #d46b08; font-weight: bold">water</text>
+  <text x="447" y="196" class="pair-text" style="fill: #999">→</text>
+  <text x="477" y="196" class="pair-text" style="fill: #1890ff">into</text>
+
+  <!-- Pair 4: water → the -->
+  <rect x="526" y="176" width="130" height="30" rx="4" class="pair-box"/>
+  <text x="564" y="196" class="pair-text" style="fill: #d46b08; font-weight: bold">water</text>
+  <text x="591" y="196" class="pair-text" style="fill: #999">→</text>
+  <text x="618" y="196" class="pair-text" style="fill: #1890ff">the</text>
+
+  <!-- Bottom note -->
+  <text x="375" y="238" class="label-small">The model learns to predict context words from the target. Slide the window, repeat for every word in the corpus.</text>
+</svg>
