@@ -1,0 +1,114 @@
+project:
+  type: book
+  output-dir: ../docs/en
+
+book:
+  title: "Practical Language Models"
+  subtitle: "From Intuition to Agents in Production"
+  author: "Igor Benav"
+  cover-image: images/cover.png
+  chapters:
+    - index.qmd
+    - chapters/chapter1.qmd
+    # - references.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-fold: false
+    code-tools: true
+    code-link: true
+    code-copy: true
+    highlight-style: github
+    toc-depth: 2
+    number-depth: 3
+    bibliography: references.bib
+    bibliography-title: "References"
+    citestyle: chicago-author-date
+    nocite: |
+      @*
+    include-in-header:
+      text: |
+        <style>
+        pre, code {
+          font-size: 0.85em;
+        }
+        .csl-entry {
+          margin-bottom: 1em;
+          padding-left: 2em;
+          text-indent: -2em;
+        }
+        </style>
+  pdf:
+    output-file: "Practical Web Development (en)"
+    pdf-engine: xelatex
+    documentclass: scrreprt
+    toc-depth: 2
+    number-sections: true
+    number-depth: 3
+    bibliography: references.bib
+    bibliography-title: "References"
+    citestyle: chicago-author-date
+    nocite: |
+      @*
+    # Font settings
+    mainfont: "Palatino"
+    monofont: "Courier New"
+    fontsize: 11pt
+    # Layout settings
+    geometry:
+      - top=1.5cm
+      - bottom=2cm
+      - left=2cm
+      - right=2cm
+      - includeheadfoot
+    # Code block settings
+    code-block-bg: "#f8f9fa"
+    code-block-border-left: "#e9ecef"
+    highlight-style: github
+    # Table of contents settings
+    toc-title: "Contents"
+    # Figure and table settings
+    fig-cap-location: "bottom"
+    tbl-cap-location: "bottom"
+    # Cross-references
+    crossref:
+      chapters: true
+      labels: "all"
+    # Additional LaTeX settings
+    header-includes:
+      - \usepackage{tikz}
+      - |
+        \let\oldmaketitle\maketitle
+        \renewcommand{\maketitle}{%
+          \thispagestyle{empty}
+          \begin{tikzpicture}[remember picture, overlay]
+            \node[inner sep=0pt] at (current page.center) {%
+              \includegraphics[width=\paperwidth, height=\paperheight]{images/cover.png}%
+            };
+          \end{tikzpicture}
+          \clearpage
+          \oldmaketitle
+        }
+      - \usepackage{booktabs}
+      - \usepackage{hyperref}
+      - \hypersetup{colorlinks=true, linkcolor=blue, filecolor=blue, urlcolor=blue, citecolor=blue}
+      - \usepackage{listings}
+      - \usepackage{float}
+      - \usepackage{fvextra}
+      - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},formatcom=\let\textequals\textequals}
+      - \let\textequals\textequals
+      - \DeclareTextFontCommand{\textequals}{=}
+      - |
+        \lstset{
+          basicstyle=\fontsize{9.5}{11.5}\ttfamily,
+          breaklines=true,
+          showstringspaces=false
+        }
+      - |
+        \AtBeginEnvironment{Highlighting}{\fontsize{9}{11}\selectfont}
+
+execute:
+  freeze: auto
+  echo: true
+  warning: false

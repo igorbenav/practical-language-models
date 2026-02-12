@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .subtitle { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #555; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .axis { stroke: #ccc; stroke-width: 1.2; }
+    .axis-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #999; font-style: italic; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .dist-line { stroke: #cf1322; stroke-width: 2.5; }
+    .delta-line { stroke: #d46b08; stroke-width: 1.5; stroke-dasharray: 5,3; }
+    .point-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; font-style: italic; fill: #333; }
+    .dim-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; font-style: italic; fill: #d46b08; }
+    .dist-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; font-style: italic; fill: #cf1322; font-weight: bold; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #555; font-style: italic; text-anchor: middle; }
+    .divider { stroke: #ddd; stroke-width: 1; stroke-dasharray: 4,3; }
+    .vec-val { font-family: 'Consolas', 'Monaco', monospace; font-size: 10px; text-anchor: middle; dominant-baseline: central; }
+    .connector { stroke: #ccc; stroke-width: 1; stroke-dasharray: 2,2; }
+  </style>
+
+  <rect width="600" height="320" class="background"/>
+  <text x="300" y="26" class="title">MSE Is a Distance</text>
+
+  <!-- Divider -->
+  <line x1="270" y1="42" x2="270" y2="290" class="divider"/>
+
+  <!-- ===== LEFT: the two vectors ===== -->
+  <text x="135" y="52" class="subtitle">Two lists of numbers</text>
+
+  <text x="28" y="88" class="point-label" text-anchor="start" style="fill: #1890ff">predictions</text>
+
+  <rect x="20"  y="96" width="42" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="62"  y="96" width="42" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="104" y="96" width="42" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="146" y="96" width="42" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="188" y="96" width="42" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="230" y="96" width="20" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+  <text x="41"  y="109" class="vec-val" style="fill: #1890ff">g(x₁)</text>
+  <text x="83"  y="109" class="vec-val" style="fill: #1890ff">g(x₂)</text>
+  <text x="125" y="109" class="vec-val" style="fill: #1890ff">g(x₃)</text>
+  <text x="167" y="109" class="vec-val" style="fill: #1890ff">g(x₄)</text>
+  <text x="209" y="109" class="vec-val" style="fill: #1890ff">g(x₅)</text>
+  <text x="240" y="109" class="vec-val" style="fill: #999">…</text>
+
+  <line x1="41"  y1="122" x2="41"  y2="148" class="connector"/>
+  <line x1="83"  y1="122" x2="83"  y2="148" class="connector"/>
+  <line x1="125" y1="122" x2="125" y2="148" class="connector"/>
+  <line x1="167" y1="122" x2="167" y2="148" class="connector"/>
+  <line x1="209" y1="122" x2="209" y2="148" class="connector"/>
+
+  <rect x="20"  y="148" width="42" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <rect x="62"  y="148" width="42" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <rect x="104" y="148" width="42" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <rect x="146" y="148" width="42" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <rect x="188" y="148" width="42" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <rect x="230" y="148" width="20" height="26" rx="3" fill="#fff" stroke="#52c41a" stroke-width="0.8" stroke-dasharray="3,2"/>
+
+  <text x="41"  y="161" class="vec-val" style="fill: #52c41a">y₁</text>
+  <text x="83"  y="161" class="vec-val" style="fill: #52c41a">y₂</text>
+  <text x="125" y="161" class="vec-val" style="fill: #52c41a">y₃</text>
+  <text x="167" y="161" class="vec-val" style="fill: #52c41a">y₄</text>
+  <text x="209" y="161" class="vec-val" style="fill: #52c41a">y₅</text>
+  <text x="240" y="161" class="vec-val" style="fill: #999">…</text>
+
+  <text x="28" y="192" class="point-label" text-anchor="start" style="fill: #52c41a">truth</text>
+
+  <text x="135" y="230" class="math-text">MSE = (1/N) × d²</text>
+  <text x="135" y="252" class="label-small">Same formula as Euclidean distance,</text>
+  <text x="135" y="268" class="label-small">squared and averaged.</text>
+
+  <!-- ===== RIGHT: geometric view ===== -->
+  <text x="455" y="52" class="subtitle">Same idea, geometrically</text>
+
+  <!-- Grid - axis at x=345 -->
+  <line x1="355" y1="250" x2="355" y2="70" class="grid-line"/>
+  <line x1="405" y1="250" x2="405" y2="70" class="grid-line"/>
+  <line x1="455" y1="250" x2="455" y2="70" class="grid-line"/>
+  <line x1="505" y1="250" x2="505" y2="70" class="grid-line"/>
+  <line x1="555" y1="250" x2="555" y2="70" class="grid-line"/>
+
+  <line x1="345" y1="250" x2="565" y2="250" class="grid-line"/>
+  <line x1="345" y1="210" x2="565" y2="210" class="grid-line"/>
+  <line x1="345" y1="170" x2="565" y2="170" class="grid-line"/>
+  <line x1="345" y1="130" x2="565" y2="130" class="grid-line"/>
+  <line x1="345" y1="90" x2="565" y2="90" class="grid-line"/>
+
+  <!-- Axes -->
+  <line x1="345" y1="258" x2="575" y2="258" class="axis"/>
+  <line x1="345" y1="258" x2="345" y2="62" class="axis"/>
+  <polygon points="575,258 568,254 568,262" fill="#ccc"/>
+  <polygon points="345,62 341,69 349,69" fill="#ccc"/>
+
+  <text x="565" y="275" class="axis-label" text-anchor="end">example 1</text>
+  <text x="333" y="72" class="axis-label" text-anchor="end">example 2</text>
+
+  <!-- Right triangle -->
+  <line x1="395" y1="210" x2="525" y2="210" class="delta-line"/>
+  <line x1="395" y1="100" x2="395" y2="210" class="delta-line"/>
+  <path d="M 395,196 L 409,196 L 409,210" fill="none" stroke="#bbb" stroke-width="1"/>
+
+  <!-- Delta labels -->
+  <text x="460" y="232" class="dim-label">g(x₁) − y₁</text>
+  <text x="392" y="158" class="dim-label" text-anchor="end">g(x₂) − y₂</text>
+
+  <!-- Hypotenuse = the error -->
+  <line x1="395" y1="100" x2="525" y2="210" class="dist-line"/>
+  <text x="479" y="140" class="dist-label" transform="rotate(40, 479, 140)">error</text>
+
+  <!-- Truth point (green) -->
+  <circle cx="525" cy="210" r="7" fill="#52c41a" stroke="#fff" stroke-width="2"/>
+  <text x="539" y="205" class="point-label" text-anchor="start" style="fill: #52c41a">truth</text>
+
+  <!-- Prediction point (blue) -->
+  <circle cx="395" cy="100" r="7" fill="#1890ff" stroke="#fff" stroke-width="2"/>
+  <text x="381" y="92" class="point-label" text-anchor="end" style="fill: #1890ff">g</text>
+
+  <!-- Bottom note -->
+  <text x="455" y="296" class="label-small">Minimizing MSE = moving g closer to truth.</text>
+</svg>

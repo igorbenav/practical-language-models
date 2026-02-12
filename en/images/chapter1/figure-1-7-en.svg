@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-desc { font-family: 'Arial', sans-serif; font-size: 12px; text-anchor: middle; fill: #888; }
+    .dist-label { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #555; text-anchor: middle; font-style: italic; }
+    .minus-text { font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; text-anchor: middle; fill: #999; dominant-baseline: central; }
+    .equals-text { font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; text-anchor: middle; fill: #999; dominant-baseline: central; }
+    .arrow { stroke: #999; stroke-width: 1.5; fill: none; }
+    .divider { stroke: #ddd; stroke-width: 1; stroke-dasharray: 4,3; }
+    .img-border { stroke: #ccc; stroke-width: 1; }
+    .badge { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-anchor: middle; fill: #fff; }
+  </style>
+
+  <defs>
+    <!-- Handwritten 7 style A (straight) -->
+    <g id="seven-a">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 18,18 L 30,16 L 42,15 L 54,16
+               L 50,25 L 45,35 L 40,47 L 37,56"
+            stroke="#e0e0e0" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- Handwritten 7 style B (with crossbar, slightly tilted) -->
+    <g id="seven-b">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 16,20 L 28,17 L 40,15 L 52,17
+               L 48,27 L 42,38 L 36,50 L 33,58"
+            stroke="#dcdcdc" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M 32,36 L 48,34" stroke="#c8c8c8" stroke-width="5" stroke-linecap="round" fill="none"/>
+    </g>
+
+    <!-- Handwritten 3 -->
+    <g id="three-a">
+      <rect width="70" height="70" rx="3" fill="#111" class="img-border"/>
+      <path d="M 20,18 L 38,15 Q 55,15 52,27 Q 49,36 35,37
+               Q 50,38 52,48 Q 54,60 38,60 L 20,58"
+            stroke="#e0e0e0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+
+    <!-- Difference heatmap: small differences (mostly dark with faint spots) -->
+    <g id="diff-small">
+      <rect width="70" height="70" rx="3" fill="#050505" class="img-border"/>
+      <!-- Faint orange spots where the two 7s differ slightly -->
+      <circle cx="22" cy="18" r="6" fill="#3d1a00" opacity="0.7"/>
+      <circle cx="50" cy="17" r="5" fill="#2a1200" opacity="0.6"/>
+      <circle cx="35" cy="36" r="8" fill="#4a2000" opacity="0.5"/>
+      <circle cx="42" cy="34" r="5" fill="#3d1a00" opacity="0.6"/>
+      <circle cx="34" cy="52" r="5" fill="#2a1200" opacity="0.5"/>
+      <circle cx="38" cy="45" r="4" fill="#1a0a00" opacity="0.4"/>
+    </g>
+
+    <!-- Difference heatmap: large differences (bright orange/red spots) -->
+    <g id="diff-large">
+      <rect width="70" height="70" rx="3" fill="#0a0200" class="img-border"/>
+      <!-- Bright spots where 7 and 3 differ dramatically -->
+      <!-- Top horizontal stroke of 7 vs top curve of 3 -->
+      <circle cx="18" cy="19" r="7" fill="#b34700" opacity="0.8"/>
+      <circle cx="48" cy="27" r="8" fill="#cc5500" opacity="0.85"/>
+      <!-- Middle: 3's bump vs 7's diagonal -->
+      <circle cx="48" cy="38" r="9" fill="#e06000" opacity="0.9"/>
+      <circle cx="30" cy="37" r="7" fill="#993d00" opacity="0.75"/>
+      <!-- Bottom: 3's lower curve vs 7's vertical stroke -->
+      <circle cx="45" cy="50" r="10" fill="#ff6600" opacity="0.9"/>
+      <circle cx="25" cy="55" r="7" fill="#cc5500" opacity="0.8"/>
+      <circle cx="35" cy="55" r="8" fill="#e06000" opacity="0.85"/>
+      <circle cx="38" cy="18" r="5" fill="#993d00" opacity="0.6"/>
+      <circle cx="28" cy="46" r="6" fill="#b34700" opacity="0.7"/>
+    </g>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="380" class="background" />
+
+  <!-- Title -->
+  <text x="375" y="30" class="title">Measuring Similarity</text>
+
+  <!-- Column headers -->
+  <text x="110" y="56" class="label-small">Image A</text>
+  <text x="280" y="56" class="label-small">Image B</text>
+  <text x="450" y="56" class="label-small">Difference</text>
+  <text x="620" y="56" class="label-small">Distance</text>
+
+  <!-- Horizontal divider -->
+  <line x1="40" y1="195" x2="710" y2="195" class="divider" />
+
+  <!-- === Top row: Two 7s — similar === -->
+
+  <!-- 7 style A -->
+  <use href="#seven-a" x="75" y="70" />
+  <text x="110" y="155" class="label-small">a "7"</text>
+
+  <!-- minus sign -->
+  <text x="190" y="105" class="minus-text">−</text>
+
+  <!-- 7 style B -->
+  <use href="#seven-b" x="245" y="70" />
+  <text x="280" y="155" class="label-small">another "7"</text>
+
+  <!-- equals sign -->
+  <text x="360" y="105" class="equals-text">=</text>
+
+  <!-- Small difference heatmap -->
+  <use href="#diff-small" x="415" y="70" />
+  <text x="450" y="155" class="label-small">mostly dark</text>
+
+  <!-- Arrow to distance -->
+  <line x1="500" y1="105" x2="555" y2="105" class="arrow" marker-end="url(#arrow-tip)" />
+
+  <!-- Distance badge: small -->
+  <rect x="565" y="80" width="110" height="50" rx="25" fill="#e6f7ff" stroke="#1890ff" stroke-width="1.5"/>
+  <text x="620" y="101" class="dist-label" fill="#1890ff">d = 1,247</text>
+  <text x="620" y="118" class="label-small">similar</text>
+
+  <!-- === Bottom row: 7 and 3 — different === -->
+
+  <!-- 7 style A -->
+  <use href="#seven-a" x="75" y="215" />
+  <text x="110" y="300" class="label-small">a "7"</text>
+
+  <!-- minus sign -->
+  <text x="190" y="250" class="minus-text">−</text>
+
+  <!-- 3 -->
+  <use href="#three-a" x="245" y="215" />
+  <text x="280" y="300" class="label-small">a "3"</text>
+
+  <!-- equals sign -->
+  <text x="360" y="250" class="equals-text">=</text>
+
+  <!-- Large difference heatmap -->
+  <use href="#diff-large" x="415" y="215" />
+  <text x="450" y="300" class="label-small">bright = disagreement</text>
+
+  <!-- Arrow to distance -->
+  <line x1="500" y1="250" x2="555" y2="250" class="arrow" marker-end="url(#arrow-tip)" />
+
+  <!-- Distance badge: large -->
+  <rect x="565" y="225" width="110" height="50" rx="25" fill="#fff7e6" stroke="#fa8c16" stroke-width="1.5"/>
+  <text x="620" y="246" class="dist-label" fill="#d46b08">d = 3,891</text>
+  <text x="620" y="263" class="label-small">different</text>
+
+  <!-- Arrowhead marker -->
+  <defs>
+    <marker id="arrow-tip" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#999" />
+    </marker>
+  </defs>
+
+  <!-- Bottom note -->
+  <text x="375" y="335" class="label-small">Compares pixel by pixel, at the same position. Small distance = similar values, large distance = disagreement.</text>
+  <text x="375" y="352" class="math-text">d(a, b) = √∑(aⱼ − bⱼ)²</text>
+  <text x="375" y="372" class="label-small">Same digit, same position → small distance. Different digit → large distance. That's the core assumption.</text>
+</svg>

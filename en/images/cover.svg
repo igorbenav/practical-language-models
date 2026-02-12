@@ -1,0 +1,181 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 900">
+  <style>
+    .title { font-family: 'Courier New', monospace; font-size: 38px; font-weight: bold; fill: #5ce0d2; }
+    .subtitle { font-family: 'Courier New', monospace; font-size: 14px; fill: #5ce0d2; }
+    .author { font-family: 'Courier New', monospace; font-size: 18px; fill: #5ce0d2; }
+  </style>
+
+  <!-- Background -->
+  <rect width="600" height="900" fill="#0b1a2e" />
+
+  <!-- Title (centered) -->
+  <text x="300" y="100" text-anchor="middle" class="title">Practical</text>
+  <text x="300" y="145" text-anchor="middle" class="title">Language</text>
+  <text x="300" y="190" text-anchor="middle" class="title">Models</text>
+
+  <!-- Cursor after "Models" -->
+  <rect x="393" y="168" width="14" height="28" fill="#5ce0d2" opacity="0.9" />
+
+  <!-- Subtitle (centered) -->
+  <text x="300" y="245" text-anchor="middle" class="subtitle">From Intuition to Agents in Production</text>
+  <text x="300" y="268" text-anchor="middle" class="subtitle">with Python and FastAPI</text>
+
+  <!-- Neural Network / Transformer Diagram (centered at x=300) -->
+  <g transform="translate(300, 555)">
+
+    <!-- Input tokens at top (5 boxes, centered at -150, -75, 0, 75, 150) -->
+    <g transform="translate(0, -230)">
+      <rect x="-175" y="-15" width="50" height="30" rx="3" fill="none" stroke="#5ce0d2" stroke-width="1.5" />
+      <text x="-150" y="5" font-family="'Courier New', monospace" font-size="9" fill="#5ce0d2" text-anchor="middle">predict</text>
+
+      <rect x="-100" y="-15" width="50" height="30" rx="3" fill="none" stroke="#5ce0d2" stroke-width="1.5" />
+      <text x="-75" y="5" font-family="'Courier New', monospace" font-size="10" fill="#5ce0d2" text-anchor="middle">the</text>
+
+      <rect x="-25" y="-15" width="50" height="30" rx="3" fill="none" stroke="#5ce0d2" stroke-width="1.5" />
+      <text x="0" y="5" font-family="'Courier New', monospace" font-size="10" fill="#5ce0d2" text-anchor="middle">next</text>
+
+      <rect x="50" y="-15" width="50" height="30" rx="3" fill="none" stroke="#5ce0d2" stroke-width="1.5" />
+      <text x="75" y="5" font-family="'Courier New', monospace" font-size="9" fill="#5ce0d2" text-anchor="middle">token</text>
+
+      <rect x="125" y="-15" width="50" height="30" rx="3" fill="none" stroke="#5ce0d2" stroke-width="1.5" />
+      <text x="150" y="5" font-family="'Courier New', monospace" font-size="10" fill="#5ce0d2" text-anchor="middle">...</text>
+    </g>
+
+    <!-- Lines from tokens to embedding layer -->
+    <line x1="-150" y1="-215" x2="-150" y2="-175" stroke="#5ce0d2" stroke-width="1" opacity="0.4" />
+    <line x1="-75" y1="-215" x2="-75" y2="-175" stroke="#5ce0d2" stroke-width="1" opacity="0.4" />
+    <line x1="0" y1="-215" x2="0" y2="-175" stroke="#5ce0d2" stroke-width="1" opacity="0.4" />
+    <line x1="75" y1="-215" x2="75" y2="-175" stroke="#5ce0d2" stroke-width="1" opacity="0.4" />
+    <line x1="150" y1="-215" x2="150" y2="-175" stroke="#5ce0d2" stroke-width="1" opacity="0.4" />
+
+    <!-- Embedding layer nodes -->
+    <g transform="translate(0, -160)">
+      <circle cx="-150" cy="0" r="8" fill="#5ce0d2" opacity="0.3" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="-75" cy="0" r="8" fill="#5ce0d2" opacity="0.3" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="0" cy="0" r="8" fill="#5ce0d2" opacity="0.3" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="75" cy="0" r="8" fill="#5ce0d2" opacity="0.3" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="150" cy="0" r="8" fill="#5ce0d2" opacity="0.3" stroke="#5ce0d2" stroke-width="1.5" />
+    </g>
+
+    <!-- Attention connections (fully symmetric around center) -->
+
+    <!-- Self-attention -->
+    <g stroke="#5ce0d2" stroke-width="2">
+      <line x1="-150" y1="-150" x2="-150" y2="-95" opacity="0.3" />
+      <line x1="-75" y1="-150" x2="-75" y2="-95" opacity="0.4" />
+      <line x1="0" y1="-150" x2="0" y2="-95" opacity="0.5" />
+      <line x1="75" y1="-150" x2="75" y2="-95" opacity="0.4" />
+      <line x1="150" y1="-150" x2="150" y2="-95" opacity="0.3" />
+    </g>
+
+    <!-- Adjacent connections (symmetric pairs) -->
+    <g stroke="#5ce0d2" stroke-width="2">
+      <line x1="-150" y1="-150" x2="-75" y2="-95" opacity="0.6" />
+      <line x1="-75" y1="-150" x2="-150" y2="-95" opacity="0.5" />
+      <line x1="150" y1="-150" x2="75" y2="-95" opacity="0.6" />
+      <line x1="75" y1="-150" x2="150" y2="-95" opacity="0.5" />
+      <line x1="-75" y1="-150" x2="0" y2="-95" opacity="0.7" />
+      <line x1="0" y1="-150" x2="-75" y2="-95" opacity="0.6" />
+      <line x1="75" y1="-150" x2="0" y2="-95" opacity="0.7" />
+      <line x1="0" y1="-150" x2="75" y2="-95" opacity="0.6" />
+    </g>
+
+    <!-- Skip-one connections (symmetric, weaker) -->
+    <g stroke="#5ce0d2" stroke-width="1" opacity="0.2">
+      <line x1="-150" y1="-150" x2="0" y2="-95" />
+      <line x1="0" y1="-150" x2="-150" y2="-95" />
+      <line x1="150" y1="-150" x2="0" y2="-95" />
+      <line x1="0" y1="-150" x2="150" y2="-95" />
+      <line x1="-75" y1="-150" x2="75" y2="-95" />
+      <line x1="75" y1="-150" x2="-75" y2="-95" />
+    </g>
+
+    <!-- Long-range connections (symmetric, weakest) -->
+    <g stroke="#5ce0d2" stroke-width="1" opacity="0.1">
+      <line x1="-150" y1="-150" x2="75" y2="-95" />
+      <line x1="75" y1="-150" x2="-150" y2="-95" />
+      <line x1="150" y1="-150" x2="-75" y2="-95" />
+      <line x1="-75" y1="-150" x2="150" y2="-95" />
+      <line x1="-150" y1="-150" x2="150" y2="-95" />
+      <line x1="150" y1="-150" x2="-150" y2="-95" />
+    </g>
+
+    <!-- Post-attention layer nodes (symmetric brightness) -->
+    <g transform="translate(0, -80)">
+      <circle cx="-150" cy="0" r="8" fill="#5ce0d2" opacity="0.35" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="-75" cy="0" r="8" fill="#5ce0d2" opacity="0.55" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="0" cy="0" r="8" fill="#5ce0d2" opacity="0.65" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="75" cy="0" r="8" fill="#5ce0d2" opacity="0.55" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="150" cy="0" r="8" fill="#5ce0d2" opacity="0.35" stroke="#5ce0d2" stroke-width="1.5" />
+    </g>
+
+    <!-- Vertical dots indicating more layers -->
+    <circle cx="0" cy="-50" r="2" fill="#5ce0d2" opacity="0.5" />
+    <circle cx="0" cy="-38" r="2" fill="#5ce0d2" opacity="0.5" />
+    <circle cx="0" cy="-26" r="2" fill="#5ce0d2" opacity="0.5" />
+
+    <!-- Feed-forward / output layer connections (symmetric) -->
+    <g opacity="0.2" stroke="#5ce0d2" stroke-width="1">
+      <line x1="-150" y1="-10" x2="-100" y2="50" />
+      <line x1="-75" y1="-10" x2="-100" y2="50" />
+      <line x1="0" y1="-10" x2="-100" y2="50" />
+      <line x1="-75" y1="-10" x2="0" y2="50" />
+      <line x1="0" y1="-10" x2="0" y2="50" />
+      <line x1="75" y1="-10" x2="0" y2="50" />
+      <line x1="0" y1="-10" x2="100" y2="50" />
+      <line x1="75" y1="-10" x2="100" y2="50" />
+      <line x1="150" y1="-10" x2="100" y2="50" />
+    </g>
+
+    <!-- Output layer nodes -->
+    <g transform="translate(0, 60)">
+      <circle cx="-100" cy="0" r="10" fill="#5ce0d2" opacity="0.2" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="0" cy="0" r="10" fill="#5ce0d2" opacity="0.2" stroke="#5ce0d2" stroke-width="1.5" />
+      <circle cx="100" cy="0" r="10" fill="#5ce0d2" opacity="0.2" stroke="#5ce0d2" stroke-width="1.5" />
+    </g>
+
+    <!-- Lines from output to agent -->
+    <line x1="-100" y1="72" x2="-30" y2="115" stroke="#5ce0d2" stroke-width="1.5" opacity="0.4" />
+    <line x1="0" y1="72" x2="0" y2="115" stroke="#5ce0d2" stroke-width="1.5" opacity="0.4" />
+    <line x1="100" y1="72" x2="30" y2="115" stroke="#5ce0d2" stroke-width="1.5" opacity="0.4" />
+
+    <!-- Arrow pointing down to agent -->
+    <path d="M 0,120 L -6,108 L 6,108 Z" fill="#5ce0d2" />
+
+    <!-- Agent hexagon -->
+    <g transform="translate(0, 155)">
+      <polygon points="0,-30 35,-15 35,15 0,30 -35,15 -35,-15" fill="none" stroke="#5ce0d2" stroke-width="2" />
+      <circle cx="0" cy="0" r="10" fill="#5ce0d2" opacity="0.5" />
+    </g>
+
+    <!-- Lines from agent to tools -->
+    <line x1="-28" y1="168" x2="-110" y2="210" stroke="#5ce0d2" stroke-width="1.5" opacity="0.5" />
+    <path d="M -113,215 L -98,210 L -106,201 Z" fill="#5ce0d2" />
+
+    <line x1="0" y1="185" x2="0" y2="210" stroke="#5ce0d2" stroke-width="1.5" opacity="0.5" />
+    <path d="M 0,215 L -6,203 L 6,203 Z" fill="#5ce0d2" />
+
+    <line x1="28" y1="168" x2="110" y2="210" stroke="#5ce0d2" stroke-width="1.5" opacity="0.5" />
+    <path d="M 113,215 L 98,210 L 106,201 Z" fill="#5ce0d2" />
+
+    <!-- Tool boxes -->
+    <g transform="translate(-110, 240)">
+      <rect x="-30" y="-15" width="60" height="30" rx="4" fill="none" stroke="#5ce0d2" stroke-width="1.5" opacity="0.7" />
+      <text x="0" y="5" font-family="'Courier New', monospace" font-size="9" fill="#5ce0d2" text-anchor="middle" opacity="0.8">search</text>
+    </g>
+
+    <g transform="translate(0, 240)">
+      <rect x="-30" y="-15" width="60" height="30" rx="4" fill="none" stroke="#5ce0d2" stroke-width="1.5" opacity="0.7" />
+      <text x="0" y="5" font-family="'Courier New', monospace" font-size="9" fill="#5ce0d2" text-anchor="middle" opacity="0.8">compute</text>
+    </g>
+
+    <g transform="translate(110, 240)">
+      <rect x="-30" y="-15" width="60" height="30" rx="4" fill="none" stroke="#5ce0d2" stroke-width="1.5" opacity="0.7" />
+      <text x="0" y="5" font-family="'Courier New', monospace" font-size="9" fill="#5ce0d2" text-anchor="middle" opacity="0.8">deploy</text>
+    </g>
+
+  </g>
+
+  <!-- Author -->
+  <text x="300" y="855" text-anchor="middle" class="author">Igor Benav</text>
+</svg>

@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-left { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: end; fill: #666; }
+    .pixel-val { font-family: 'Consolas', 'Monaco', monospace; font-size: 10px; text-anchor: middle; fill: #333; dominant-baseline: central; }
+    .pixel-val-light { font-family: 'Consolas', 'Monaco', monospace; font-size: 10px; text-anchor: middle; fill: #aaa; dominant-baseline: central; }
+    .diff-val { font-family: 'Consolas', 'Monaco', monospace; font-size: 9px; text-anchor: middle; fill: #d46b08; dominant-baseline: central; }
+    .sq-val { font-family: 'Consolas', 'Monaco', monospace; font-size: 9px; text-anchor: middle; fill: #cf1322; dominant-baseline: central; }
+    .pos-label { font-family: 'Arial', sans-serif; font-size: 9px; text-anchor: middle; fill: #999; }
+    .math-text-left { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #555; text-anchor: end; font-style: italic; }
+    .result-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #1890ff; text-anchor: middle; font-weight: bold; }
+    .connector { stroke: #ccc; stroke-width: 1; stroke-dasharray: 2,2; }
+    .brace { stroke: #999; stroke-width: 1.2; fill: none; }
+  </style>
+
+  <rect width="480" height="270" class="background" />
+  <text x="240" y="26" class="title">Position by Position</text>
+
+  <text x="115" y="48" class="pos-label">j = 1</text>
+  <text x="165" y="48" class="pos-label">j = 2</text>
+  <text x="215" y="48" class="pos-label">j = 3</text>
+  <text x="265" y="48" class="pos-label">j = 4</text>
+  <text x="315" y="48" class="pos-label">j = 5</text>
+  <text x="365" y="48" class="pos-label">j = 6</text>
+  <text x="415" y="48" class="pos-label">…</text>
+
+  <text x="52" y="70" class="label-left">image a</text>
+  <rect x="90"  y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="140" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="190" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="240" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="290" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="340" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="1.2"/>
+  <rect x="390" y="56" width="50" height="26" rx="3" fill="#fff" stroke="#1890ff" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <text x="115" y="69" class="pixel-val-light">0</text>
+  <text x="165" y="69" class="pixel-val">180</text>
+  <text x="215" y="69" class="pixel-val">253</text>
+  <text x="265" y="69" class="pixel-val">255</text>
+  <text x="315" y="69" class="pixel-val">253</text>
+  <text x="365" y="69" class="pixel-val">142</text>
+  <text x="415" y="69" class="pixel-val-light">…</text>
+
+  <line x1="115" y1="82" x2="115" y2="96" class="connector"/>
+  <line x1="165" y1="82" x2="165" y2="96" class="connector"/>
+  <line x1="215" y1="82" x2="215" y2="96" class="connector"/>
+  <line x1="265" y1="82" x2="265" y2="96" class="connector"/>
+  <line x1="315" y1="82" x2="315" y2="96" class="connector"/>
+  <line x1="365" y1="82" x2="365" y2="96" class="connector"/>
+
+  <text x="52" y="110" class="label-left">image b</text>
+  <rect x="90"  y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="140" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="190" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="240" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="290" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="340" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="1.2"/>
+  <rect x="390" y="96" width="50" height="26" rx="3" fill="#fff" stroke="#fa8c16" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <text x="115" y="109" class="pixel-val-light">0</text>
+  <text x="165" y="109" class="pixel-val">160</text>
+  <text x="215" y="109" class="pixel-val">240</text>
+  <text x="265" y="109" class="pixel-val">200</text>
+  <text x="315" y="109" class="pixel-val">180</text>
+  <text x="365" y="109" class="pixel-val-light">50</text>
+  <text x="415" y="109" class="pixel-val-light">…</text>
+
+  <line x1="115" y1="122" x2="115" y2="140" class="connector"/>
+  <line x1="165" y1="122" x2="165" y2="140" class="connector"/>
+  <line x1="215" y1="122" x2="215" y2="140" class="connector"/>
+  <line x1="265" y1="122" x2="265" y2="140" class="connector"/>
+  <line x1="315" y1="122" x2="315" y2="140" class="connector"/>
+  <line x1="365" y1="122" x2="365" y2="140" class="connector"/>
+
+  <text x="48" y="153" class="math-text-left">aⱼ − bⱼ</text>
+  <text x="115" y="152" class="diff-val">0</text>
+  <text x="165" y="152" class="diff-val">20</text>
+  <text x="215" y="152" class="diff-val">13</text>
+  <text x="265" y="152" class="diff-val">55</text>
+  <text x="315" y="152" class="diff-val">73</text>
+  <text x="365" y="152" class="diff-val">92</text>
+  <text x="415" y="152" class="diff-val">…</text>
+
+  <line x1="115" y1="161" x2="115" y2="176" class="connector"/>
+  <line x1="165" y1="161" x2="165" y2="176" class="connector"/>
+  <line x1="215" y1="161" x2="215" y2="176" class="connector"/>
+  <line x1="265" y1="161" x2="265" y2="176" class="connector"/>
+  <line x1="315" y1="161" x2="315" y2="176" class="connector"/>
+  <line x1="365" y1="161" x2="365" y2="176" class="connector"/>
+
+  <text x="42" y="191" class="math-text-left">(aⱼ − bⱼ)²</text>
+  <text x="115" y="190" class="sq-val">0</text>
+  <text x="165" y="190" class="sq-val">400</text>
+  <text x="215" y="190" class="sq-val">169</text>
+  <text x="265" y="190" class="sq-val">3,025</text>
+  <text x="315" y="190" class="sq-val">5,329</text>
+  <text x="365" y="190" class="sq-val">8,464</text>
+  <text x="415" y="190" class="sq-val">…</text>
+
+  <path d="M 95,206 Q 95,220 240,222 Q 405,220 405,206" class="brace"/>
+  <line x1="240" y1="222" x2="240" y2="232" stroke="#999" stroke-width="1.2"/>
+
+  <rect x="115" y="234" width="250" height="28" rx="14" fill="#e6f7ff" stroke="#1890ff" stroke-width="1.5"/>
+  <text x="240" y="252" class="result-text">∑ = 17,387   →   d = √∑ ≈ 132</text>
+</svg>

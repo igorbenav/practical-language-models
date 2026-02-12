@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .boundary-bad { stroke: #ff7875; stroke-width: 2; fill: none; }
+    .boundary-good { stroke: #52c41a; stroke-width: 2; fill: none; }
+    .boundary-overfit { stroke: #ff7875; stroke-width: 1.5; fill: none; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+  </style>
+
+  <!-- Background -->
+  <rect width="750" height="340" class="background" />
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">Underfitting, Good Fit, and Overfitting</text>
+
+  <line x1="250" y1="42" x2="250" y2="310" class="divider" />
+  <line x1="500" y1="42" x2="500" y2="310" class="divider" />
+
+  <!--
+    POINT LAYOUT (same across all three panels):
+
+    Blue cluster (upper, y 88-145):
+      (50,100) (65,118) (45,132) (88,95) (105,110)
+      (82,130) (98,138) (115,122) (72,90) (38,118)
+      (58,145) (125,105)
+    Blue stray (deep in orange territory):
+      (148,222)
+
+    Orange cluster (lower, y 195-248):
+      (132,198) (152,212) (142,238) (170,205) (120,225)
+      (180,230) (165,248) (195,218) (150,195) (130,248)
+      (205,240)
+    Orange stray (near blue territory):
+      (85,158)
+
+    Gap: y 145-195 (50px clear)
+    Strays force the overfit boundary to make dramatic detours.
+    Good fit ignores the strays. Underfit misses everything.
+  -->
+
+  <!-- ============================================ -->
+  <!-- === Panel 1: Underfitting === -->
+  <!-- ============================================ -->
+
+  <text x="125" y="58" class="col-title">Underfitting</text>
+  <rect x="20" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+
+  <line x1="25" y1="100" x2="225" y2="260" class="boundary-bad" />
+
+  <!-- Blue cluster -->
+  <circle cx="50" cy="100" r="5" fill="#1890ff" />
+  <circle cx="65" cy="118" r="5" fill="#1890ff" />
+  <circle cx="45" cy="132" r="5" fill="#1890ff" />
+  <circle cx="88" cy="95" r="5" fill="#1890ff" />
+  <circle cx="105" cy="110" r="5" fill="#1890ff" />
+  <circle cx="82" cy="130" r="5" fill="#1890ff" />
+  <circle cx="98" cy="138" r="5" fill="#1890ff" />
+  <circle cx="115" cy="122" r="5" fill="#1890ff" />
+  <circle cx="72" cy="90" r="5" fill="#1890ff" />
+  <circle cx="38" cy="118" r="5" fill="#1890ff" />
+  <circle cx="58" cy="145" r="5" fill="#1890ff" />
+  <circle cx="125" cy="105" r="5" fill="#1890ff" />
+  <!-- Blue stray -->
+  <circle cx="148" cy="222" r="5" fill="#1890ff" />
+
+  <!-- Orange cluster -->
+  <circle cx="132" cy="198" r="5" fill="#fa8c16" />
+  <circle cx="152" cy="212" r="5" fill="#fa8c16" />
+  <circle cx="142" cy="238" r="5" fill="#fa8c16" />
+  <circle cx="170" cy="205" r="5" fill="#fa8c16" />
+  <circle cx="120" cy="225" r="5" fill="#fa8c16" />
+  <circle cx="180" cy="230" r="5" fill="#fa8c16" />
+  <circle cx="165" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="195" cy="218" r="5" fill="#fa8c16" />
+  <circle cx="150" cy="195" r="5" fill="#fa8c16" />
+  <circle cx="130" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="205" cy="240" r="5" fill="#fa8c16" />
+  <!-- Orange stray -->
+  <circle cx="85" cy="158" r="5" fill="#fa8c16" />
+
+  <text x="125" y="302" class="label-small">Too simple. Misses the real pattern.</text>
+
+  <!-- ============================================ -->
+  <!-- === Panel 2: Good Fit === -->
+  <!-- ============================================ -->
+
+  <text x="375" y="58" class="col-title">Good Fit</text>
+  <rect x="270" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+
+  <!-- Smooth curve through the gap ~y=170. Ignores both strays. -->
+  <path d="M 270,175 Q 310,172 350,168 Q 390,165 430,170 Q 460,174 480,172" class="boundary-good" />
+
+  <!-- Blue cluster (+250) -->
+  <circle cx="300" cy="100" r="5" fill="#1890ff" />
+  <circle cx="315" cy="118" r="5" fill="#1890ff" />
+  <circle cx="295" cy="132" r="5" fill="#1890ff" />
+  <circle cx="338" cy="95" r="5" fill="#1890ff" />
+  <circle cx="355" cy="110" r="5" fill="#1890ff" />
+  <circle cx="332" cy="130" r="5" fill="#1890ff" />
+  <circle cx="348" cy="138" r="5" fill="#1890ff" />
+  <circle cx="365" cy="122" r="5" fill="#1890ff" />
+  <circle cx="322" cy="90" r="5" fill="#1890ff" />
+  <circle cx="288" cy="118" r="5" fill="#1890ff" />
+  <circle cx="308" cy="145" r="5" fill="#1890ff" />
+  <circle cx="375" cy="105" r="5" fill="#1890ff" />
+  <!-- Blue stray (+250) — below the curve, misclassified. That's OK. -->
+  <circle cx="398" cy="222" r="5" fill="#1890ff" />
+
+  <!-- Orange cluster (+250) -->
+  <circle cx="382" cy="198" r="5" fill="#fa8c16" />
+  <circle cx="402" cy="212" r="5" fill="#fa8c16" />
+  <circle cx="392" cy="238" r="5" fill="#fa8c16" />
+  <circle cx="420" cy="205" r="5" fill="#fa8c16" />
+  <circle cx="370" cy="225" r="5" fill="#fa8c16" />
+  <circle cx="430" cy="230" r="5" fill="#fa8c16" />
+  <circle cx="415" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="445" cy="218" r="5" fill="#fa8c16" />
+  <circle cx="400" cy="195" r="5" fill="#fa8c16" />
+  <circle cx="380" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="455" cy="240" r="5" fill="#fa8c16" />
+  <!-- Orange stray (+250) — above the curve, misclassified. That's OK. -->
+  <circle cx="335" cy="158" r="5" fill="#fa8c16" />
+
+  <text x="375" y="302" class="label-small">Captures the pattern without memorizing noise.</text>
+
+  <!-- ============================================ -->
+  <!-- === Panel 3: Overfitting === -->
+  <!-- ============================================ -->
+
+  <text x="625" y="58" class="col-title">Overfitting</text>
+  <rect x="520" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+
+  <!--
+    Overfit boundary: jagged path through gap (~y=170) with TWO dramatic detours:
+
+    1. At x≈585: spike UP to y≈140 to go ABOVE the orange stray at (585,158),
+       keeping it on the orange (below) side. The boundary passes above this point.
+
+    2. At x≈648: spike DOWN to y≈232 to go BELOW the blue stray at (648,222),
+       keeping it on the blue (above) side. The boundary passes below this point.
+
+    All blue cluster points: y ≤ 145, boundary at y ≥ 155 in their x range → all above ✓
+    All orange cluster points: y ≥ 195, boundary at y ≤ 175 in their x range → all below ✓
+    Orange stray (585,158): boundary at y ≈ 140 at x=585, stray at y=158 is below → orange ✓
+    Blue stray (648,222): boundary at y ≈ 232 at x=648, stray at y=222 is above → blue ✓
+  -->
+  <path d="M 520,172
+           L 526,165 L 530,175 L 535,162 L 540,172 L 544,158 L 548,168
+           L 552,162 L 558,172 L 562,160 L 568,170
+           L 572,158 L 576,150 L 580,144 L 584,138 L 588,134
+           L 592,138 L 596,148 L 600,158
+           L 604,168 L 608,160 L 612,172 L 615,162 L 620,175 L 625,168
+           L 630,178 L 634,190 L 638,202 L 642,214 L 646,226 L 650,234
+           L 654,228 L 656,214 L 654,200 L 650,188 L 648,178
+           L 654,172 L 662,178 L 670,170 L 680,176 L 695,170 L 715,174 L 730,172" class="boundary-overfit" />
+
+  <!-- Blue cluster (+500) -->
+  <circle cx="550" cy="100" r="5" fill="#1890ff" />
+  <circle cx="565" cy="118" r="5" fill="#1890ff" />
+  <circle cx="545" cy="132" r="5" fill="#1890ff" />
+  <circle cx="588" cy="95" r="5" fill="#1890ff" />
+  <circle cx="605" cy="110" r="5" fill="#1890ff" />
+  <circle cx="582" cy="130" r="5" fill="#1890ff" />
+  <circle cx="598" cy="138" r="5" fill="#1890ff" />
+  <circle cx="615" cy="122" r="5" fill="#1890ff" />
+  <circle cx="572" cy="90" r="5" fill="#1890ff" />
+  <circle cx="538" cy="118" r="5" fill="#1890ff" />
+  <circle cx="558" cy="145" r="5" fill="#1890ff" />
+  <circle cx="625" cy="105" r="5" fill="#1890ff" />
+  <!-- Blue stray (+500) — boundary dips BELOW this point -->
+  <circle cx="648" cy="222" r="5" fill="#1890ff" />
+
+  <!-- Orange cluster (+500) -->
+  <circle cx="632" cy="198" r="5" fill="#fa8c16" />
+  <circle cx="652" cy="212" r="5" fill="#fa8c16" />
+  <circle cx="642" cy="238" r="5" fill="#fa8c16" />
+  <circle cx="670" cy="205" r="5" fill="#fa8c16" />
+  <circle cx="620" cy="225" r="5" fill="#fa8c16" />
+  <circle cx="680" cy="230" r="5" fill="#fa8c16" />
+  <circle cx="665" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="695" cy="218" r="5" fill="#fa8c16" />
+  <circle cx="650" cy="195" r="5" fill="#fa8c16" />
+  <circle cx="630" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="705" cy="240" r="5" fill="#fa8c16" />
+  <!-- Orange stray (+500) — boundary spikes ABOVE this point -->
+  <circle cx="585" cy="158" r="5" fill="#fa8c16" />
+
+  <text x="625" y="302" class="label-small">Memorized the data. Will fail on new examples.</text>
+
+  <!-- Bottom note -->
+  <text x="375" y="332" class="label-small">Same data, three models. Only the middle one will work on new examples.</text>
+</svg>

@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .boundary-line { stroke: #52c41a; stroke-width: 2; }
+    .cluster-circle { fill: none; stroke-width: 2; stroke-dasharray: 6,3; }
+    .cluster-a { stroke: #1890ff; }
+    .cluster-b { stroke: #fa8c16; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+  </style>
+
+  <!-- Background -->
+  <rect width="750" height="340" class="background" />
+
+  <!-- Title -->
+  <text x="375" y="28" class="title">Supervised vs Unsupervised Learning</text>
+
+  <!-- Vertical divider -->
+  <line x1="375" y1="42" x2="375" y2="330" class="divider" />
+
+  <!-- === Left side: Supervised Learning === -->
+
+  <text x="187" y="58" class="col-title">Supervised Learning</text>
+
+  <!-- Plot area -->
+  <rect x="47" y="70" width="280" height="220" rx="3" ry="3" class="plot-border" />
+
+  <!-- Decision boundary -->
+  <line x1="67" y1="258" x2="307" y2="92" class="boundary-line" />
+
+  <!-- Blue points (class A) — upper-left cluster -->
+  <circle cx="90" cy="125" r="5" fill="#1890ff" />
+  <circle cx="110" cy="142" r="5" fill="#1890ff" />
+  <circle cx="82" cy="150" r="5" fill="#1890ff" />
+  <circle cx="128" cy="112" r="5" fill="#1890ff" />
+  <circle cx="105" cy="160" r="5" fill="#1890ff" />
+  <circle cx="148" cy="130" r="5" fill="#1890ff" />
+  <circle cx="122" cy="148" r="5" fill="#1890ff" />
+  <circle cx="96" cy="170" r="5" fill="#1890ff" />
+  <circle cx="138" cy="155" r="5" fill="#1890ff" />
+  <circle cx="160" cy="140" r="5" fill="#1890ff" />
+  <circle cx="115" cy="105" r="5" fill="#1890ff" />
+  <circle cx="76" cy="135" r="5" fill="#1890ff" />
+  <circle cx="150" cy="165" r="5" fill="#1890ff" />
+
+  <!-- Orange points (class B) — lower-right cluster -->
+  <circle cx="208" cy="200" r="5" fill="#fa8c16" />
+  <circle cx="238" cy="215" r="5" fill="#fa8c16" />
+  <circle cx="222" cy="238" r="5" fill="#fa8c16" />
+  <circle cx="258" cy="208" r="5" fill="#fa8c16" />
+  <circle cx="195" cy="225" r="5" fill="#fa8c16" />
+  <circle cx="268" cy="235" r="5" fill="#fa8c16" />
+  <circle cx="248" cy="250" r="5" fill="#fa8c16" />
+  <circle cx="282" cy="220" r="5" fill="#fa8c16" />
+  <circle cx="228" cy="195" r="5" fill="#fa8c16" />
+  <circle cx="202" cy="248" r="5" fill="#fa8c16" />
+  <circle cx="295" cy="242" r="5" fill="#fa8c16" />
+  <circle cx="215" cy="260" r="5" fill="#fa8c16" />
+  <circle cx="272" cy="255" r="5" fill="#fa8c16" />
+
+  <!-- Labels below -->
+  <text x="187" y="310" class="label-small">Each point has a label. The algorithm learns a boundary.</text>
+
+  <!-- === Right side: Unsupervised Learning === -->
+
+  <text x="562" y="58" class="col-title">Unsupervised Learning</text>
+
+  <!-- Plot area -->
+  <rect x="422" y="70" width="280" height="220" rx="3" ry="3" class="plot-border" />
+
+  <!--
+    Same positions shifted right by 375.
+    Upper cluster points: x 451-535, y 105-170. Center ~(493, 138).
+    Lower cluster points: x 570-670, y 195-260. Center ~(620, 227).
+  -->
+
+  <!-- Upper-left cluster (grey) -->
+  <circle cx="465" cy="125" r="5" fill="#999" />
+  <circle cx="485" cy="142" r="5" fill="#999" />
+  <circle cx="457" cy="150" r="5" fill="#999" />
+  <circle cx="503" cy="112" r="5" fill="#999" />
+  <circle cx="480" cy="160" r="5" fill="#999" />
+  <circle cx="523" cy="130" r="5" fill="#999" />
+  <circle cx="497" cy="148" r="5" fill="#999" />
+  <circle cx="471" cy="170" r="5" fill="#999" />
+  <circle cx="513" cy="155" r="5" fill="#999" />
+  <circle cx="535" cy="140" r="5" fill="#999" />
+  <circle cx="490" cy="105" r="5" fill="#999" />
+  <circle cx="451" cy="135" r="5" fill="#999" />
+  <circle cx="525" cy="165" r="5" fill="#999" />
+
+  <!-- Lower-right cluster (grey) -->
+  <circle cx="583" cy="200" r="5" fill="#999" />
+  <circle cx="613" cy="215" r="5" fill="#999" />
+  <circle cx="597" cy="238" r="5" fill="#999" />
+  <circle cx="633" cy="208" r="5" fill="#999" />
+  <circle cx="570" cy="225" r="5" fill="#999" />
+  <circle cx="643" cy="235" r="5" fill="#999" />
+  <circle cx="623" cy="250" r="5" fill="#999" />
+  <circle cx="657" cy="220" r="5" fill="#999" />
+  <circle cx="603" cy="195" r="5" fill="#999" />
+  <circle cx="577" cy="248" r="5" fill="#999" />
+  <circle cx="670" cy="242" r="5" fill="#999" />
+  <circle cx="590" cy="260" r="5" fill="#999" />
+  <circle cx="647" cy="255" r="5" fill="#999" />
+
+  <!-- Cluster ellipses — generous padding around all points -->
+  <ellipse cx="493" cy="138" rx="58" ry="48" class="cluster-circle cluster-a" />
+  <ellipse cx="620" cy="227" rx="68" ry="50" class="cluster-circle cluster-b" />
+
+  <!-- Labels below -->
+  <text x="562" y="310" class="label-small">No labels. The algorithm finds groups on its own.</text>
+
+  <!-- Bottom note -->
+  <text x="375" y="335" class="label-small">Same data. Labels change what you can learn from it.</text>
+</svg>
