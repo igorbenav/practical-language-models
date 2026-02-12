@@ -1,4 +1,4 @@
-# Chapter 1: The Learning Problem
+# The Learning Problem
 
 When we talk about learning, we usually mean getting better at something through study or experience. A child learns to recognize dogs by seeing many dogs. A piano player gets better by playing thousands of songs. In both cases, the learning comes from data: examples, outcomes, patterns observed over time.
 
@@ -263,7 +263,11 @@ print(f"Training: {len(X_train)}, Test: {len(X_test)}")
 
 56,000 to train on, 14,000 to test with. The model never sees the test set during training.
 
-Now the template matcher. We described the idea earlier: compute the average image for each digit, then classify by nearest template. Let's wrap it in a class so the logic stays organized. First, the constructor and the fitting method:
+Now the template matcher. We described the idea earlier: compute the average image for each digit, then classify by nearest template. Let's wrap it in a class so the logic stays organized. First, the constructor and the fitting method. For each digit $d$, the template is the mean of all training images with that label:
+
+$$\text{template}_d = \frac{1}{N_d} \sum_{i : y_i = d} x_i$$
+
+where $N_d$ is the number of training images labeled $d$ and each $x_i$ is a 784-dimensional vector:
 
 ```python
 # digits.py
@@ -282,7 +286,11 @@ class TemplateMatcher:
 
 `fit` builds the templates. The expression `y == digit` compares every label to `digit` at once; it returns an array of `True` and `False` values, one per image. When you use that array to index `X`, NumPy keeps only the rows where the value is `True`. This is called *boolean masking*, and it's the NumPy equivalent of a list comprehension like `[X[i] for i in range(len(X)) if y[i] == digit]`, just faster. Then `.mean(axis=0)` averages those rows column by column. The `axis=0` means "collapse the rows, keep the columns": you go from, say, 5,000 images of the digit 7 down to one row of 784 numbers, the average 7.
 
-Now the prediction method:
+Now the prediction method. To classify a new image $x$, we compute its Euclidean distance to each template and pick the closest one:
+
+$$d(x, \text{template}_k) = \sqrt{\sum_{j=1}^{784}(x_j - \text{template}_{k,j})^2}$$
+
+$$\text{prediction} = \arg\min_{k \in \{0,...,9\}} \; d(x, \text{template}_k)$$
 
 ```python
     # digits.py, inside the TemplateMatcher class
@@ -295,7 +303,7 @@ Now the prediction method:
         return predictions
 ```
 
-This computes the Euclidean distance from one image to all ten templates at once. `self.templates - image` subtracts the image from every row of the templates. NumPy automatically lines up the shapes, an operation called *broadcasting*. We square each difference, sum across columns with `.sum(axis=1)` (axis 1 = across each row), and take the square root. The result is ten distances, one per template. `.argmin()` returns the *index* of the smallest one, that's our prediction.
+This computes the Euclidean distance from one image to all ten templates at once. `self.templates - image` subtracts the image from every row of the templates (the $(x_j - \text{template}_{k,j})$ part). NumPy automatically lines up the shapes, an operation called *broadcasting*. We square each difference, sum across columns with `.sum(axis=1)` (axis 1 = across each row, the $\sum$ in the formula), and take the square root. The result is ten distances, one per template. `.argmin()` returns the *index* of the smallest one (the $\arg\min$), that's our prediction.
 
 Let's fit the model:
 
@@ -326,7 +334,11 @@ plt.show()
 
 There they are: the blurry ghosts we predicted. The 1 is a narrow smear down the center. The 0 is a fuzzy oval. The 8 looks like a blurry snowman. Look at the 4 and the 9; they look eerily similar: both have a vertical stroke on the right side. We can already predict those two will get confused.
 
-Now let's classify the test set and check accuracy:
+Now let's classify the test set and check accuracy. Accuracy is the fraction of images we got right:
+
+$$\text{accuracy} = \frac{\text{number correct}}{\text{total predictions}} = \frac{\sum_{i=1}^{N} \mathbf{1}[\hat{y}_i = y_i]}{N}$$
+
+where $\hat{y}_i$ is our prediction and $y_i$ is the true label. The $\mathbf{1}[\cdot]$ notation means "1 if the condition is true, 0 otherwise":
 
 ```python
 # digits.py
@@ -341,7 +353,11 @@ print(f"Accuracy: {accuracy:.1%}")
 
 Around 81%. Not bad for ten averaged images and a distance calculation. No learning algorithm, no optimization, no gradients. Just averages and subtraction. But 81% means roughly 1 in 5 digits is wrong. Which ones?
 
-Let's build a confusion matrix: a 10×10 grid where row *i*, column *j* counts how many times a true *i* was predicted as *j*:
+Let's build a confusion matrix: a 10×10 grid where entry $C_{ij}$ counts how many times a true digit $i$ was predicted as digit $j$:
+
+$$C_{ij} = \sum_{n=1}^{N} \mathbf{1}[y_n = i \;\text{ and }\; \hat{y}_n = j]$$
+
+The diagonal entries $C_{ii}$ are correct predictions. Everything off the diagonal is a mistake:
 
 ```python
 # digits.py
@@ -356,7 +372,7 @@ def confusion_matrix(y_true, y_pred):
 confusion = confusion_matrix(y_test, predictions)
 ```
 
-The diagonal is correct predictions. Everything off the diagonal is a mistake. Let's plot it:
+Let's plot it:
 
 ```python
 # digits.py
@@ -385,7 +401,9 @@ plot_confusion(confusion)
 
 Look at where the off-diagonal numbers are biggest. 4 gets confused with 9, just as we predicted from the templates. 3 gets confused with 5 and 8 (similar curves). These are exactly the confusions we'd expect from template matching: when two digits have similar average shapes, the model is worse telling them apart.
 
-Let's compute per-digit accuracy to see which digits are easiest and hardest:
+Let's compute per-digit accuracy to see which digits are easiest and hardest. For each digit $d$, we look only at the test images that are actually $d$ and check what fraction we got right:
+
+$$\text{accuracy}_d = \frac{\sum_{i : y_i = d} \mathbf{1}[\hat{y}_i = d]}{\sum_{i} \mathbf{1}[y_i = d]}$$
 
 ```python
 # digits.py
@@ -434,6 +452,19 @@ test_partial(X_train, y_train, X_test, y_test, 392, 784, "Bottom half only")
 The full image wins. But the top half does slightly better than the bottom. The top portion of digits carries more distinguishing information than you might expect: the presence or absence of a horizontal bar, the shape of a curve's peak, whether strokes converge or diverge. Same model, same algorithm, different features, different results.
 
 This is the entire learning problem in about 50 lines of NumPy. Our model was the simplest thing imaginable, and it got close to 81%. In Chapter 2, we'll build a neural network that learns its own features rather than relying on raw pixel averages, and you'll see exactly why it does better.
+
+## Chapter Summary
+
+- Machine learning is finding a function $g \approx f$ from examples, where $f$ is unknown
+- Supervised learning uses labeled pairs $(x_i, y_i)$; unsupervised learning finds structure without labels
+- Classification predicts categories; regression predicts continuous values
+- Features are the numbers the model sees—for images, pixel brightness values
+- Euclidean distance measures similarity by comparing vectors position by position
+- Template matching classifies by nearest average, but averaging destroys variation
+- Loss functions (accuracy, MAE, MSE) measure how wrong a model is
+- Generalization is what separates learning from memorization—always evaluate on data the model hasn't seen
+
+In the next chapter, we build a neural network that learns its own features instead of relying on raw pixel averages.
 
 ## Exercises
 

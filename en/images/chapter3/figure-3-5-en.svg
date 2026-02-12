@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 280">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #555; font-style: italic; text-anchor: middle; }
+    .word-label { font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .axis { stroke: #ccc; stroke-width: 1; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+  </style>
+
+  <defs>
+    <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1890ff"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#fa8c16"/>
+    </marker>
+    <marker id="arr-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#cf1322"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="280" class="background"/>
+
+  <!-- Title -->
+  <text x="375" y="26" class="title">Dot Product Measures Alignment</text>
+
+  <!-- Dividers -->
+  <line x1="250" y1="40" x2="250" y2="240" class="divider"/>
+  <line x1="500" y1="40" x2="500" y2="240" class="divider"/>
+
+  <!-- ============ LEFT: Aligned vectors ============ -->
+  <text x="125" y="56" class="col-title">Similar direction</text>
+
+  <!-- Plot: x 25-225, y 66-226 -->
+  <rect x="25" y="66" width="200" height="160" rx="3" class="plot-border"/>
+
+  <!-- Grid -->
+  <line x1="25" y1="106" x2="225" y2="106" class="grid-line"/>
+  <line x1="25" y1="146" x2="225" y2="146" class="grid-line"/>
+  <line x1="25" y1="186" x2="225" y2="186" class="grid-line"/>
+  <line x1="65" y1="66" x2="65" y2="226" class="grid-line"/>
+  <line x1="105" y1="66" x2="105" y2="226" class="grid-line"/>
+  <line x1="145" y1="66" x2="145" y2="226" class="grid-line"/>
+  <line x1="185" y1="66" x2="185" y2="226" class="grid-line"/>
+
+  <!-- Axes from origin (45, 206) -->
+  <line x1="45" y1="206" x2="218" y2="206" class="axis"/>
+  <line x1="45" y1="206" x2="45" y2="72" class="axis"/>
+
+  <!-- water: origin (45,206) → (165,90), angle ~43° -->
+  <line x1="45" y1="206" x2="165" y2="90" stroke="#1890ff" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="152" y="80" class="word-label" style="fill: #1890ff" text-anchor="start">water</text>
+
+  <!-- cold: origin (45,206) → (190,108), angle ~33° -->
+  <line x1="45" y1="206" x2="190" y2="108" stroke="#fa8c16" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="195" y="122" class="word-label" style="fill: #d46b08" text-anchor="start">cold</text>
+
+  <!-- Score -->
+  <text x="125" y="250" class="math-text" style="fill: #52c41a; font-weight: bold">w · c = large positive</text>
+  <text x="125" y="268" class="label-small">vectors aligned → high score</text>
+
+  <!-- ============ MIDDLE: Perpendicular vectors ============ -->
+  <text x="375" y="56" class="col-title">Perpendicular</text>
+
+  <!-- Plot: x 275-475, y 66-226 -->
+  <rect x="275" y="66" width="200" height="160" rx="3" class="plot-border"/>
+
+  <!-- Grid -->
+  <line x1="275" y1="106" x2="475" y2="106" class="grid-line"/>
+  <line x1="275" y1="146" x2="475" y2="146" class="grid-line"/>
+  <line x1="275" y1="186" x2="475" y2="186" class="grid-line"/>
+  <line x1="315" y1="66" x2="315" y2="226" class="grid-line"/>
+  <line x1="355" y1="66" x2="355" y2="226" class="grid-line"/>
+  <line x1="395" y1="66" x2="395" y2="226" class="grid-line"/>
+  <line x1="435" y1="66" x2="435" y2="226" class="grid-line"/>
+
+  <!-- Axes from origin (295, 206) -->
+  <line x1="295" y1="206" x2="468" y2="206" class="axis"/>
+  <line x1="295" y1="206" x2="295" y2="72" class="axis"/>
+
+  <!-- water: straight up, origin (295,206) → (295,82) -->
+  <line x1="295" y1="206" x2="295" y2="82" stroke="#1890ff" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="305" y="78" class="word-label" style="fill: #1890ff" text-anchor="start">water</text>
+
+  <!-- happy: straight right, origin (295,206) → (455,206) -->
+  <line x1="295" y1="206" x2="455" y2="206" stroke="#fa8c16" stroke-width="2.5" marker-end="url(#arr-orange)"/>
+  <text x="445" y="194" class="word-label" style="fill: #d46b08" text-anchor="end">happy</text>
+
+  <!-- Right angle marker: 12px square at origin corner -->
+  <path d="M295,194 L307,194 L307,206" fill="none" stroke="#999" stroke-width="1"/>
+
+  <!-- Score -->
+  <text x="375" y="250" class="math-text" style="fill: #999; font-weight: bold">w · c ≈ 0</text>
+  <text x="375" y="268" class="label-small">vectors unrelated → near zero</text>
+
+  <!-- ============ RIGHT: Opposite vectors ============ -->
+  <text x="625" y="56" class="col-title">Opposite direction</text>
+
+  <!-- Plot: x 525-725, y 66-226 -->
+  <rect x="525" y="66" width="200" height="160" rx="3" class="plot-border"/>
+
+  <!-- Grid -->
+  <line x1="525" y1="106" x2="725" y2="106" class="grid-line"/>
+  <line x1="525" y1="146" x2="725" y2="146" class="grid-line"/>
+  <line x1="525" y1="186" x2="725" y2="186" class="grid-line"/>
+  <line x1="565" y1="66" x2="565" y2="226" class="grid-line"/>
+  <line x1="605" y1="66" x2="605" y2="226" class="grid-line"/>
+  <line x1="645" y1="66" x2="645" y2="226" class="grid-line"/>
+  <line x1="685" y1="66" x2="685" y2="226" class="grid-line"/>
+
+  <!-- Axes centered at (625, 146) -->
+  <line x1="532" y1="146" x2="718" y2="146" class="axis"/>
+  <line x1="625" y1="220" x2="625" y2="72" class="axis"/>
+
+  <!-- water: up-right, center (625,146) → (698,86) -->
+  <line x1="625" y1="146" x2="698" y2="86" stroke="#1890ff" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+  <text x="688" y="78" class="word-label" style="fill: #1890ff" text-anchor="start">water</text>
+
+  <!-- democracy: down-left (exact opposite), center (625,146) → (552,206) -->
+  <line x1="625" y1="146" x2="552" y2="206" stroke="#cf1322" stroke-width="2.5" marker-end="url(#arr-red)"/>
+  <text x="560" y="220" class="word-label" style="fill: #cf1322" text-anchor="start">democracy</text>
+
+  <!-- Score -->
+  <text x="625" y="250" class="math-text" style="fill: #cf1322; font-weight: bold">w · c = negative</text>
+  <text x="625" y="268" class="label-small">vectors opposed → low score</text>
+</svg>

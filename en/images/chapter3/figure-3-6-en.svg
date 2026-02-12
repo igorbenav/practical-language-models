@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .section-title { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .word-main { font-family: 'Consolas', 'Monaco', monospace; font-size: 14px; font-weight: bold; text-anchor: middle; }
+    .word-pair { font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; text-anchor: middle; fill: #333; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #555; font-style: italic; text-anchor: middle; }
+    .tag-text { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-anchor: middle; }
+    .score-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; font-style: italic; text-anchor: middle; }
+    .target-box { fill: #fff7e6; stroke: #fa8c16; stroke-width: 1.5; }
+    .positive-box { fill: #f6ffed; stroke: #52c41a; stroke-width: 1.2; }
+    .negative-box { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .vocab-box { fill: #f5f5f5; stroke: #ddd; stroke-width: 1; }
+    .arrow { stroke: #666; stroke-width: 1.2; fill: none; }
+    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="750" height="340" class="background"/>
+
+  <!-- Title -->
+  <text x="375" y="26" class="title">Negative Sampling</text>
+
+  <!-- Divider -->
+  <line x1="375" y1="40" x2="375" y2="310" class="divider"/>
+
+  <!-- ============ LEFT PANEL: center x=187 ============ -->
+  <text x="187" y="56" class="section-title">Without negative sampling</text>
+
+  <!-- "target" label above box -->
+  <text x="187" y="80" class="tag-text" style="fill: #d46b08">target</text>
+
+  <!-- Target word box: 90w, centered at 187 → x=142, y=86 to y=118 -->
+  <rect x="142" y="86" width="90" height="32" rx="4" class="target-box"/>
+  <text x="187" y="107" class="word-main" style="fill: #d46b08">water</text>
+
+  <!-- Arrow down: y=118 to y=142 -->
+  <line x1="187" y1="118" x2="187" y2="142" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <text x="187" y="162" class="label-small">compute dot product with every word</text>
+
+  <!-- Vocabulary block: 280w centered at 187 → x=47, y=174 to y=260 -->
+  <rect x="47" y="174" width="280" height="86" rx="4" class="vocab-box"/>
+  <text x="187" y="196" class="word-pair" style="fill: #666">cold   the   into   poured   she</text>
+  <text x="187" y="216" class="word-pair" style="fill: #666">happy  car   vote   guitar   tree</text>
+  <text x="187" y="236" class="word-pair" style="fill: #666">king   river bank   freedom  dog</text>
+  <text x="187" y="254" class="label-small" style="fill: #999">... all 50,000 words</text>
+
+  <text x="187" y="286" class="math-text" style="fill: #cf1322">50,000 dot products per step</text>
+  <text x="187" y="306" class="label-small">too slow to scale</text>
+
+  <!-- ============ RIGHT PANEL: center x=562 ============ -->
+  <text x="562" y="56" class="section-title">With negative sampling</text>
+
+  <!-- "target" label above box -->
+  <text x="562" y="80" class="tag-text" style="fill: #d46b08">target</text>
+
+  <!-- Target word box: 90w, centered at 562 → x=517, y=86 to y=118 -->
+  <rect x="517" y="86" width="90" height="32" rx="4" class="target-box"/>
+  <text x="562" y="107" class="word-main" style="fill: #d46b08">water</text>
+
+  <!-- Arrow down: y=118 to y=142 -->
+  <line x1="562" y1="118" x2="562" y2="142" class="arrow" marker-end="url(#arrowhead)"/>
+
+  <!-- Positive row: 280w centered at 562 → x=422, y=150 to y=180 -->
+  <rect x="422" y="150" width="280" height="30" rx="4" class="positive-box"/>
+  <text x="462" y="170" class="tag-text" style="fill: #389e0d">POSITIVE</text>
+  <text x="562" y="170" class="word-pair" style="fill: #389e0d">(water, cold)</text>
+  <text x="672" y="170" class="score-text" style="fill: #389e0d">push ↑</text>
+
+  <!-- Spacer text -->
+  <text x="562" y="204" class="label-small">sample 5 random words from vocabulary</text>
+
+  <!-- Negative row 1: y=214 to y=242 -->
+  <rect x="422" y="214" width="280" height="28" rx="4" class="negative-box"/>
+  <text x="462" y="233" class="tag-text" style="fill: #999">NEGATIVE</text>
+  <text x="562" y="233" class="word-pair" style="fill: #999">(water, guitar)</text>
+  <text x="672" y="233" class="score-text" style="fill: #999">push ↓</text>
+
+  <!-- Negative row 2: y=250 to y=278 -->
+  <rect x="422" y="250" width="280" height="28" rx="4" class="negative-box"/>
+  <text x="462" y="269" class="tag-text" style="fill: #999">NEGATIVE</text>
+  <text x="562" y="269" class="word-pair" style="fill: #999">(water, freedom)</text>
+  <text x="672" y="269" class="score-text" style="fill: #999">push ↓</text>
+
+  <text x="562" y="300" class="label-small" style="fill: #999">... plus 3 more negatives</text>
+
+  <text x="562" y="324" class="math-text" style="fill: #52c41a">6 dot products per step</text>
+</svg>

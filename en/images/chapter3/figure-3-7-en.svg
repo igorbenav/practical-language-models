@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 320">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #555; font-style: italic; text-anchor: middle; }
+    .word-label { font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; font-weight: bold; }
+    .dim-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; font-style: italic; }
+    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .vec-dash { stroke-width: 1.5; fill: none; stroke-dasharray: 6,4; }
+    .vec-line { stroke-width: 2; fill: none; }
+  </style>
+
+  <defs>
+    <marker id="arr-res" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#52c41a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="320" class="background"/>
+
+  <!-- Title -->
+  <text x="350" y="26" class="title">Word Analogies as Vector Arithmetic</text>
+
+  <!--
+    Plot area: x=40, w=350, right edge=390
+    Grid: 5 vertical lines spaced 70px: 110, 180, 250, 320
+    4 horizontal lines spaced 46px: 92, 138, 184, 230
+
+    Points:
+    man:   (120, 220)
+    woman: (300, 220)
+    king:  (160, 78)
+    queen: (340, 78)
+  -->
+
+  <rect x="40" y="46" width="350" height="230" rx="3" class="plot-border"/>
+
+  <!-- Grid -->
+  <line x1="40" y1="92" x2="390" y2="92" class="grid-line"/>
+  <line x1="40" y1="138" x2="390" y2="138" class="grid-line"/>
+  <line x1="40" y1="184" x2="390" y2="184" class="grid-line"/>
+  <line x1="40" y1="230" x2="390" y2="230" class="grid-line"/>
+  <line x1="110" y1="46" x2="110" y2="276" class="grid-line"/>
+  <line x1="180" y1="46" x2="180" y2="276" class="grid-line"/>
+  <line x1="250" y1="46" x2="250" y2="276" class="grid-line"/>
+  <line x1="320" y1="46" x2="320" y2="276" class="grid-line"/>
+
+  <!-- Dashed parallelogram lines -->
+  <line x1="120" y1="220" x2="300" y2="220" class="vec-dash" stroke="#fa8c16"/>
+  <line x1="160" y1="78" x2="340" y2="78" class="vec-dash" stroke="#fa8c16"/>
+  <line x1="120" y1="220" x2="160" y2="78" class="vec-dash" stroke="#1890ff"/>
+  <line x1="300" y1="220" x2="340" y2="78" class="vec-dash" stroke="#1890ff"/>
+
+  <!-- Result vector: woman → queen -->
+  <line x1="300" y1="220" x2="340" y2="86" class="vec-line" stroke="#52c41a" marker-end="url(#arr-res)"/>
+
+  <!-- Points -->
+  <circle cx="120" cy="220" r="7" fill="#333" stroke="#fff" stroke-width="2"/>
+  <circle cx="300" cy="220" r="7" fill="#333" stroke="#fff" stroke-width="2"/>
+  <circle cx="160" cy="78" r="7" fill="#333" stroke="#fff" stroke-width="2"/>
+  <circle cx="340" cy="78" r="7" fill="#52c41a" stroke="#fff" stroke-width="2"/>
+
+  <!-- Word labels -->
+  <text x="120" y="244" class="word-label" style="fill: #333" text-anchor="middle">man</text>
+  <text x="300" y="244" class="word-label" style="fill: #333" text-anchor="middle">woman</text>
+  <text x="160" y="68" class="word-label" style="fill: #333" text-anchor="middle">king</text>
+  <text x="340" y="68" class="word-label" style="fill: #52c41a" text-anchor="middle">queen</text>
+
+  <!-- Dimension labels -->
+  <text x="210" y="212" class="dim-label" style="fill: #d46b08" text-anchor="middle">gender direction</text>
+  <text x="96" y="150" class="dim-label" style="fill: #096dd9" text-anchor="end">royalty</text>
+  <text x="98" y="164" class="dim-label" style="fill: #096dd9" text-anchor="end">direction</text>
+
+  <!-- ============ RIGHT SIDE: centered at 550 ============ -->
+
+  <text x="550" y="72" class="math-text" style="font-size: 14px">king − man + woman ≈ queen</text>
+
+  <text x="550" y="104" class="label-small">The "gender" direction is consistent:</text>
+  <text x="550" y="120" class="label-small">the same offset takes man→woman</text>
+  <text x="550" y="136" class="label-small">and king→queen.</text>
+
+  <text x="550" y="172" class="math-text">Paris − France + Italy ≈ Rome</text>
+  <text x="550" y="196" class="label-small" style="fill: #999">country → capital direction</text>
+
+  <text x="550" y="228" class="math-text">walking − walked + swam ≈ swimming</text>
+  <text x="550" y="252" class="label-small" style="fill: #999">past tense → present tense direction</text>
+
+  <!-- Bottom note -->
+  <text x="350" y="306" class="label-small">Nobody labeled these relationships. The model learned them from context patterns alone.</text>
+</svg>

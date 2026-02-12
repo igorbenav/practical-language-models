@@ -1,0 +1,650 @@
+# From Words to Numbers
+
+In the first two chapters, we worked with images. A 28×28 pixel grid gave us 784 numbers. The physics of cameras did the whole representation work: brightness values and colors in, vector out. We never had to decide how to turn an image into numbers, this was given to us. We just flattened the grid and started computing distances. We didn't even have to think about it, but the way images are stored in computers (as three matrices of red, green and blue or a brightness black and white matrix) has information about what's in the picture baked in.
+
+For text, we don't get the same benefits. The way the computer represents text data is through a lookup table that turns letters into numbers (like ASCII). When you type "DATA", your computer stores `[68, 65, 84, 65]`, one number per letter. And it actually sees these numbers as binary, so it's really looking at `01000100 01000001 01010100 01000001`.
+
+The difference between this and what we have for images is that it doesn't give us anything to work with. There's no embedded information in the words aside from what letters are in them, no meaning. The solution to this problem is what we'll explore in this chapter: how to turn text into numbers that a model can actually learn from.
+
+## The Text Representation Problem
+
+Our neural network from Chapter 2 expected a vector of numbers as input. For digits, that was 784 pixel values that we know have embedded information. The question now is: what vector do we feed it for a word? What about for a sentence?
+
+Starting with why this is hard, let's consider two sentences: "I bought apples at the store" and "I purchased fruit at the market." A human reads these and immediately knows they mean roughly the same thing. Different words, same meaning. Any useful numerical representation should reflect that: if you computed a distance between their vectors, it should be smaller than the difference between one of them and "I bought aircraft from the shore" even though it has a similar structure.
+
+Now consider "The bank approved my loan" and "We fished along the river bank." Same word, completely different meanings. A useful representation should put these far apart, even though they share the word "bank."
+
+![The Text Representation Problem](../images/chapter3/figure-3-1-en.svg)
+
+With images, two similar-looking digits naturally had similar pixel values (ignoring the shifting problem from Chapter 1). Similarity was baked into the raw data. With text, similarity lives entirely in meaning, and meaning has nothing to do with the characters. The letters in "happy" and "joyful" share almost nothing. The letters in "bat" the animal and "bat" for baseball are identical. Surface form and meaning are decoupled in a way that pixels and visual appearance are not.
+
+There are two problems we need to solve. First we need a mapping from words to numbers, and second, we need the *distances* between numbers in this mapping to correspond to the *relationships* between meanings, that is, it should have semantic value. Let's start with the first problem since it's easier.
+
+## One-Hot Encoding
+
+Let's start with the easier problem: getting the mapping from words to number vectors. A simple approach is giving each word a unique ID: its "position" in our vector.
+
+If our vocabulary has five words, each of them is a vector with a single 1 and the rest 0s. "Cat" is `[1, 0, 0, 0, 0]`, "dog" is `[0, 1, 0, 0, 0]`, "car" is `[0, 0, 1, 0, 0]`. This is called **one-hot encoding**: one position is "hot" (set to 1), everything else is zero.
+
+$$\text{cat} = [1, 0, 0, 0, 0], \quad \text{dog} = [0, 1, 0, 0, 0], \quad \text{car} = [0, 0, 1, 0, 0]$$
+
+We've turned words into numbers. Now let's check if the distances say anything about semantics. Compute the Euclidean distance between "cat" and "dog":
+
+$$d(\text{cat}, \text{dog}) = \sqrt{(1-0)^2 + (0-1)^2 + 0 + 0 + 0} = \sqrt{2}$$
+
+Now the distance between "cat" and "car":
+
+$$d(\text{cat}, \text{car}) = \sqrt{(1-0)^2 + 0 + (0-1)^2 + 0 + 0} = \sqrt{2}$$
+
+Identical. And this isn't a coincidence. Every pair of one-hot vectors has the exact same distance from every other one-hot vector. Take any two distinct one-hot vectors of length $n$. One has a 1 at position $i$, the other has a 1 at position $j$, with $i \neq j$. At position $i$, the difference is $(1 - 0)^2 = 1$. At position $j$, the difference is $(0 - 1)^2 = 1$. At every other position, both values are 0, so the difference is 0. The distance is always:
+
+$$d = \sqrt{1 + 1 + 0 + \cdots + 0} = \sqrt{2}$$
+
+No matter which two words you pick, no matter how large the vocabulary. The math doesn't care which positions are hot.
+
+![One-Hot Encoding: Every Word Is Equally Far Apart](../images/chapter3/figure-3-2-en.svg){width=70%}
+
+"Cat" is exactly as far from "dog" as it is from "democracy." The representation encodes identity (is this word X or not?) but says absolutely nothing about meaning. It's the text equivalent of labeling every pixel with a unique ID instead of recording its brightness. We've managed to assign numbers, but those numbers don't capture the semantic value we wanted.
+
+There's also a scale problem. Our toy vocabulary has five words. A real vocabulary has tens of thousands. The MNIST images we worked with in Chapter 1 were 784-dimensional vectors. A one-hot vocabulary of 50,000 words gives you 50,000-dimensional vectors, each with a single 1 and 49,999 zeros. Almost entirely empty.
+
+We call these **sparse vectors**: they are huge, wasteful, and carrying almost no information per dimension. A 50,000-dimensional one-hot vector technically carries only $\log_2(50{,}000) \approx 15.6$ bits of information (enough to say *which* word it is, nothing more). That same amount of information fits in two bytes.
+
+So one-hot encoding isn't our solution. It doesn't capture meaning, and it doesn't scale. We need a representation where the numbers themselves encode semantic relationships. Where "cat" and "dog" are close because they're both animals, and "cat" and "car" are far apart because they have nothing to do with each other even though the words are similar.
+
+But how? Who decides that "cat" and "dog" should be close? We could try assigning coordinates by hand: maybe dimension 1 is "how alive is this thing" and dimension 2 is "how big is it," so "cat" gets `[0.9, 0.3]` and "elephant" gets `[0.9, 0.95]`. For any real vocabulary this would be a herculean task. You'd need to define hundreds of meaningful dimensions and manually score every word on each one. You'd miss relationships you didn't think of, and you'd never agree with anyone else on the scores.
+
+The answer, as with other things so far in this book, is to learn the numbers from data. But learn them from *what*? What signal in raw text tells us that "cat" and "dog" are related?
+
+## The Distributional Hypothesis
+
+Think about how you learned the meaning of words as a kid. Nobody handed you a dictionary definition of "dog" at age two. You heard the word in context: "Look at the dog!" while pointing at a furry thing. "Don't pet that dog, it might bite." "The dog wants to go outside." Thousands of contexts, and from them you built up a sense of what "dog" means. Not from the letters d-o-g, but from what's accompanying the word.
+
+In 1957, linguist J.R. Firth put this intuition into a sentence that became one of the most quoted lines in NLP: "You shall know a word by the company it keeps" [@firth1957]. This is the **distributional hypothesis**: words that appear in similar contexts have similar meanings. It's the idea that makes the rest of this chapter work.
+
+Look at where "cat" and "dog" show up in real text. Both appear after "I fed the ___." Both appear in "The ___ sat on my lap." Both co-occur with "pet," "fur," "vet," "adopted," and "cute." The overlap in their contexts is enormous. Now look at "democracy." It appears near "vote," "government," "election," "freedom," "constitution." Nearly zero overlap with the contexts of "cat" or "dog."
+
+![Words Known by Their Contexts](../images/chapter3/figure-3-3-en.svg)
+
+This works at a finer grain than these examples suggest. "Cat" and "dog" share many contexts, but not all. You say "I took my dog for a walk" but not usually "I took my cat for a walk." You say "The cat purred" but not "The dog purred." The contexts that *differ* encode the differences in meaning. And the contexts that overlap encode the similarities. The distributional hypothesis says this pattern holds across the entire vocabulary: if two words show up in the same linguistic neighborhoods, they mean similar things.
+
+You can see the hypothesis at work when you encounter a word you don't know. Suppose you're reading and you hit: "She stirred the dashi into the broth" and "the dashi gave the soup a rich umami flavor." You've never heard of dashi. But you've seen "stirred the stock into the broth" and "gave the soup a rich savory flavor." The overlapping contexts tell you, without anyone explaining it, that dashi is probably some kind of cooking liquid similar to stock or broth. (It is: it's a Japanese soup base made from kelp and dried fish.) You just did what the distributional hypothesis describes: you inferred meaning from context.
+
+The distributional hypothesis gives us a path. We don't have to hand-assign meaning to dimensions or build a dictionary of synonyms. We need a lot of text, a way to measure context overlap, and an algorithm that turns those patterns into vectors. Words that keep the same company will end up with similar numbers. Words that live in different linguistic neighborhoods will end up far apart.
+
+For decades, the distributional hypothesis remained more of a linguistic observation than a practical tool. Researchers built co-occurrence matrices (counting how often each word appears near each other word), and those matrices did capture some semantic structure, but they were enormous, sparse, and hard to work with. What changed was a 2013 paper that showed you could train a small neural network on a prediction task and get dense, compact vectors that captured meaning far better than any co-occurrence matrix. That was Word2Vec.
+
+## Word Embeddings and Word2Vec
+
+In 2013, Tomas Mikolov and colleagues at Google published Word2Vec [@mikolov2013efficient; @mikolov2013distributed], a method for learning word vectors directly from raw text. The idea was not entirely new (researchers had been using distributional methods for years, and neural language models had already shown that word representations could be learned as a byproduct of prediction [@bengio2003neural]). But Word2Vec was fast enough to train on billions of words and produced vectors good enough to be immediately useful. It made the concept of **word embeddings** mainstream: compact, learned vectors that represent words as points in a continuous space where distances reflect meaning.
+
+The training works like this. Take a large text corpus (billions of words from news articles, Wikipedia, books), then slide a window across the text. At each position, the center word is the **target** and the surrounding words are the **context**. The model's job is: given a word, predict which words are likely to appear nearby.
+
+Consider the sentence "She poured the cold water into the glass" with a window of size 2 (two words on each side). When the window is centered on "water":
+
+$$\text{context: } [\text{the}, \text{cold}, \underbrace{\text{water}}_{\text{target}}, \text{into}, \text{the}]$$
+
+The model should learn that "water" predicts "cold," "the," and "into" as likely neighbors. This variant is called **skip-gram**: skip the center word, predict the context around it. (There's also CBOW, continuous bag of words, which goes the other direction: given the context, predict the center word. Skip-gram tends to work better for smaller datasets and rare words; in practice, both produce similar results.)
+
+![The Skip-Gram Training Setup](../images/chapter3/figure-3-4-en.svg)
+
+Each word in the vocabulary gets two vectors of $d$ real numbers (typically $d = 100$ to 300), initialized randomly. One vector represents the word as a target; the other represents it as context. To predict whether a word $c$ is likely to appear near a target word $t$, the model computes the dot product of their vectors.
+
+Think about what the dot product measures. Take two vectors and multiply them element by element, then add everything up:
+
+$$w_t \cdot w_c = w_{t,1} \cdot w_{c,1} + w_{t,2} \cdot w_{c,2} + \cdots + w_{t,d} \cdot w_{c,d}$$
+
+If the two vectors point in similar directions (large values in the same positions), the dot product is large. If they point in different directions, it's small or negative. So the model scores word pairs by how aligned their vectors are. A high score means "these words should appear together." A low score means "these words don't belong near each other."
+
+![Dot Product Measures Alignment](../images/chapter3/figure-3-5-en.svg){width=78%}
+
+But a raw dot product isn't a probability. It's a number from $-\infty$ to $\infty$. To turn it into a probability, we push it through the sigmoid function (the same function from Chapter 2's logistic regression):
+
+$$P(\text{c is near t}) = \sigma(w_t \cdot w_c) = \frac{1}{1 + e^{-w_t \cdot w_c}}$$
+
+Training works the way you'd expect: make predictions, compute a loss, adjust the vectors with gradient descent. For each target word, the model creates positive examples (actual context words from the text) and negative examples (random words sampled from the vocabulary that were *not* in the context). It tries to make the dot product high for real context pairs and low for random pairs. After billions of these updates, the vectors settle into positions where words with similar usage patterns have similar vectors.
+
+There's a practical problem with this training process. Without a trick called **negative sampling**, you'd have to compute a probability distribution over the entire vocabulary for every training step (to normalize the scores into probabilities that sum to 1). With 50,000 words, that's 50,000 dot products per step. Negative sampling sidesteps this: instead of computing scores for all words, you score the actual context word (positive) against a handful of random words (negative, typically 5 to 15). This makes training much faster, which is why Word2Vec could scale to billions of words while earlier methods couldn't.
+
+![Negative Sampling: Score Real Pairs Against Random Ones](../images/chapter3/figure-3-6-en.svg)
+
+The vectors that come out learn more than "these words are similar." They learn structured relationships. Mikolov et al. [-@mikolov2013linguistic] showed that you could take the vector for "king," subtract the vector for "man," add the vector for "woman," and the closest word to the result is "queen."
+
+$$\vec{\text{king}} - \vec{\text{man}} + \vec{\text{woman}} \approx \vec{\text{queen}}$$
+
+![Word Analogies as Vector Arithmetic](../images/chapter3/figure-3-7-en.svg){width=78%}
+
+Nobody told the model about gender or royalty. It learned, purely from context patterns in billions of sentences, that there's a direction in the vector space that corresponds to "male to female," and that direction is consistent: it takes you from "king" to "queen," from "man" to "woman," from "brother" to "sister." Similar arithmetic works for country-capital relationships ($\vec{\text{Paris}} - \vec{\text{France}} + \vec{\text{Italy}} \approx \vec{\text{Rome}}$), verb tenses ($\vec{\text{walking}} - \vec{\text{walked}} + \vec{\text{swam}} \approx \vec{\text{swimming}}$), and dozens of other semantic relationships.
+
+To be clear: "gender direction" doesn't mean there's a single dimension labeled "gender." These vectors have 300 dimensions. The direction that takes "man" to "woman" is a pattern spread across many of them. The parallelogram diagram is a 2D projection for intuition, not a literal map of the space.
+
+These vectors are called **embeddings** because each word is embedded (placed) in a continuous space. The word's position *is* its meaning, at least as far as the model is concerned. Unlike the sparse, meaningless one-hot vectors from earlier, these are **dense vectors**: short (100 to 300 dimensions instead of 50,000), with every dimension carrying information. No dimension has a human-interpretable label ("dimension 47 means animacy"), but the overall pattern encodes semantic relationships in a way that supports arithmetic, clustering, and similarity computation.
+
+Word2Vec has real limitations. Each word gets exactly one vector, regardless of context. "Bank" has the same embedding whether you're talking about money or rivers. The vectors are fixed after training: you look them up in a table, and they never adjust to the sentence they appear in. But even with these limitations, Word2Vec was a turning point. Before 2013, the default text representation in NLP was either one-hot vectors or hand-engineered features. After 2013, it was embeddings. Subsequent methods like GloVe [@pennington2014glove], which trains on global co-occurrence statistics rather than local windows, and fastText [@bojanowski2017enriching], which handles unseen words by breaking them into subword pieces, refined the approach. But the core remained the same: learn vectors from context, and distances will reflect meaning.
+
+We now have dense vectors where distances reflect meaning. But which distance? In Chapter 1 we used Euclidean distance, and it worked fine for pixel vectors. For embeddings, there's a better option.
+
+## Cosine Similarity
+
+Euclidean distance measures the straight-line distance between two points. For pixel vectors in Chapter 1, that was natural: two images with similar brightness values are close, two images with different brightness values are far apart. But in embedding space, Euclidean distance has a problem. It conflates two things: how similar two vectors' *directions* are and how different their *magnitudes* are.
+
+Think about what magnitude means for word embeddings. During training, words that appear more frequently get more gradient updates, and their vectors tend to grow longer. The word "the" gets updated billions of times; the word "aardvark" gets updated rarely. Their vector lengths end up very different, for reasons that have nothing to do with meaning. Euclidean distance would say "aardvark" is far from "the" partly because their magnitudes differ. That's not semantic information. That's a training artifact.
+
+![Euclidean Distance Conflates Direction and Magnitude](../images/chapter3/figure-3-8-en.svg){width=70%}
+
+One fix is to remove magnitude entirely. If we scale every vector to length 1 (dividing each vector by its norm), we get **unit vectors** that live on the surface of a sphere. This is called **L2 normalization**:
+
+$$\hat{a} = \frac{a}{\|a\|}, \quad \text{where } \|a\| = \sqrt{a_1^2 + a_2^2 + \cdots + a_d^2}$$
+
+After normalization, $\|\hat{a}\| = 1$ for every vector. Now magnitude is gone and only direction remains. What happens to Euclidean distance between two unit vectors? Expand the squared distance:
+
+$$\|\hat{a} - \hat{b}\|^2 = \|\hat{a}\|^2 - 2(\hat{a} \cdot \hat{b}) + \|\hat{b}\|^2 = 1 - 2(\hat{a} \cdot \hat{b}) + 1 = 2 - 2(\hat{a} \cdot \hat{b})$$
+
+The dot product of two unit vectors is exactly the cosine of the angle between them. So:
+
+$$\|\hat{a} - \hat{b}\|^2 = 2 - 2\cos\theta = 2(1 - \cos\theta)$$
+
+This tells us something really useful: for unit vectors, squared Euclidean distance and cosine similarity are two sides of the same coin. When cosine similarity is high ($\cos\theta$ close to 1), the distance is small. When cosine similarity is low, the distance is large. Minimizing one is mathematically equivalent to maximizing the other.
+
+So we could L2-normalize all our vectors and keep using Euclidean distance. But in practice, it's simpler to skip the normalization step and compute **cosine similarity** directly:
+
+$$\text{cosine\_similarity}(a, b) = \frac{a \cdot b}{\|a\| \cdot \|b\|}$$
+
+The numerator is the dot product. The denominator is the product of the two lengths. Dividing by the lengths does the normalization inline: it cancels out magnitude and leaves only the angular relationship. The result ranges from $-1$ (opposite directions) through $0$ (perpendicular) to $1$ (same direction).
+
+![Cosine Similarity: Direction, Not Magnitude](../images/chapter3/figure-3-9-en.svg){width=70%}
+
+This is what we want for word embeddings. Two words that mean similar things should point in similar directions, regardless of how long their vectors happen to be. "Cat" and "kitten" should point nearly the same way, even if "cat" has a longer vector because it appeared more often in the training data. Cosine similarity captures that; Euclidean distance doesn't.
+
+Let's see this with concrete numbers. Suppose "happy" has the embedding $[0.6, 0.8]$ and "joyful" has $[0.3, 0.4]$. These point in the same direction; one is just a scaled-down version of the other.
+
+$$\text{cosine\_similarity} = \frac{(0.6)(0.3) + (0.8)(0.4)}{\sqrt{0.6^2 + 0.8^2} \cdot \sqrt{0.3^2 + 0.4^2}} = \frac{0.50}{1.0 \times 0.5} = 1.0$$
+
+Perfect similarity. The Euclidean distance between these same vectors is $\sqrt{(0.3)^2 + (0.4)^2} = 0.5$, which is nonzero and might suggest they're somewhat different. Cosine similarity sees through the magnitude difference to the shared direction.
+
+Now compare with a third word. Suppose "truck" has the embedding $[0.7, -0.5]$. This points in a completely different direction from "happy."
+
+$$\text{cosine\_similarity}(\text{happy}, \text{truck}) = \frac{(0.6)(0.7) + (0.8)(-0.5)}{\sqrt{0.6^2 + 0.8^2} \cdot \sqrt{0.7^2 + 0.5^2}} = \frac{0.02}{1.0 \times 0.86} = 0.023$$
+
+Nearly zero. Cosine similarity correctly identifies that "happy" and "joyful" are semantically aligned while "happy" and "truck" are unrelated.
+
+In practice, cosine similarity is the standard way to compare embeddings. When you use a vector database in Chapter 10, you're searching by cosine similarity. When you test word analogies, you're finding the nearest vector by cosine. When you measure whether two sentences mean the same thing, cosine is usually the metric. Euclidean distance asks "how far apart are these points?" Cosine similarity asks "are these pointing the same way?" For text, direction matters more.
+
+That's enough theory. Let's load real embeddings and see what they actually encode.
+
+## Hands-On: Exploring Pre-Trained Embeddings
+
+We've talked about word embeddings as vectors that capture meaning. Now let's work with real ones. We'll load pre-trained GloVe embeddings [@pennington2014glove] (Global Vectors for Word Representation, a method closely related to Word2Vec that trains on global word co-occurrence statistics rather than local windows), compute similarity ourselves, run the analogy experiments, and investigate where the representation fails.
+
+GloVe embeddings come as a text file: one word per line, followed by its vector values. We're using 50-dimensional vectors trained on 6 billion tokens of text from Wikipedia and news. The file is about 66MB.
+
+Set up your project:
+
+```bash
+mkdir chapter3
+cd chapter3
+uv init
+uv add numpy matplotlib huggingface-hub
+```
+
+Create a file called `embeddings.py`. We'll download the vectors from Hugging Face (cached after the first run, so subsequent runs start instantly) and parse them into NumPy arrays:
+
+```python
+# embeddings.py
+import numpy as np
+from huggingface_hub import hf_hub_download
+
+def load_glove(path):
+    words = []
+    vectors = []
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            parts = line.split()
+            words.append(parts[0])
+            vectors.append([float(x) for x in parts[1:]])
+    vectors = np.array(vectors, dtype=np.float32)
+    word_to_index = {word: i for i, word in enumerate(words)}
+    return words, vectors, word_to_index
+```
+
+Each line in the file looks like `cat 0.49 -0.31 0.17 ...`: a word followed by 50 numbers. `split()` breaks the line on whitespace, giving us a list where the first element is the word and the rest are number strings. `parts[1:]` grabs everything after the word, and `float(x) for x in parts[1:]` converts each string to a number. The result is three things: a list of words, a big matrix of vectors (one row per word), and a dictionary mapping each word to its row number.
+
+```python
+# embeddings.py (continued)
+
+path = hf_hub_download(
+    repo_id="igorbenav/glove-6b-50d",
+    filename="glove.6B.50d.txt",
+    repo_type="dataset",
+)
+words, vectors, word_to_index = load_glove(path)
+print(f"Loaded {len(words)} words, each with {vectors.shape[1]} dimensions")
+```
+
+Run it with `uv run python embeddings.py`. You should see 400,000 words, 50 dimensions each. That's 20 million numbers encoding the meaning of 400,000 words, learned entirely from how those words are used in context. Let's look at what a vector actually looks like:
+
+```python
+# embeddings.py
+# ...existing code above
+
+def get_vector(word):
+    if word not in word_to_index:
+        print(f"'{word}' not in vocabulary")
+        return None
+    return vectors[word_to_index[word]]
+
+cat = get_vector("cat")
+print(f"\n'cat' vector (first 10 dims): {cat[:10].round(4)}")
+print(f"Min: {cat.min():.4f}, Max: {cat.max():.4f}")
+```
+
+Fifty numbers, most small, some positive, some negative. Nothing about any individual number says "animal" or "small" or "has fur." You can't interpret dimension 23 or dimension 41. The meaning is in the *pattern*: in how these 50 numbers relate to the 50 numbers of every other word.
+
+Now let's implement cosine similarity from scratch. The formula we derived earlier:
+
+$$\text{cosine\_similarity}(a, b) = \frac{a \cdot b}{\|a\| \cdot \|b\|} = \frac{\sum_{i=1}^{d} a_i b_i}{\sqrt{\sum_{i=1}^{d} a_i^2} \cdot \sqrt{\sum_{i=1}^{d} b_i^2}}$$
+
+Three steps: compute the dot product (numerator), compute each vector's length (denominator), divide:
+
+```python
+# embeddings.py
+# ...existing code above
+
+def cosine_similarity(a, b):
+    dot = np.dot(a, b)                    # sum of a_i * b_i
+    norm_a = np.sqrt(np.sum(a ** 2))      # ||a||
+    norm_b = np.sqrt(np.sum(b ** 2))      # ||b||
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+```
+
+Let's test it on word pairs where we have strong intuitions about what the answer should be:
+
+```python
+# embeddings.py
+# ...existing code above
+
+pairs = [
+    ("cat", "dog"),
+    ("cat", "kitten"),
+    ("cat", "car"),
+    ("cat", "democracy"),
+    ("happy", "joyful"),
+    ("happy", "sad"),
+    ("king", "queen"),
+    ("king", "banana"),
+    ("france", "paris"),
+    ("germany", "berlin"),
+]
+
+print("\nWord pair similarities:")
+for w1, w2 in pairs:
+    v1, v2 = get_vector(w1), get_vector(w2)
+    if v1 is not None and v2 is not None:
+        sim = cosine_similarity(v1, v2)
+        print(f"  {w1:12s} - {w2:12s}: {sim:.3f}")
+```
+
+Run it and study the output. "Cat" and "dog" should be very high (above 0.9), which makes sense: they share enormous context overlap ("pet," "fed the ___," "took the ___ to the vet"). "Cat" and "kitten" is lower than you might expect (around 0.6), because "kitten" appears in a narrower set of contexts (cuteness, youth, smallness) while "cat" is used much more broadly. "Cat" and "car" should be moderate but lower (they share some syntactic contexts but little meaning). "Cat" and "democracy" should be near zero.
+
+Now look at "happy" and "sad." You might expect them to be far apart (they're opposites), but they're quite similar (around 0.7). This tells you something about what distributional embeddings actually capture: *relatedness*, not just *similarity*. "Happy" and "sad" are antonyms, but they appear in almost identical contexts. You say "I feel happy" and "I feel sad." You say "She seemed happy" and "She seemed sad." The distributional hypothesis puts them close because they keep the same company. The vectors can't distinguish "means the same thing" from "means the opposite thing." Keep this in mind when we build retrieval systems in Chapter 10.
+
+Next, let's find the most similar words to a given word. We need to compute cosine similarity against the entire vocabulary and return the top results. Instead of a Python loop over 400,000 words, we can use a property we proved in the cosine similarity section: for unit vectors, cosine similarity is just the dot product. If we first L2-normalize every vector:
+
+$$\hat{v} = \frac{v}{\|v\|}$$
+
+then finding the most similar word to a query $q$ is just:
+
+$$\text{most similar} = \arg\max_{w} \; \hat{v}_w \cdot \hat{q}$$
+
+And the dot product of one vector against all 400,000 vectors at once is a matrix-vector multiply:
+
+```python
+# embeddings.py
+# ...existing code above
+
+def most_similar(word, n=10):
+    vec = get_vector(word)
+    if vec is None:
+        return []
+
+    # L2-normalize every word vector: v_hat = v / ||v||
+    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
+    norms[norms == 0] = 1.0
+    normalized = vectors / norms[:, np.newaxis]
+
+    # L2-normalize the query vector
+    word_norm = np.sqrt(np.sum(vec ** 2))
+    word_normalized = vec / word_norm
+
+    # Dot product of unit vectors = cosine similarity
+    similarities = normalized @ word_normalized
+
+    # Sort by similarity (highest first), skip the word itself
+    top_indices = np.argsort(similarities)[::-1][1:n+1]
+    return [(words[i], similarities[i]) for i in top_indices]
+```
+
+A few relevant things: `norms[:, np.newaxis]` reshapes the norms from a flat list into a column, so that when we divide `vectors / norms[:, np.newaxis]`, each row gets divided by its own norm. This is the $\hat{v} = v / \|v\|$ step. Once every vector is unit length, `normalized @ word_normalized` gives us 400,000 cosine similarities in a single matrix multiply. The `@` operator is matrix multiplication, and this is where NumPy is a lot better than doing it with standard Python: one line of code replaces 400,000 loops, it's done in parallel.
+
+The last line chains three operations: `argsort` returns the positions that would sort the array from lowest to highest, `[::-1]` reverses it to highest-first, and `[1:n+1]` skips the first result (the query word itself, which always has similarity 1.0) and takes the next `n`.
+
+Let's see what comes back:
+
+```python
+# embeddings.py
+# ...existing code above
+
+for query in ["cat", "france", "happy", "python"]:
+    print(f"\nMost similar to '{query}':")
+    for word, sim in most_similar(query):
+        print(f"  {word:15s} {sim:.3f}")
+```
+
+The neighbors of "cat" should include "dog," "rabbit," "cats," "pet," and other animals. The neighbors of "france" should be other European countries. Look at "python": you'll likely see a mix of snake-related words and programming-related words, because the single vector has to accommodate both senses. This is the one-vector-per-word limitation we discussed: the embedding for "python" is somewhere between "programming language" and "large snake," which means it's not perfectly representative of either.
+
+Now let's test the analogy arithmetic. We claimed that the vector relationships are consistent: that the offset from "man" to "king" should be roughly the same as the offset from "woman" to "queen." In vector arithmetic:
+
+$$\vec{\text{king}} - \vec{\text{man}} + \vec{\text{woman}} \approx \vec{\text{queen}}$$
+
+To find the answer, we compute the target vector $t = b - a + c$ and search for the word whose vector is most similar to $t$:
+
+$$\text{answer} = \arg\max_{w} \; \text{cosine\_similarity}(v_w, \; t)$$
+
+```python
+# embeddings.py
+# ...existing code above
+
+def analogy(a, b, c, n=5):
+    """a is to b as c is to ???"""
+    va, vb, vc = get_vector(a), get_vector(b), get_vector(c)
+    if any(v is None for v in [va, vb, vc]):
+        return []
+
+    # Compute the target: t = b - a + c
+    target = vb - va + vc
+
+    # Normalize all vectors
+    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
+    norms[norms == 0] = 1.0
+    normalized = vectors / norms[:, np.newaxis]
+
+    target_norm = np.sqrt(np.sum(target ** 2))
+    target_normalized = target / target_norm
+
+    # Find the closest words to the target
+    similarities = normalized @ target_normalized
+
+    # Exclude the three input words from results
+    for w in [a, b, c]:
+        if w in word_to_index:
+            similarities[word_to_index[w]] = -1
+
+    top_indices = np.argsort(similarities)[::-1][:n]
+    return [(words[i], similarities[i]) for i in top_indices]
+```
+
+Read the function carefully. "Man is to king as woman is to ???" We compute $\vec{\text{king}} - \vec{\text{man}} + \vec{\text{woman}}$ and find the nearest word to the result. We exclude the three input words from the results (by setting their similarities to $-1$, so they'll sort to the bottom) because otherwise the closest result is often one of the inputs, which tells us nothing. Let's run it:
+
+```python
+# embeddings.py
+# ...existing code above
+
+print("\n--- Analogies ---")
+
+print("\nman : king :: woman : ???")
+for word, sim in analogy("man", "king", "woman"):
+    print(f"  {word:15s} {sim:.3f}")
+
+print("\nfrance : paris :: italy : ???")
+for word, sim in analogy("france", "paris", "italy"):
+    print(f"  {word:15s} {sim:.3f}")
+
+print("\nwalk : walking :: swim : ???")
+for word, sim in analogy("walk", "walking", "swim"):
+    print(f"  {word:15s} {sim:.3f}")
+
+print("\njapan : sushi :: mexico : ???")
+for word, sim in analogy("japan", "sushi", "mexico"):
+    print(f"  {word:15s} {sim:.3f}")
+```
+
+The first result for king-man+woman should be "queen." The country-capital analogy should return "rome." The verb tense analogy should return "swimming." The food-country analogy is less reliable (cultural associations in the training data are messier than grammatical relationships), but you'll likely get something reasonable.
+
+No labels. No supervised signal about gender, geography, or grammar. Pure context prediction on raw text, and out come vectors that encode relational structure.
+
+But the model learned from human text, and human text contains human biases. Let's look:
+
+```python
+# embeddings.py
+# ...existing code above
+
+print("\n--- Bias in embeddings ---")
+
+print("\nman : doctor :: woman : ???")
+for word, sim in analogy("man", "doctor", "woman"):
+    print(f"  {word:15s} {sim:.3f}")
+
+print("\nman : programmer :: woman : ???")
+for word, sim in analogy("man", "programmer", "woman"):
+    print(f"  {word:15s} {sim:.3f}")
+
+print("\nman : brilliant :: woman : ???")
+for word, sim in analogy("man", "brilliant", "woman"):
+    print(f"  {word:15s} {sim:.3f}")
+```
+
+"Man is to doctor as woman is to ???" should give "doctor" (same profession regardless of gender). But you'll get "nurse." "Man is to programmer as woman is to ???" gives "therapist" instead of "programmer." Bolukbasi et al. [-@bolukbasi2016man] showed that Word2Vec embeddings trained on Google News exhibited exactly these stereotypes, with occupations systematically skewed along a gender axis. Subsequent work by Zhao et al. [-@zhao2017men] showed that the biases don't just reflect the training data: models can actually *amplify* existing stereotypes, making associations stronger in the embedding space than they are in the underlying text statistics.
+
+If you build a search system that uses embeddings to match job candidates to job descriptions (and people do), these biases affect real people's livelihoods. When we build retrieval systems in Chapter 10, remember that the vectors carry the prejudices of their training data.
+
+Let's finish with a visualization. We have 50-dimensional vectors, which we can't plot directly. But we can project them down to 2 dimensions using PCA (principal component analysis), which finds the two directions in the high-dimensional space that capture the most variation. The implementation involves linear algebra we won't cover here; what matters is the effect: we go from 50 dimensions to 2, keeping as much of the original structure as possible. We'll provide `pca_2d` as a helper function:
+
+```python
+# embeddings.py
+# ...existing code above
+import matplotlib.pyplot as plt
+
+def pca_2d(vecs):
+    """Project vectors to 2 dimensions, preserving as much structure as possible."""
+    centered = vecs - vecs.mean(axis=0)
+    cov = np.cov(centered, rowvar=False)
+    eigenvalues, eigenvectors = np.linalg.eigh(cov)
+    top2 = eigenvectors[:, -2:][:, ::-1]
+    return centered @ top2
+```
+
+Now let's pick some words from three categories and see if the embedding space groups them the way we'd expect:
+
+```python
+# embeddings.py
+# ...existing code above
+
+word_groups = {
+    "animals": ["cat", "dog", "fish", "bird", "horse", "cow", "sheep"],
+    "countries": ["france", "germany", "italy", "spain", "japan", "china"],
+    "emotions": ["happy", "sad", "angry", "afraid", "surprised"],
+}
+
+all_words = []
+group_labels = []
+for group, wds in word_groups.items():
+    all_words.extend(wds)
+    group_labels.extend([group] * len(wds))
+
+vecs = np.array([get_vector(w) for w in all_words])
+coords = pca_2d(vecs)
+```
+
+The plotting code puts each word on a 2D scatter plot, colored by category:
+
+```python
+# embeddings.py
+# ...existing code above
+
+colors = {"animals": "steelblue", "countries": "coral", "emotions": "seagreen"}
+plt.figure(figsize=(10, 8))
+for i, (word, group) in enumerate(zip(all_words, group_labels)):
+    plt.scatter(coords[i, 0], coords[i, 1], c=colors[group], s=50)
+    plt.annotate(word, (coords[i, 0], coords[i, 1]),
+                 fontsize=10, ha="center", va="bottom")
+plt.title("Word embeddings projected to 2D (PCA)", fontsize=14)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig("clusters.png", dpi=150)
+plt.show()
+```
+
+Look at the result. Animals cluster together. Countries cluster together. Emotions cluster together. Three groups of words, separated by meaning, visible in two dimensions despite being compressed from fifty. The structure is real: it exists in the full 50-dimensional space, and PCA just reveals a slice of it.
+
+Let's do one more experiment. We said that "gender" is a consistent direction in the space. If that's true, the vectors connecting male-female word pairs (king→queen, man→woman, boy→girl) should all be roughly parallel. Let's plot them:
+
+```python
+# embeddings.py
+# ...existing code above
+
+gender_pairs = [
+    ("king", "queen"), ("man", "woman"), ("boy", "girl"),
+    ("he", "she"), ("his", "her"), ("brother", "sister"),
+    ("father", "mother"), ("son", "daughter"),
+]
+
+male_words = [p[0] for p in gender_pairs]
+female_words = [p[1] for p in gender_pairs]
+all_gender = male_words + female_words
+
+vecs = np.array([get_vector(w) for w in all_gender])
+coords = pca_2d(vecs)
+n = len(gender_pairs)
+```
+
+We project all 16 words (8 male, 8 female) to 2D, then draw a gray line connecting each pair:
+
+```python
+# embeddings.py
+# ...existing code above
+
+plt.figure(figsize=(10, 6))
+plt.scatter(coords[:n, 0], coords[:n, 1], c="steelblue", s=60, label="male")
+plt.scatter(coords[n:, 0], coords[n:, 1], c="coral", s=60, label="female")
+
+for i, (m, f) in enumerate(gender_pairs):
+    plt.annotate(m, (coords[i, 0], coords[i, 1]),
+                 fontsize=10, ha="center", va="bottom")
+    plt.annotate(f, (coords[n+i, 0], coords[n+i, 1]),
+                 fontsize=10, ha="center", va="bottom")
+    plt.plot([coords[i, 0], coords[n+i, 0]],
+             [coords[i, 1], coords[n+i, 1]], "gray", alpha=0.4, linewidth=1)
+
+plt.title("Gender direction in embedding space", fontsize=14)
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig("gender_direction.png", dpi=150)
+plt.show()
+```
+
+If the space learned a consistent gender direction, the gray lines should be roughly parallel. They won't be perfectly parallel (the space encodes many relationships at once, and 2D projection distorts things), but the trend should be visible. The analogy arithmetic works because the "gender" offset is approximately the same vector across many pairs: king - man + woman ≈ queen holds when that offset is consistent.
+
+Let's quantify this. For each male-female pair, we compute the offset vector and normalize it to unit length:
+
+$$\hat{d}_i = \frac{v_{\text{female}_i} - v_{\text{male}_i}}{\|v_{\text{female}_i} - v_{\text{male}_i}\|}$$
+
+If the gender direction is perfectly consistent, every $\hat{d}_i$ would be the same vector, and the cosine similarity between any two of them would be 1.0. Let's check:
+
+```python
+# embeddings.py
+# ...existing code above
+
+print("\n--- Gender direction consistency ---")
+offsets = []
+for m, f in gender_pairs:
+    offset = get_vector(f) - get_vector(m)
+    offsets.append(offset / np.sqrt(np.sum(offset ** 2)))
+
+for i in range(len(offsets)):
+    for j in range(i + 1, len(offsets)):
+        sim = cosine_similarity(offsets[i], offsets[j])
+        print(f"  {gender_pairs[i][0]:8s}→{gender_pairs[i][1]:8s}  vs  "
+              f"{gender_pairs[j][0]:8s}→{gender_pairs[j][1]:8s}  : {sim:.3f}")
+```
+
+The pronoun pairs (he→she, his→her) are the most consistent, often above 0.9, because pronouns are almost pure markers of gender with little other semantic content. Family pairs (father→mother, son→daughter) are also strong. The king→queen pair is less consistent with others, because "king" and "queen" carry additional associations (royalty, power, history) beyond gender. The direction is real but approximate, which is why analogy arithmetic works well on some relationships and poorly on others.
+
+That's 400,000 words, 50 dimensions each, encoding meaning, relationships, biases, and structure, all learned from raw text. But each word is stuck with one vector. In Chapter 4, we'll see how transformers fix this: instead of one fixed vector per word, they compute a new vector for every word in every context. "Bank" will finally get different representations in "river bank" and "bank account."
+
+## Chapter Summary
+
+- One-hot encoding maps words to vectors but makes every word equidistant—it encodes identity, not meaning
+- The distributional hypothesis: words that appear in similar contexts have similar meanings
+- Word2Vec learns dense embeddings by predicting context words from targets, using dot products, sigmoid, and negative sampling
+- Embeddings encode structured relationships: vector arithmetic like $\vec{\text{king}} - \vec{\text{man}} + \vec{\text{woman}} \approx \vec{\text{queen}}$ works without supervision
+- Cosine similarity compares direction rather than magnitude—the right metric for embeddings
+- Embeddings inherit the biases of their training text, and can amplify them
+- Antonyms end up close together because they share contexts—distributional similarity is not the same as semantic equivalence
+- Each word gets one fixed vector regardless of context, which Chapter 4's transformers will fix
+
+In the next chapter, we see how attention mechanisms compute a fresh representation for every word in every context, giving us the transformer architecture behind modern language models.
+
+## Exercises
+
+1. Implement a **word intrusion** detector. Given a list like `["cat", "dog", "fish", "car", "bird"]`, find the outlier: the word least similar to the rest. For each word, compute its average cosine similarity to every other word in the list. The word with the lowest average is the odd one out. Test it on easy lists first, then try harder cases: `["breakfast", "lunch", "dinner", "snack", "supper"]`. Does the model agree with your intuition about which meal term is least typical? What about `["walk", "run", "sprint", "jog", "crawl"]`?
+
+2. The chapter noted that "happy" and "sad" end up close together despite being opposites. Investigate this systematically. Here are 10 synonym pairs and 10 antonym pairs:
+
+    ```python
+    synonyms = [
+        ("happy", "joyful"), ("big", "large"), ("fast", "quick"),
+        ("smart", "clever"), ("strong", "powerful"), ("beautiful", "gorgeous"),
+        ("small", "tiny"), ("start", "begin"), ("end", "finish"), ("old", "ancient"),
+    ]
+    antonyms = [
+        ("happy", "sad"), ("big", "small"), ("fast", "slow"),
+        ("smart", "stupid"), ("strong", "weak"), ("beautiful", "ugly"),
+        ("hot", "cold"), ("love", "hate"), ("old", "young"), ("rich", "poor"),
+    ]
+    ```
+
+    Compute cosine similarity for each pair. Plot two histograms on the same axes (use `plt.hist` with `alpha=0.5` so they overlap visually). How much do the distributions overlap? If you were building a system that needed to distinguish synonyms from antonyms (say, a contradiction detector), could you do it from cosine similarity alone? What additional signal would you need?
+
+3. Test analogy reliability systematically. Here are 15 country-capital pairs:
+
+    ```python
+    capitals = [
+        ("france", "paris"), ("germany", "berlin"), ("japan", "tokyo"),
+        ("italy", "rome"), ("spain", "madrid"), ("russia", "moscow"),
+        ("china", "beijing"), ("egypt", "cairo"), ("brazil", "brasilia"),
+        ("india", "delhi"), ("canada", "ottawa"), ("australia", "canberra"),
+        ("sweden", "stockholm"), ("greece", "athens"), ("turkey", "ankara"),
+    ]
+    ```
+
+    For each pair, hold it out and use the remaining pairs to establish the pattern: `analogy(held_out_country, "france", "paris")`. Score 1 if the correct capital is the top result, 0 otherwise. What percentage work? Now do the same with these verb tense pairs:
+
+    ```python
+    tenses = [
+        ("walk", "walked"), ("run", "ran"), ("eat", "ate"),
+        ("swim", "swam"), ("write", "wrote"), ("speak", "spoke"),
+        ("sing", "sang"), ("think", "thought"), ("buy", "bought"),
+        ("drive", "drove"), ("give", "gave"), ("take", "took"),
+        ("see", "saw"), ("know", "knew"), ("make", "made"),
+    ]
+    ```
+
+    Which type of relationship is more reliably encoded? Why might regular grammatical patterns (walk→walked) be more consistent than geographic facts (france→paris)?
+
+4. Build a **simple sentence similarity function**. Represent each sentence as the average of its word vectors (skip words not in the vocabulary). Given a query, compute its average embedding and find the most similar sentence by cosine similarity. Try a small corpus of 10-20 sentences and see if "How do I fix a flat tire?" matches better with "Repairing a punctured wheel" than with "I ate breakfast this morning." Then try "The dog bit the man" versus "The man bit the dog." These sentences have identical words, so their average embeddings are identical. This is a serious flaw: the representation throws away word order entirely. Think about what information you'd need to preserve to distinguish them.
+
+5. Simulate what Word2Vec training does, without building the full model. Start with random 2D vectors for six words:
+
+    ```python
+    import numpy as np
+    np.random.seed(42)
+    words = ["cat", "dog", "pet", "car", "drive", "road"]
+    vecs = {w: np.random.randn(2) * 0.1 for w in words}
+    ```
+
+    Define three positive pairs (words that appear together: `("cat", "pet")`, `("dog", "pet")`, `("car", "drive")`) and let every other combination be a negative pair. Write a training loop: for each positive pair, nudge their vectors closer (add a small fraction of each vector to the other). For each negative pair, nudge them apart (subtract). Run 200 iterations with a learning rate of 0.01. Plot the vectors before and after training. Do "cat," "dog," and "pet" end up clustered? Do "car," "drive," and "road" form a separate cluster? This is the core of what Word2Vec does: push co-occurring words together, push random pairs apart.
+
+6. The `most_similar` function recomputes normalized vectors on every call, scanning all 400,000 words each time. Measure how long a single call takes with `time.time()`. Now precompute the normalized matrix once, outside the function, and rewrite `most_similar` to use it. How much faster is the precomputed version? For a bigger speedup, compute similarities for multiple query words at once: `normalized @ normalized[query_indices].T` gives you all pairwise similarities between your queries and the full vocabulary in one matrix multiply. Time this batch version against calling the single-word function in a loop. This is the core trick behind vector databases, which we'll build with in Chapter 10.
