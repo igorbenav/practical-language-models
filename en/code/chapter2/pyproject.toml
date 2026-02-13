@@ -1,0 +1,11 @@
+[project]
+name = "chapter2"
+version = "0.1.0"
+description = "Chapter 2: Learning to Learn"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.1",
+    "numpy>=2.2.4",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.8.0",
+]

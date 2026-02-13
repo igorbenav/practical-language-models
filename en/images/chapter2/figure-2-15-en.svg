@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 220">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .layer-box { rx: 6; ry: 6; stroke-width: 2; }
+    .label { font-family: 'Arial', sans-serif; font-size: 12px; fill: #333; font-weight: bold; text-anchor: middle; }
+    .sublabel { font-family: 'Georgia', serif; font-size: 10px; fill: #666; font-style: italic; text-anchor: middle; }
+    .math { font-family: 'Georgia', serif; font-size: 10px; fill: #555; font-style: italic; text-anchor: middle; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; text-anchor: middle; }
+    .arrow-line { stroke: #999; stroke-width: 1.5; fill: none; }
+    .op-label { font-family: 'Georgia', serif; font-size: 9px; fill: #555; font-style: italic; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="560" height="220" class="bg"/>
+
+  <!-- Input layer -->
+  <rect x="20" y="50" width="80" height="100" class="layer-box" fill="#e6f7ff" stroke="#1890ff"/>
+  <text x="60" y="95" class="label" style="fill:#1890ff">Input</text>
+  <text x="60" y="110" class="sublabel">x</text>
+  <text x="60" y="128" class="sublabel" style="font-size:9px;fill:#999">784 pixels</text>
+
+  <!-- Arrow: input → hidden -->
+  <line x1="100" y1="100" x2="165" y2="100" class="arrow-line" marker-end="url(#arr)"/>
+  <text x="133" y="88" class="op-label">W₁x + b₁</text>
+
+  <!-- Hidden layer -->
+  <rect x="172" y="40" width="100" height="120" class="layer-box" fill="#f6ffed" stroke="#52c41a"/>
+  <text x="222" y="82" class="label" style="fill:#389e0d">Hidden</text>
+  <text x="222" y="97" class="sublabel">h = ReLU(·)</text>
+  <text x="222" y="115" class="sublabel" style="font-size:9px;fill:#999">128 neurons</text>
+
+  <!-- Small ReLU icon inside hidden box -->
+  <polyline points="210,145 222,145 234,133" fill="none" stroke="#52c41a" stroke-width="1.5"/>
+
+  <!-- Arrow: hidden → output -->
+  <line x1="272" y1="100" x2="337" y2="100" class="arrow-line" marker-end="url(#arr)"/>
+  <text x="305" y="88" class="op-label">W₂h + b₂</text>
+
+  <!-- Output layer -->
+  <rect x="344" y="50" width="100" height="100" class="layer-box" fill="#fff7e6" stroke="#fa8c16"/>
+  <text x="394" y="88" class="label" style="fill:#d46b08">Output</text>
+  <text x="394" y="103" class="sublabel">softmax(·)</text>
+  <text x="394" y="121" class="sublabel" style="font-size:9px;fill:#999">10 classes</text>
+
+  <!-- Arrow: output → prediction -->
+  <line x1="444" y1="100" x2="495" y2="100" class="arrow-line" marker-end="url(#arr)"/>
+
+  <!-- Prediction -->
+  <rect x="502" y="70" width="46" height="60" rx="6" ry="6" fill="#fff" stroke="#ccc" stroke-width="1.5"/>
+  <text x="525" y="97" class="label" style="fill:#333;font-size:11px">ŷ</text>
+  <text x="525" y="113" class="sublabel" style="font-size:8px;fill:#999">probs</text>
+
+  <!-- Parameter counts -->
+  <text x="133" y="120" class="anno" style="font-size:8px">100,480</text>
+  <text x="133" y="129" class="anno" style="font-size:8px">params</text>
+  <text x="305" y="120" class="anno" style="font-size:8px">1,290</text>
+  <text x="305" y="129" class="anno" style="font-size:8px">params</text>
+
+  <!-- Dimension annotations along bottom -->
+  <text x="60" y="175" class="anno">784</text>
+  <line x1="60" y1="155" x2="60" y2="168" stroke="#ccc" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="222" y="175" class="anno">128</text>
+  <line x1="222" y1="165" x2="222" y2="168" stroke="#ccc" stroke-width="0.5" stroke-dasharray="2,2"/>
+  <text x="394" y="175" class="anno">10</text>
+  <line x1="394" y1="155" x2="394" y2="168" stroke="#ccc" stroke-width="0.5" stroke-dasharray="2,2"/>
+
+  <!-- Bottom note -->
+  <text x="280" y="200" class="anno" style="font-size:10px;fill:#666">The forward pass: input → learned features → class probabilities</text>
+
+  <!-- Brace-like annotation for "space warping" -->
+  <text x="222" y="30" class="anno" style="fill:#389e0d;font-style:italic">untangles the data</text>
+  <text x="394" y="42" class="anno" style="fill:#d46b08;font-style:italic">draws boundaries</text>
+</svg>

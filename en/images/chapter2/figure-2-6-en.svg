@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 200">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .node { fill: #fff; stroke: #1890ff; stroke-width: 2; }
+    .node-act { fill: #fff; stroke: #52c41a; stroke-width: 2; }
+    .label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #333; font-style: italic; }
+    .label-sm { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #555; font-style: italic; }
+    .weight { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #1890ff; font-style: italic; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #999; }
+    .arrow-line { stroke: #999; stroke-width: 1.2; fill: none; }
+    .arrow-weight { stroke: #1890ff; stroke-width: 1.5; fill: none; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#999"/>
+    </marker>
+    <marker id="arr-b" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#1890ff"/>
+    </marker>
+  </defs>
+
+  <rect width="420" height="200" class="bg"/>
+
+  <!-- Input nodes: y = 35, 100, 165 (symmetric around 100) -->
+  <circle cx="50" cy="35" r="16" class="node"/>
+  <text x="50" y="39" class="label" text-anchor="middle">x₁</text>
+
+  <circle cx="50" cy="100" r="16" class="node"/>
+  <text x="50" y="104" class="label" text-anchor="middle">x₂</text>
+
+  <!-- Dots centered between x₂ and x_d -->
+  <circle cx="50" cy="125" r="1.5" fill="#999"/>
+  <circle cx="50" cy="133" r="1.5" fill="#999"/>
+  <circle cx="50" cy="141" r="1.5" fill="#999"/>
+
+  <circle cx="50" cy="165" r="16" class="node"/>
+  <text x="50" y="167" class="label" text-anchor="middle">x<tspan font-size="9" dy="2">d</tspan></text>
+
+  <!-- Summation node -->
+  <circle cx="195" cy="100" r="24" class="node"/>
+  <text x="195" y="107" class="label" text-anchor="middle" style="font-size:17px">Σ</text>
+
+  <!-- Weighted connections: from input right edge to sigma left edge -->
+  <!-- x1 → Σ : (66, 35) to (171, 92) -->
+  <line x1="66" y1="35" x2="171" y2="92" class="arrow-weight" marker-end="url(#arr-b)"/>
+  <text x="105" y="47" class="weight" text-anchor="middle">w₁</text>
+
+  <!-- x2 → Σ : (66, 100) to (171, 100) -->
+  <line x1="66" y1="100" x2="171" y2="100" class="arrow-weight" marker-end="url(#arr-b)"/>
+  <text x="118" y="93" class="weight" text-anchor="middle">w₂</text>
+
+  <!-- xd → Σ : (66, 165) to (171, 108) -->
+  <line x1="66" y1="165" x2="171" y2="108" class="arrow-weight" marker-end="url(#arr-b)"/>
+  <text x="105" y="158" class="weight" text-anchor="middle">w<tspan font-size="8" dy="2">d</tspan></text>
+
+  <!-- Bias arrow (from below) -->
+  <line x1="195" y1="148" x2="195" y2="126" class="arrow-weight" marker-end="url(#arr-b)"/>
+  <text x="206" y="145" class="weight" text-anchor="start">b</text>
+
+  <!-- Arrow from sum to activation -->
+  <line x1="219" y1="100" x2="254" y2="100" class="arrow-line" marker-end="url(#arr)"/>
+
+  <!-- z label above the arrow -->
+  <text x="237" y="93" class="label-sm" text-anchor="middle">z</text>
+
+  <!-- Activation node -->
+  <circle cx="280" cy="100" r="22" class="node-act"/>
+  <text x="280" y="106" class="label" text-anchor="middle" style="font-size:15px">σ</text>
+
+  <!-- Arrow from activation to output -->
+  <line x1="302" y1="100" x2="348" y2="100" class="arrow-line" marker-end="url(#arr)"/>
+
+  <!-- Output -->
+  <circle cx="373" cy="100" r="18" fill="#fff" stroke="#fa8c16" stroke-width="2"/>
+  <text x="373" y="105" class="label" text-anchor="middle">ŷ</text>
+
+  <!-- Annotation labels -->
+  <text x="50" y="194" class="anno" text-anchor="middle">inputs</text>
+  <text x="195" y="172" class="anno" text-anchor="middle">weighted sum</text>
+  <text x="280" y="134" class="anno" text-anchor="middle">activation</text>
+  <text x="373" y="130" class="anno" text-anchor="middle">output</text>
+</svg>

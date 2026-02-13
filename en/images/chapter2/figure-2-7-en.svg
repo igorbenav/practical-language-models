@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 225">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label-sm { font-family: Arial, sans-serif; font-size: 11px; fill: #666; text-anchor: middle; }
+    .axis-label { font-family: Georgia, serif; font-size: 12px; fill: #555; font-style: italic; }
+    .anno { font-family: Arial, sans-serif; font-size: 9px; fill: #888; }
+    .grid { stroke: #eee; stroke-width: 0.5; }
+  </style>
+
+  <defs>
+    <linearGradient id="sig-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1890ff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#1890ff" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="340" height="225" class="bg"/>
+
+  <!-- Grid -->
+  <line x1="55" y1="107.5" x2="310" y2="107.5" class="grid"/>
+  <line x1="55" y1="36.4" x2="310" y2="36.4" class="grid"/>
+
+  <!-- Asymptotes -->
+  <line x1="55" y1="36.4" x2="310" y2="36.4" stroke="#52c41a" stroke-width="0.6" stroke-dasharray="4,3" opacity="0.35"/>
+  <line x1="55" y1="178.6" x2="310" y2="178.6" stroke="#cf1322" stroke-width="0.6" stroke-dasharray="4,3" opacity="0.35"/>
+
+  <!-- Axes -->
+  <line x1="55" y1="178.6" x2="310" y2="178.6" stroke="#ccc"/>
+  <line x1="55" y1="25" x2="55" y2="178.6" stroke="#ccc"/>
+
+  <!-- Axis labels -->
+  <text x="182" y="207" class="axis-label">z</text>
+  <text x="31" y="102" class="axis-label" transform="rotate(-90,31,102)">σ(z)</text>
+
+  <!-- Y ticks -->
+  <text x="47" y="181.6" font-size="10" fill="#999" font-style="italic" text-anchor="end">0</text>
+  <text x="47" y="110.5" font-size="10" fill="#999" font-style="italic" text-anchor="end">½</text>
+  <text x="47" y="39.4" font-size="10" fill="#999" font-style="italic" text-anchor="end">1</text>
+
+  <!-- Smooth sigmoid path -->
+  <!-- Constructed to match a logistic curve visually and respect asymptotes -->
+  <path
+    d="
+      M 55 178.6
+      C 90 178.6, 120 170, 145 150
+      C 165 135, 175 120, 182.5 107.5
+      C 190 95, 200 75, 220 60
+      C 245 40, 275 36.4, 310 36.4
+      L 310 178.6
+      Z
+    "
+    fill="url(#sig-grad)"
+  />
+
+  <!-- Sigmoid stroke -->
+  <path
+    d="
+      M 55 178.6
+      C 90 178.6, 120 170, 145 150
+      C 165 135, 175 120, 182.5 107.5
+      C 190 95, 200 75, 220 60
+      C 245 40, 275 36.4, 310 36.4
+    "
+    fill="none"
+    stroke="#1890ff"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Midpoint -->
+  <circle cx="182.5" cy="107.5" r="3.5" fill="#fa8c16" stroke="#fff" stroke-width="1.5"/>
+
+  <!-- Anchored midpoint label -->
+  <text
+    x="182.5"
+    y="107.5"
+    dx="8"
+    dy="4"
+    class="anno"
+    style="fill:#fa8c16;font-weight:bold"
+    text-anchor="start"
+  >
+    σ(0) = ½
+  </text>
+
+  <!-- Annotations -->
+  <text x="302" y="31" class="anno" text-anchor="end" fill="#52c41a">→ 1</text>
+  <text x="63" y="174" class="anno" text-anchor="start" fill="#cf1322">→ 0</text>
+
+  <!-- Footer -->
+  <text x="170" y="218" class="label-sm" font-size="10">
+    Squashes any real number into (0, 1)
+  </text>
+</svg>

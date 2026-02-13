@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 0 410 210">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .node-h { fill: #fff; stroke: #52c41a; stroke-width: 2; }
+    .node-out { fill: #fff; stroke: #bbb; stroke-width: 1.5; }
+    .node-wrong { fill: #fff2f0; stroke: #cf1322; stroke-width: 2; }
+    .label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #333; font-style: italic; text-anchor: middle; }
+    .label-sm { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #555; font-style: italic; text-anchor: middle; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #999; text-anchor: middle; }
+    .anno-b { font-family: 'Arial', sans-serif; font-size: 9.5px; fill: #666; font-weight: bold; text-anchor: middle; }
+    .conn-fwd { stroke: #ccc; stroke-width: 0.8; opacity: 0.4; }
+    .conn-err { stroke: #cf1322; stroke-width: 1.5; opacity: 0.7; }
+    .conn-err-weak { stroke: #cf1322; stroke-width: 0.7; opacity: 0.3; }
+  </style>
+  <defs>
+    <marker id="af" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
+      <path d="M0,0 L5,2 L0,4 Z" fill="#ccc"/>
+    </marker>
+    <marker id="ab" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#cf1322"/>
+    </marker>
+    <marker id="ab-w" markerWidth="5" markerHeight="3" refX="5" refY="1.5" orient="auto">
+      <path d="M0,0 L5,1.5 L0,3 Z" fill="#cf1322" opacity="0.35"/>
+    </marker>
+  </defs>
+
+  <rect x="30" width="410" height="210" class="bg"/>
+
+  <!-- HIDDEN NEURONS (left side) -->
+  <circle cx="80" cy="45" r="16" class="node-h"/>
+  <text x="80" y="49" class="label">h₁</text>
+
+  <circle cx="80" cy="100" r="16" class="node-h"/>
+  <text x="80" y="104" class="label">h₂</text>
+
+  <circle cx="80" cy="155" r="16" class="node-h"/>
+  <text x="80" y="159" class="label">h₃</text>
+
+  <!-- OUTPUT NEURONS (right side) -->
+  <circle cx="310" cy="35" r="16" class="node-out"/>
+  <text x="310" y="39" class="label-sm">ŷ₁</text>
+  <text x="355" y="38" class="anno" text-anchor="start" style="fill:#aaa">0.02</text>
+
+  <circle cx="310" cy="80" r="16" class="node-out"/>
+  <text x="310" y="84" class="label-sm">ŷ₂</text>
+  <text x="355" y="83" class="anno" text-anchor="start" style="fill:#aaa">0.05</text>
+
+  <circle cx="310" cy="125" r="16" class="node-wrong"/>
+  <text x="310" y="129" class="label-sm" style="fill:#cf1322">ŷ₇</text>
+  <text x="355" y="122" class="anno" text-anchor="start" style="fill:#cf1322">0.30</text>
+  <text x="355" y="133" class="anno" text-anchor="start" style="fill:#cf1322">should be ≈1</text>
+
+  <circle cx="310" cy="170" r="16" class="node-out"/>
+  <text x="310" y="174" class="label-sm">ŷ₉</text>
+  <text x="355" y="173" class="anno" text-anchor="start" style="fill:#aaa">0.08</text>
+
+  <!-- dots between y2 and y7 -->
+  <text x="310" y="106" class="anno">⋮</text>
+
+  <!-- dots between y7 and y9 -->
+  <text x="310" y="151" class="anno">⋮</text>
+
+  <!-- FORWARD CONNECTIONS (faint grey, right-pointing) -->
+  <line x1="96" y1="45" x2="294" y2="35" class="conn-fwd"/>
+  <line x1="96" y1="45" x2="294" y2="80" class="conn-fwd"/>
+  <line x1="96" y1="45" x2="294" y2="125" class="conn-fwd"/>
+  <line x1="96" y1="45" x2="294" y2="170" class="conn-fwd"/>
+
+  <line x1="96" y1="100" x2="294" y2="35" class="conn-fwd"/>
+  <line x1="96" y1="100" x2="294" y2="80" class="conn-fwd"/>
+  <line x1="96" y1="100" x2="294" y2="125" class="conn-fwd"/>
+  <line x1="96" y1="100" x2="294" y2="170" class="conn-fwd"/>
+
+  <line x1="96" y1="155" x2="294" y2="35" class="conn-fwd"/>
+  <line x1="96" y1="155" x2="294" y2="80" class="conn-fwd"/>
+  <line x1="96" y1="155" x2="294" y2="125" class="conn-fwd"/>
+  <line x1="96" y1="155" x2="294" y2="170" class="conn-fwd"/>
+
+  <!-- BACKWARD ERROR ARROWS (red, left-pointing, from wrong output) -->
+  <!-- Strong arrows from ŷ₇ (the wrong one) back to hidden neurons -->
+  <line x1="294" y1="122" x2="98" y2="48" class="conn-err" marker-end="url(#ab)"/>
+  <line x1="294" y1="125" x2="98" y2="100" class="conn-err" marker-end="url(#ab)"/>
+  <line x1="294" y1="128" x2="98" y2="153" class="conn-err" marker-end="url(#ab)"/>
+
+  <!-- Weak arrows from other outputs -->
+  <line x1="294" y1="35" x2="98" y2="43" class="conn-err-weak" marker-end="url(#ab-w)"/>
+  <line x1="294" y1="80" x2="98" y2="97" class="conn-err-weak" marker-end="url(#ab-w)"/>
+  <line x1="294" y1="170" x2="98" y2="157" class="conn-err-weak" marker-end="url(#ab-w)"/>
+
+  <!-- Weight labels: midpoints offset above each line, rotated to match slope -->
+  <!-- Line 1: (294,122)→(98,48), midpoint ~(196,85), slope ≈ 21° left-to-right -->
+  <text x="196" y="77" class="anno" style="fill:#cf1322" transform="rotate(21, 196, 77)">w₇₁ × error</text>
+  <!-- Line 2: (294,125)→(98,100), midpoint ~(196,112), slope ≈ 7° left-to-right -->
+  <text x="196" y="104" class="anno" style="fill:#cf1322" transform="rotate(7, 196, 104)">w₇₂ × error</text>
+  <!-- Line 3: (294,128)→(98,153), midpoint ~(196,140), slope ≈ -7° left-to-right -->
+  <text x="196" y="133" class="anno" style="fill:#cf1322" transform="rotate(-7, 196, 133)">w₇₃ × error</text>
+
+  <!-- Labels -->
+  <text x="80" y="194" class="anno-b">hidden layer</text>
+  <text x="310" y="194" class="anno-b">output layer</text>
+
+  <!-- Big error annotation -->
+  <text x="403" y="125" class="anno" style="fill:#cf1322">← large</text>
+  <text x="403" y="135" class="anno" style="fill:#cf1322">   error</text>
+</svg>

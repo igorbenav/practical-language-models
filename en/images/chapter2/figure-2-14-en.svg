@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 200">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #333; font-style: italic; }
+    .label-sm { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #555; font-style: italic; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #999; }
+    .anno-b { font-family: 'Arial', sans-serif; font-size: 9.5px; fill: #666; font-weight: bold; }
+    .digit { font-family: 'Arial', sans-serif; font-size: 28px; fill: #333; font-weight: bold; }
+    .cell-off { fill: #e8e8e8; stroke: #d0d0d0; stroke-width: 0.5; }
+    .cell-low { fill: #b7e4c7; stroke: #a0d4b0; stroke-width: 0.5; }
+    .cell-med { fill: #52c41a; stroke: #47a817; stroke-width: 0.5; }
+    .cell-high { fill: #237804; stroke: #1d6203; stroke-width: 0.5; }
+    .arrow { stroke: #999; stroke-width: 1; fill: none; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="460" height="200" class="bg"/>
+
+  <!-- ROW 1: input "1" -->
+  <text x="30" y="62" class="digit" text-anchor="middle">1</text>
+  <line x1="50" y1="52" x2="72" y2="52" class="arrow" marker-end="url(#arr)"/>
+
+  <!-- h vector for "1": vertical stroke detectors fire, loop detectors don't -->
+  <!-- 16 cells showing activation pattern -->
+  <rect x="78" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="94" y="38" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="110" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="126" y="38" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="142" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="158" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="174" y="38" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="190" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="206" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="222" y="38" width="14" height="14" rx="2" class="cell-low"/>
+  <rect x="238" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="254" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="270" y="38" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="286" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="302" y="38" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="318" y="38" width="14" height="14" rx="2" class="cell-high"/>
+
+  <!-- dots -->
+  <text x="343" y="50" class="anno">···</text>
+
+  <!-- annotation -->
+  <text x="365" y="49" class="anno" text-anchor="start">few neurons active</text>
+  <text x="365" y="59" class="anno" text-anchor="start">(vertical strokes)</text>
+
+  <!-- ROW 2: input "8" -->
+  <text x="30" y="152" class="digit" text-anchor="middle">8</text>
+  <line x1="50" y1="142" x2="72" y2="142" class="arrow" marker-end="url(#arr)"/>
+
+  <!-- h vector for "8": loops, curves, crossings all fire -->
+  <rect x="78" y="128" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="94" y="128" width="14" height="14" rx="2" class="cell-low"/>
+  <rect x="110" y="128" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="126" y="128" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="142" y="128" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="158" y="128" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="174" y="128" width="14" height="14" rx="2" class="cell-low"/>
+  <rect x="190" y="128" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="206" y="128" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="222" y="128" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="238" y="128" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="254" y="128" width="14" height="14" rx="2" class="cell-med"/>
+  <rect x="270" y="128" width="14" height="14" rx="2" class="cell-off"/>
+  <rect x="286" y="128" width="14" height="14" rx="2" class="cell-high"/>
+  <rect x="302" y="128" width="14" height="14" rx="2" class="cell-low"/>
+  <rect x="318" y="128" width="14" height="14" rx="2" class="cell-med"/>
+
+  <!-- dots -->
+  <text x="343" y="140" class="anno">···</text>
+
+  <!-- annotation -->
+  <text x="365" y="139" class="anno" text-anchor="start">many neurons active</text>
+  <text x="365" y="149" class="anno" text-anchor="start">(loops, curves, crossings)</text>
+
+  <!-- labels -->
+  <text x="30" y="18" class="anno-b" text-anchor="middle">input</text>
+  <text x="200" y="18" class="anno-b" text-anchor="middle">hidden layer activations h</text>
+
+  <!-- legend -->
+  <rect x="78" y="178" width="10" height="10" rx="1" class="cell-off"/>
+  <text x="92" y="187" class="anno">= 0 (ReLU off)</text>
+  <rect x="160" y="178" width="10" height="10" rx="1" class="cell-low"/>
+  <rect x="172" y="178" width="10" height="10" rx="1" class="cell-med"/>
+  <rect x="184" y="178" width="10" height="10" rx="1" class="cell-high"/>
+  <text x="198" y="187" class="anno">= active (stronger → darker)</text>
+</svg>

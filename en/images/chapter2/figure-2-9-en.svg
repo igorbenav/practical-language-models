@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 280">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .axis { stroke: #ccc; stroke-width: 1; }
+    .grid { stroke: #eee; stroke-width: 0.5; }
+    .axis-label {
+      font-family: Georgia, serif;
+      font-size: 11px;
+      fill: #555;
+      font-style: italic;
+    }
+    .point-0 { fill: #1890ff; }
+    .point-1 { fill: #fa8c16; }
+    .candidate {
+      stroke: #999;
+      stroke-width: 1.2;
+      stroke-dasharray: 4,3;
+      opacity: 0.7;
+    }
+    .anno {
+      font-family: Arial, sans-serif;
+      font-size: 9px;
+      fill: #666;
+    }
+    .anno-bold {
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      fill: #333;
+      font-weight: bold;
+    }
+  </style>
+
+  <rect width="340" height="280" class="bg"/>
+
+  <!-- Grid -->
+  <line x1="70" y1="220" x2="270" y2="220" class="grid"/>
+  <line x1="70" y1="160" x2="270" y2="160" class="grid"/>
+  <line x1="70" y1="100" x2="270" y2="100" class="grid"/>
+  <line x1="130" y1="60" x2="130" y2="240" class="grid"/>
+  <line x1="200" y1="60" x2="200" y2="240" class="grid"/>
+
+  <!-- Axes -->
+  <line x1="70" y1="240" x2="270" y2="240" class="axis"/>
+  <line x1="70" y1="60" x2="70" y2="240" class="axis"/>
+
+  <!-- Axis labels -->
+  <text x="170" y="265" class="axis-label" text-anchor="middle">x₁</text>
+  <text x="42" y="150" class="axis-label" text-anchor="middle"
+        transform="rotate(-90,42,150)">x₂</text>
+
+  <!-- Candidate separating lines -->
+  <line x1="90" y1="240" x2="250" y2="60" class="candidate"/>
+  <line x1="70" y1="170" x2="270" y2="170" class="candidate"/>
+  <line x1="120" y1="240" x2="220" y2="60" class="candidate"/>
+
+  <!-- XOR points -->
+  <!-- (0,0) -->
+  <circle cx="100" cy="210" r="5" class="point-0"/>
+  <text x="92" y="226" class="anno">0</text>
+
+  <!-- (0,1) -->
+  <circle cx="100" cy="110" r="5" class="point-1"/>
+  <text x="92" y="98" class="anno">1</text>
+
+  <!-- (1,0) -->
+  <circle cx="240" cy="210" r="5" class="point-1"/>
+  <text x="246" y="226" class="anno">1</text>
+
+  <!-- (1,1) -->
+  <circle cx="240" cy="110" r="5" class="point-0"/>
+  <text x="246" y="98" class="anno">0</text>
+
+  <!-- Corner highlights -->
+  <rect x="85" y="95" width="30" height="30" fill="none" stroke="#fa8c16" stroke-dasharray="3,3"/>
+  <rect x="225" y="195" width="30" height="30" fill="none" stroke="#fa8c16" stroke-dasharray="3,3"/>
+
+  <!-- Annotations -->
+  <text x="170" y="48" class="anno-bold" text-anchor="middle">
+    XOR: opposite corners are class 1
+  </text>
+
+  <text x="170" y="256" class="anno" text-anchor="middle">
+    No single line can separate the 1s from the 0s
+  </text>
+</svg>
