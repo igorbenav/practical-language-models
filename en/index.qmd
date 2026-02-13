@@ -12,7 +12,7 @@ We start with the mathematical definition of learning before touching any librar
 
 We build neural networks from scratch in NumPy before using any framework. We use Python throughout, uv for package management, FastAPI for serving models, and PydanticAI for building LLM applications. We're not surveying every algorithm or teaching you the "best" approach. We're teaching you one coherent path from mathematical foundations to deployed applications, so you have solid ground to stand on when you explore other directions later.
 
-The math is important, but it's not the gatekeeper. Every concept is introduced with intuition first: what we're trying to do and why. The equations formalize what you already understand. If you skip the math, you'll still know what's happening and why. If you engage with it, you'll know how and be able to reason about new problems on your own.
+The math is important, but it's not the gatekeeper. Every concept is introduced with intuition first: what we're trying to do and why. The equations formalize what you already understand partially; if you skip the math, you should still get a grasp on what's happening and why, if you engage with it, you'll know how and be able to reason about new problems on your own.
 
 ## What You'll Build {.unnumbered}
 
@@ -53,8 +53,8 @@ You'll need:
 - A terminal you're comfortable using
 - Comfortable Python knowledge (variables, functions, loops, lists, dictionaries, classes, decorators, asyncio)
 - Basic linear algebra (vectors, dot products, matrix multiplication)
-- Basic calculus (derivatives, chain rule)
-- Willingness to read error messages instead of panicking
+- Basic single and multivariable calculus (derivatives, chain rule, partial derivatives)
+- Willingness to try to understand equations and read error messages instead of panicking
 
 You don't need prior machine learning experience. You don't need to know NumPy, PyTorch, or any ML framework. We'll cover what you need as we go.
 

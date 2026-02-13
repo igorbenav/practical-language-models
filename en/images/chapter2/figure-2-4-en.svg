@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 280">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .label-sm { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .axis-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #555; font-style: italic; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; }
+  </style>
+  <defs>
+    <marker id="arr-step" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#fa8c16"/>
+    </marker>
+    <marker id="arr-grad" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#cf1322"/>
+    </marker>
+    <marker id="arr-neg" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#52c41a"/>
+    </marker>
+    <clipPath id="cp"><rect x="50" y="30" width="260" height="210"/></clipPath>
+  </defs>
+
+  <rect width="340" height="280" class="bg"/>
+
+  <!-- Axes -->
+  <line x1="50" y1="240" x2="310" y2="240" stroke="#ccc" stroke-width="1"/>
+  <line x1="50" y1="30" x2="50" y2="240" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Axis labels -->
+  <text x="180" y="262" class="axis-label" text-anchor="middle">w₁</text>
+  <text x="30" y="135" class="axis-label" text-anchor="middle" transform="rotate(-90,30,135)">w₂</text>
+
+  <!-- Tick marks -->
+  <line x1="76.0" y1="240" x2="76.0" y2="244" stroke="#999" stroke-width="0.8"/>
+  <text x="76.0" y="254" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">0</text>
+  <line x1="128.0" y1="240" x2="128.0" y2="244" stroke="#999" stroke-width="0.8"/>
+  <text x="128.0" y="254" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">1</text>
+  <line x1="180.0" y1="240" x2="180.0" y2="244" stroke="#999" stroke-width="0.8"/>
+  <text x="180.0" y="254" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">2</text>
+  <line x1="232.0" y1="240" x2="232.0" y2="244" stroke="#999" stroke-width="0.8"/>
+  <text x="232.0" y="254" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">3</text>
+  <line x1="284.0" y1="240" x2="284.0" y2="244" stroke="#999" stroke-width="0.8"/>
+  <text x="284.0" y="254" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">4</text>
+
+  <line x1="50" y1="200.9" x2="46" y2="200.9" stroke="#999" stroke-width="0.8"/>
+  <text x="43" y="203.9" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">0</text>
+  <line x1="50" y1="152.1" x2="46" y2="152.1" stroke="#999" stroke-width="0.8"/>
+  <text x="43" y="155.1" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">1</text>
+  <line x1="50" y1="103.3" x2="46" y2="103.3" stroke="#999" stroke-width="0.8"/>
+  <text x="43" y="106.3" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">2</text>
+  <line x1="50" y1="54.4" x2="46" y2="54.4" stroke="#999" stroke-width="0.8"/>
+  <text x="43" y="57.4" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">3</text>
+
+  <!-- Contour lines -->
+  <g clip-path="url(#cp)">
+  <polyline points="284.0,103.3 283.8,101.3 283.4,99.4 282.6,97.6 281.5,95.7 280.0,93.9 278.3,92.2 276.3,90.5 274.1,88.9 271.5,87.4 268.8,86.0 265.8,84.7 262.6,83.5 259.2,82.4 255.6,81.5 251.9,80.7 248.1,80.0 244.1,79.5 240.1,79.1 236.1,78.9 232.0,78.8 227.9,78.9 223.9,79.1 219.9,79.5 215.9,80.0 212.1,80.7 208.4,81.5 204.8,82.4 201.4,83.5 198.2,84.7 195.2,86.0 192.5,87.4 189.9,88.9 187.7,90.5 185.7,92.2 184.0,93.9 182.5,95.7 181.4,97.6 180.6,99.4 180.2,101.3 180.0,103.3 180.2,105.2 180.6,107.1 181.4,109.0 182.5,110.8 184.0,112.6 185.7,114.3 187.7,116.0 189.9,117.6 192.5,119.1 195.2,120.5 198.2,121.8 201.4,123.0 204.8,124.1 208.4,125.0 212.1,125.8 215.9,126.5 219.9,127.0 223.9,127.4 227.9,127.6 232.0,127.7 236.1,127.6 240.1,127.4 244.1,127.0 248.1,126.5 251.9,125.8 255.6,125.0 259.2,124.1 262.6,123.0 265.8,121.8 268.8,120.5 271.5,119.1 274.1,117.6 276.3,116.0 278.3,114.3 280.0,112.6 281.5,110.8 282.6,109.0 283.4,107.1 283.8,105.2 284.0,103.3" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.49"/>
+  <polyline points="312.2,84.1 308.8,81.2 304.9,78.4 300.5,75.8 295.7,73.3 290.5,71.1 284.9,69.0 279.1,67.2 272.9,65.6 266.5,64.2 259.8,63.0 253.0,62.1 246.1,61.5 239.1,61.1 232.0,61.0 224.9,61.1 217.9,61.5 211.0,62.1 204.2,63.0 197.5,64.2 191.1,65.6 184.9,67.2 179.1,69.0 173.5,71.1 168.3,73.3 163.5,75.8 159.1,78.4 155.2,81.2 151.8,84.1 148.8,87.1 146.3,90.2 144.4,93.4 143.0,96.6 142.2,99.9 141.9,103.3 142.2,106.6 143.0,109.9 144.4,113.1 146.3,116.3 148.8,119.4 151.8,122.5 155.2,125.4 159.1,128.1 163.5,130.7 168.3,133.2 173.5,135.4 179.1,137.5 184.9,139.3 191.1,140.9 197.5,142.3 204.2,143.5 211.0,144.4 217.9,145.0 224.9,145.4 232.0,145.6 239.1,145.4 246.1,145.0 253.0,144.4 259.8,143.5 266.5,142.3 272.9,140.9 279.1,139.3 284.9,137.5 290.5,135.4 295.7,133.2 300.5,130.7 304.9,128.1 308.8,125.4 312.2,122.5" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.47"/>
+  <polyline points="314.7,57.8 306.9,54.9 298.6,52.3 289.8,50.0 280.7,48.0 271.4,46.4 261.7,45.1 251.9,44.2 242.0,43.6 232.0,43.4 222.0,43.6 212.1,44.2 202.3,45.1 192.6,46.4 183.3,48.0 174.2,50.0 165.4,52.3 157.1,54.9 149.3,57.8 141.9,61.0 135.1,64.4 129.0,68.1 123.4,72.0 118.5,76.1 114.3,80.4 110.9,84.8 108.1,89.3 106.2,93.9 105.0,98.6 104.6,103.3 105.0,107.9 106.2,112.6 108.1,117.2 110.9,121.7 114.3,126.1 118.5,130.4 123.4,134.5 129.0,138.4 135.1,142.1 141.9,145.6 149.3,148.7 157.1,151.6 165.4,154.3 174.2,156.5 183.3,158.5 192.6,160.1 202.3,161.4 212.1,162.3 222.0,162.9 232.0,163.1 242.0,162.9 251.9,162.3 261.7,161.4 271.4,160.1 280.7,158.5 289.8,156.5 298.6,154.3 306.9,151.6 314.7,148.7" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.44"/>
+  <polyline points="306.7,34.5 294.9,31.9 282.8,29.8 270.4,28.2 257.7,27.0 244.9,26.3 232.0,26.0 219.1,26.3 206.3,27.0 193.6,28.2 181.2,29.8 169.1,31.9 157.3,34.5 146.1,37.4 135.3,40.8 125.2,44.5 115.7,48.7 107.0,53.1 99.0,57.9 91.8,62.9 85.5,68.2 80.1,73.7 75.6,79.4 72.1,85.2 69.6,91.2 68.1,97.2 67.6,103.3 68.1,109.3 69.6,115.3 72.1,121.3 75.6,127.1 80.1,132.8 85.5,138.3 91.8,143.6 99.0,148.6 107.0,153.4 115.7,157.9 125.2,162.0 135.3,165.7 146.1,169.1 157.3,172.1 169.1,174.6 181.2,176.7 193.6,178.3 206.3,179.5 219.1,180.2 232.0,180.5 244.9,180.2 257.7,179.5 270.4,178.3 282.8,176.7 294.9,174.6 306.7,172.1" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.40"/>
+  <polyline points="96.9,29.0 84.9,34.2 73.8,39.8 63.7,45.8 54.7,52.2 46.7,58.9 46.7,147.6 54.7,154.3 63.7,160.7 73.8,166.7 84.9,172.3 96.9,177.5 109.7,182.3 123.3,186.5 137.6,190.3 152.4,193.5 167.7,196.1 183.4,198.2 199.5,199.7 215.7,200.6 232.0,200.9 248.3,200.6 264.5,199.7 280.6,198.2 296.3,196.1 311.6,193.5" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.34"/>
+  <polyline points="51.9,187.8 66.6,194.2 82.3,200.0 98.9,205.3 116.3,209.8 134.5,213.8 153.3,217.0 172.5,219.6 192.1,221.4 212.0,222.5 232.0,222.9 252.0,222.5 271.9,221.4 291.5,219.6 310.7,217.0" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.26"/>
+  <polyline points="53.8,218.4 73.6,224.7 94.3,230.1 116.0,234.8 138.3,238.7 161.2,241.7 184.6,243.9 279.4,243.9 302.8,241.7" fill="none" stroke="#1890ff" stroke-width="1" opacity="0.16"/>
+  </g>
+
+  <!-- GD path: connecting lines -->
+  <line x1="76.0" y1="200.9" x2="99.4" y2="142.3" stroke="#fa8c16" stroke-width="1.5" opacity="1.00"/>
+  <line x1="99.4" y1="142.3" x2="119.3" y2="118.9" stroke="#fa8c16" stroke-width="1.5" opacity="0.96"/>
+  <line x1="119.3" y1="118.9" x2="136.2" y2="109.5" stroke="#fa8c16" stroke-width="1.5" opacity="0.92"/>
+  <line x1="136.2" y1="109.5" x2="150.6" y2="105.8" stroke="#fa8c16" stroke-width="1.5" opacity="0.88"/>
+  <line x1="150.6" y1="105.8" x2="162.8" y2="104.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.84"/>
+  <line x1="162.8" y1="104.3" x2="173.2" y2="103.7" stroke="#fa8c16" stroke-width="1.5" opacity="0.80"/>
+  <line x1="173.2" y1="103.7" x2="182.0" y2="103.4" stroke="#fa8c16" stroke-width="1.5" opacity="0.76"/>
+  <line x1="182.0" y1="103.4" x2="189.5" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.72"/>
+  <line x1="189.5" y1="103.3" x2="195.9" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.68"/>
+  <line x1="195.9" y1="103.3" x2="201.3" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.64"/>
+  <line x1="201.3" y1="103.3" x2="205.9" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.60"/>
+  <line x1="205.9" y1="103.3" x2="209.8" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.56"/>
+  <line x1="209.8" y1="103.3" x2="213.1" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.52"/>
+  <line x1="213.1" y1="103.3" x2="216.0" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.48"/>
+  <line x1="216.0" y1="103.3" x2="218.4" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.44"/>
+  <line x1="218.4" y1="103.3" x2="220.4" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.40"/>
+  <line x1="220.4" y1="103.3" x2="222.2" y2="103.3" stroke="#fa8c16" stroke-width="1.5" opacity="0.36"/>
+
+  <!-- GD path: dots -->
+  <!-- start dot moved to after arrows -->
+  <circle cx="99.4" cy="142.3" r="2.5" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.96"/>
+  <circle cx="119.3" cy="118.9" r="2.5" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.92"/>
+  <circle cx="136.2" cy="109.5" r="2.5" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.88"/>
+  <circle cx="150.6" cy="105.8" r="2.5" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.84"/>
+  <circle cx="162.8" cy="104.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.80"/>
+  <circle cx="173.2" cy="103.7" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.76"/>
+  <circle cx="182.0" cy="103.4" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.72"/>
+  <circle cx="189.5" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.68"/>
+  <circle cx="195.9" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.64"/>
+  <circle cx="201.3" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.60"/>
+  <circle cx="205.9" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.56"/>
+  <circle cx="209.8" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.52"/>
+  <circle cx="213.1" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.48"/>
+  <circle cx="216.0" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.44"/>
+  <circle cx="218.4" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.40"/>
+  <circle cx="220.4" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.36"/>
+  <circle cx="222.2" cy="103.3" r="2" fill="#fa8c16" stroke="#fff" stroke-width="1" opacity="0.35"/>
+
+  <!-- Gradient arrow at start (red, pointing uphill) -->
+  <line x1="76.0" y1="200.9" x2="63.7" y2="233.7" stroke="#cf1322" stroke-width="1.8" marker-end="url(#arr-grad)"/>
+  <text x="60.0" y="230.0" class="anno" text-anchor="end" style="fill:#cf1322;font-weight:bold">∇L</text>
+
+  <!-- Negative gradient arrow (green, pointing downhill = step direction) -->
+  <line x1="76.0" y1="200.9" x2="88.3" y2="168.2" stroke="#52c41a" stroke-width="1.8" marker-end="url(#arr-neg)"/>
+  <text x="94.0" y="178.0" class="anno" text-anchor="start" style="fill:#52c41a;font-weight:bold">−∇L (step)</text>
+
+  <!-- Start dot on top of arrow tails -->
+  <circle cx="76.0" cy="200.9" r="4" fill="#fa8c16" stroke="#fff" stroke-width="1.5"/>
+
+  <!-- Start label -->
+  <text x="84.0" y="209.0" class="anno" style="fill:#fa8c16;font-weight:bold">start</text>
+
+  <!-- Minimum marker -->
+  <circle cx="232.0" cy="103.3" r="4" fill="#52c41a" stroke="#fff" stroke-width="1.5"/>
+  <text x="240.0" y="97.3" class="anno" style="fill:#52c41a;font-weight:bold">minimum</text>
+
+  <!-- Bottom note -->
+  <text x="170" y="272" class="label-sm" style="font-size:10px">Contour lines = equal loss. Steps cut across contours toward the valley.</text>
+</svg>

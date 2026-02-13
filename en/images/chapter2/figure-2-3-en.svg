@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 295">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-sm { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .axis-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #555; font-style: italic; }
+    .grid { stroke: #eee; stroke-width: 0.5; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; }
+  </style>
+  <defs>
+    <linearGradient id="para-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1890ff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#1890ff" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="340" height="295" class="bg"/>
+
+  <!-- Grid lines -->
+  <line x1="74.3" y1="182.1" x2="300.0" y2="182.1" class="grid"/>
+  <line x1="74.3" y1="134.1" x2="300.0" y2="134.1" class="grid"/>
+  <line x1="74.3" y1="86.0" x2="300.0" y2="86.0" class="grid"/>
+  <line x1="138.8" y1="78.0" x2="138.8" y2="230.2" class="grid"/>
+  <line x1="203.3" y1="78.0" x2="203.3" y2="230.2" class="grid"/>
+  <line x1="267.8" y1="78.0" x2="267.8" y2="230.2" class="grid"/>
+
+  <!-- Axes -->
+  <line x1="74.3" y1="78.0" x2="74.3" y2="230.2" stroke="#ccc" stroke-width="1"/>
+  <line x1="74.3" y1="230.2" x2="300.0" y2="230.2" stroke="#ccc" stroke-width="1"/>
+
+  <!-- Axis labels -->
+  <text x="130.0" y="260.2" class="axis-label" text-anchor="middle">w</text>
+  <text x="52.3" y="156.5" class="axis-label" text-anchor="middle" transform="rotate(-90, 52.3, 156.5)">L(w) = (w − 3)²</text>
+
+  <!-- Ticks -->
+  <line x1="74.3" y1="230.2" x2="74.3" y2="235.2" stroke="#999" stroke-width="0.8"/>
+  <text x="74.3" y="245.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">0</text>
+  <line x1="138.8" y1="230.2" x2="138.8" y2="235.2" stroke="#999" stroke-width="0.8"/>
+  <text x="138.8" y="245.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">1</text>
+  <line x1="203.3" y1="230.2" x2="203.3" y2="235.2" stroke="#999" stroke-width="0.8"/>
+  <text x="203.3" y="245.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">2</text>
+  <line x1="267.8" y1="230.2" x2="267.8" y2="235.2" stroke="#999" stroke-width="0.8"/>
+  <line x1="70.3" y1="230.2" x2="74.3" y2="230.2" stroke="#999" stroke-width="0.8"/>
+  <text x="66.3" y="233.2" text-anchor="end" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">0</text>
+  <line x1="70.3" y1="182.1" x2="74.3" y2="182.1" stroke="#999" stroke-width="0.8"/>
+  <text x="66.3" y="185.1" text-anchor="end" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">3</text>
+  <line x1="70.3" y1="134.1" x2="74.3" y2="134.1" stroke="#999" stroke-width="0.8"/>
+  <text x="66.3" y="137.1" text-anchor="end" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">6</text>
+  <line x1="70.3" y1="86.0" x2="74.3" y2="86.0" stroke="#999" stroke-width="0.8"/>
+  <text x="66.3" y="89.0" text-anchor="end" style="font-family:Georgia,serif;font-size:10px;fill:#999;font-style:italic">9</text>
+
+  <!-- Parabola fill -->
+  <polyline points="69.8,79.2 72.3,83.0 74.8,86.7 77.3,90.3 79.7,94.0 82.2,97.5 84.7,101.0 87.2,104.5 89.6,107.9 92.1,111.3 94.6,114.6 97.1,117.9 99.5,121.1 102.0,124.3 104.5,127.5 107.0,130.6 109.4,133.6 111.9,136.6 114.4,139.5 116.9,142.4 119.3,145.3 121.8,148.1 124.3,150.9 126.8,153.6 129.2,156.2 131.7,158.9 134.2,161.4 136.7,164.0 139.1,166.4 141.6,168.9 144.1,171.2 146.6,173.6 149.0,175.9 151.5,178.1 154.0,180.3 156.5,182.5 158.9,184.6 161.4,186.6 163.9,188.6 166.4,190.6 168.8,192.5 171.3,194.3 173.8,196.2 176.3,197.9 178.7,199.6 181.2,201.3 183.7,203.0 186.2,204.5 188.6,206.1 191.1,207.5 193.6,209.0 196.1,210.4 198.5,211.7 201.0,213.0 203.5,214.3 206.0,215.5 208.4,216.6 210.9,217.7 213.4,218.8 215.9,219.8 218.3,220.8 220.8,221.7 223.3,222.6 225.8,223.4 228.2,224.2 230.7,224.9 233.2,225.6 235.7,226.2 238.1,226.8 240.6,227.4 243.1,227.8 245.6,228.3 248.0,228.7 250.5,229.0 253.0,229.4 255.5,229.6 257.9,229.8 260.4,230.0 262.9,230.1 265.4,230.2 267.8,230.2 270.3,230.2 272.8,230.1 275.3,230.0 277.7,229.8 280.2,229.6 282.7,229.3 285.2,229.0 287.6,228.7 290.1,228.3 292.6,227.8 295.1,227.3 297.5,226.8 300.0,226.2" fill="none" stroke="none"/>
+  <path d="M 69.8,79.2 L 69.8,79.2 L 72.3,83.0 L 74.8,86.7 L 77.3,90.3 L 79.7,94.0 L 82.2,97.5 L 84.7,101.0 L 87.2,104.5 L 89.6,107.9 L 92.1,111.3 L 94.6,114.6 L 97.1,117.9 L 99.5,121.1 L 102.0,124.3 L 104.5,127.5 L 107.0,130.6 L 109.4,133.6 L 111.9,136.6 L 114.4,139.5 L 116.9,142.4 L 119.3,145.3 L 121.8,148.1 L 124.3,150.9 L 126.8,153.6 L 129.2,156.2 L 131.7,158.9 L 134.2,161.4 L 136.7,164.0 L 139.1,166.4 L 141.6,168.9 L 144.1,171.2 L 146.6,173.6 L 149.0,175.9 L 151.5,178.1 L 154.0,180.3 L 156.5,182.5 L 158.9,184.6 L 161.4,186.6 L 163.9,188.6 L 166.4,190.6 L 168.8,192.5 L 171.3,194.3 L 173.8,196.2 L 176.3,197.9 L 178.7,199.6 L 181.2,201.3 L 183.7,203.0 L 186.2,204.5 L 188.6,206.1 L 191.1,207.5 L 193.6,209.0 L 196.1,210.4 L 198.5,211.7 L 201.0,213.0 L 203.5,214.3 L 206.0,215.5 L 208.4,216.6 L 210.9,217.7 L 213.4,218.8 L 215.9,219.8 L 218.3,220.8 L 220.8,221.7 L 223.3,222.6 L 225.8,223.4 L 228.2,224.2 L 230.7,224.9 L 233.2,225.6 L 235.7,226.2 L 238.1,226.8 L 240.6,227.4 L 243.1,227.8 L 245.6,228.3 L 248.0,228.7 L 250.5,229.0 L 253.0,229.4 L 255.5,229.6 L 257.9,229.8 L 260.4,230.0 L 262.9,230.1 L 265.4,230.2 L 267.8,230.2 L 270.3,230.2 L 272.8,230.1 L 275.3,230.0 L 277.7,229.8 L 280.2,229.6 L 282.7,229.3 L 285.2,229.0 L 287.6,228.7 L 290.1,228.3 L 292.6,227.8 L 295.1,227.3 L 297.5,226.8 L 300.0,226.2 L 300.0,230.2 L 69.8,230.2 Z" fill="url(#para-grad)"/>
+
+  <!-- Parabola stroke -->
+  <polyline points="69.8,79.2 72.3,83.0 74.8,86.7 77.3,90.3 79.7,94.0 82.2,97.5 84.7,101.0 87.2,104.5 89.6,107.9 92.1,111.3 94.6,114.6 97.1,117.9 99.5,121.1 102.0,124.3 104.5,127.5 107.0,130.6 109.4,133.6 111.9,136.6 114.4,139.5 116.9,142.4 119.3,145.3 121.8,148.1 124.3,150.9 126.8,153.6 129.2,156.2 131.7,158.9 134.2,161.4 136.7,164.0 139.1,166.4 141.6,168.9 144.1,171.2 146.6,173.6 149.0,175.9 151.5,178.1 154.0,180.3 156.5,182.5 158.9,184.6 161.4,186.6 163.9,188.6 166.4,190.6 168.8,192.5 171.3,194.3 173.8,196.2 176.3,197.9 178.7,199.6 181.2,201.3 183.7,203.0 186.2,204.5 188.6,206.1 191.1,207.5 193.6,209.0 196.1,210.4 198.5,211.7 201.0,213.0 203.5,214.3 206.0,215.5 208.4,216.6 210.9,217.7 213.4,218.8 215.9,219.8 218.3,220.8 220.8,221.7 223.3,222.6 225.8,223.4 228.2,224.2 230.7,224.9 233.2,225.6 235.7,226.2 238.1,226.8 240.6,227.4 243.1,227.8 245.6,228.3 248.0,228.7 250.5,229.0 253.0,229.4 255.5,229.6 257.9,229.8 260.4,230.0 262.9,230.1 265.4,230.2 267.8,230.2 270.3,230.2 272.8,230.1 275.3,230.0 277.7,229.8 280.2,229.6 282.7,229.3 285.2,229.0 287.6,228.7 290.1,228.3 292.6,227.8 295.1,227.3 297.5,226.8 300.0,226.2" fill="none" stroke="#1890ff" stroke-width="2"/>
+
+  <!-- Step connecting lines -->
+  <line x1="74.3" y1="86.0" x2="113.0" y2="137.9" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="113.0" y1="137.9" x2="144.0" y2="171.1" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="144.0" y1="171.1" x2="168.7" y2="192.4" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="168.7" y1="192.4" x2="188.5" y2="206.0" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="188.5" y1="206.0" x2="204.4" y2="214.7" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="204.4" y1="214.7" x2="217.1" y2="220.3" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+  <line x1="217.1" y1="220.3" x2="227.2" y2="223.9" stroke="#fa8c16" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.6"/>
+
+  <!-- Step dots -->
+  <circle cx="74.3" cy="86.0" r="4" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="1.00"/>
+  <circle cx="113.0" cy="137.9" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.92"/>
+  <circle cx="144.0" cy="171.1" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.84"/>
+  <circle cx="168.7" cy="192.4" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.76"/>
+  <circle cx="188.5" cy="206.0" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.68"/>
+  <circle cx="204.4" cy="214.7" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.60"/>
+  <circle cx="217.1" cy="220.3" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.52"/>
+  <circle cx="227.2" cy="223.9" r="3" fill="#fa8c16" stroke="#fff" stroke-width="1.5" opacity="0.44"/>
+
+  <!-- Label first step -->
+  <text x="66.3" y="78.0" class="anno" text-anchor="end" style="fill:#fa8c16;font-weight:bold">w₀ = 0</text>
+
+  <!-- Label a middle step -->
+  <text x="176.7" y="184.4" class="anno" text-anchor="start" style="fill:#fa8c16">w₃ = 1.46</text>
+
+  <!-- Minimum marker -->
+  <circle cx="267.8" cy="230.2" r="4" fill="#52c41a" stroke="#fff" stroke-width="1.5"/>
+  <line x1="267.8" y1="234" x2="267.8" y2="242" stroke="#52c41a" stroke-width="0.8" stroke-dasharray="2,2"/>
+  <text x="267.8" y="250" class="anno" text-anchor="middle" style="fill:#52c41a;font-weight:bold">minimum</text>
+  <text x="267.8" y="259" class="anno" text-anchor="middle" style="fill:#52c41a;font-weight:bold">at w = 3</text>
+
+  <!-- Annotation: steps get smaller -->
+  <text x="175" y="226" class="anno" text-anchor="end" style="fill:#999;font-style:italic">steps shrink →</text>
+
+  <!-- Bottom note -->
+  <text x="170" y="287" class="label-sm" style="font-size:10px">η = 0.1 · After 20 steps: w ≈ 2.98, loss ≈ 0.0004</text>
+</svg>

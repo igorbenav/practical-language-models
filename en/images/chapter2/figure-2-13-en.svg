@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; }
+    .axis { stroke: #ccc; stroke-width: 0.8; }
+    .grid { stroke: #eee; stroke-width: 0.5; }
+  </style>
+
+  <rect width="500" height="250" class="bg"/>
+
+  <!-- Left panel: Sigmoid -->
+  <text x="140" y="22" class="title">Sigmoid</text>
+
+  <!-- Left axes -->
+  <line x1="50" y1="45" x2="50" y2="182.5" class="axis"/>
+  <line x1="50" y1="182.5" x2="230" y2="182.5" class="axis"/>
+
+  <!-- Left grid -->
+  <line x1="50" y1="120.0" x2="230" y2="120.0" class="grid"/>
+  <line x1="50" y1="57.5" x2="230" y2="57.5" class="grid"/>
+
+  <line x1="68.0" y1="182.5" x2="68.0" y2="186.5" stroke="#999" stroke-width="0.6"/>
+  <text x="68.0" y="195.5" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">-4</text>
+  <line x1="104.0" y1="182.5" x2="104.0" y2="186.5" stroke="#999" stroke-width="0.6"/>
+  <text x="104.0" y="195.5" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">-2</text>
+  <line x1="140.0" y1="182.5" x2="140.0" y2="186.5" stroke="#999" stroke-width="0.6"/>
+  <text x="140.0" y="195.5" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">0</text>
+  <line x1="176.0" y1="182.5" x2="176.0" y2="186.5" stroke="#999" stroke-width="0.6"/>
+  <text x="176.0" y="195.5" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">2</text>
+  <line x1="212.0" y1="182.5" x2="212.0" y2="186.5" stroke="#999" stroke-width="0.6"/>
+  <text x="212.0" y="195.5" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">4</text>
+  <line x1="47.0" y1="120.0" x2="50.0" y2="120.0" stroke="#999" stroke-width="0.6"/>
+  <text x="44.0" y="123.0" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">½</text>
+  <line x1="47.0" y1="57.5" x2="50.0" y2="57.5" stroke="#999" stroke-width="0.6"/>
+  <text x="44.0" y="60.5" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">1</text>
+
+  <!-- Sigmoid curve -->
+  <polyline points="50.0,181.7 51.2,181.6 52.4,181.5 53.6,181.5 54.8,181.4 56.0,181.3 57.2,181.3 58.5,181.2 59.7,181.1 60.9,181.0 62.1,180.9 63.3,180.8 64.5,180.6 65.7,180.5 66.9,180.4 68.1,180.2 69.3,180.1 70.5,179.9 71.7,179.7 73.0,179.6 74.2,179.4 75.4,179.1 76.6,178.9 77.8,178.7 79.0,178.4 80.2,178.1 81.4,177.9 82.6,177.5 83.8,177.2 85.0,176.9 86.2,176.5 87.4,176.1 88.7,175.7 89.9,175.2 91.1,174.8 92.3,174.3 93.5,173.7 94.7,173.2 95.9,172.6 97.1,171.9 98.3,171.3 99.5,170.6 100.7,169.8 101.9,169.0 103.2,168.2 104.4,167.3 105.6,166.4 106.8,165.5 108.0,164.4 109.2,163.4 110.4,162.3 111.6,161.1 112.8,159.9 114.0,158.6 115.2,157.3 116.4,155.9 117.7,154.5 118.9,153.0 120.1,151.5 121.3,149.9 122.5,148.2 123.7,146.5 124.9,144.8 126.1,143.0 127.3,141.2 128.5,139.3 129.7,137.4 130.9,135.4 132.1,133.4 133.4,131.4 134.6,129.4 135.8,127.3 137.0,125.2 138.2,123.1 139.4,121.0 140.6,119.0 141.8,116.9 143.0,114.8 144.2,112.7 145.4,110.6 146.6,108.6 147.9,106.6 149.1,104.6 150.3,102.6 151.5,100.7 152.7,98.8 153.9,97.0 155.1,95.2 156.3,93.5 157.5,91.8 158.7,90.1 159.9,88.5 161.1,87.0 162.3,85.5 163.6,84.1 164.8,82.7 166.0,81.4 167.2,80.1 168.4,78.9 169.6,77.7 170.8,76.6 172.0,75.6 173.2,74.5 174.4,73.6 175.6,72.7 176.8,71.8 178.1,71.0 179.3,70.2 180.5,69.4 181.7,68.7 182.9,68.1 184.1,67.4 185.3,66.8 186.5,66.3 187.7,65.7 188.9,65.2 190.1,64.8 191.3,64.3 192.6,63.9 193.8,63.5 195.0,63.1 196.2,62.8 197.4,62.5 198.6,62.1 199.8,61.9 201.0,61.6 202.2,61.3 203.4,61.1 204.6,60.9 205.8,60.6 207.0,60.4 208.3,60.3 209.5,60.1 210.7,59.9 211.9,59.8 213.1,59.6 214.3,59.5 215.5,59.4 216.7,59.2 217.9,59.1 219.1,59.0 220.3,58.9 221.5,58.8 222.8,58.7 224.0,58.7 225.2,58.6 226.4,58.5 227.6,58.5 228.8,58.4 230.0,58.3" fill="none" stroke="#1890ff" stroke-width="2.5"/>
+
+  <!-- Sigmoid derivative -->
+  <polyline points="50.0,181.7 51.2,181.6 52.4,181.6 53.6,181.5 54.8,181.4 56.0,181.3 57.2,181.3 58.5,181.2 59.7,181.1 60.9,181.0 62.1,180.9 63.3,180.8 64.5,180.7 65.7,180.5 66.9,180.4 68.1,180.3 69.3,180.1 70.5,180.0 71.7,179.8 73.0,179.6 74.2,179.4 75.4,179.2 76.6,179.0 77.8,178.8 79.0,178.6 80.2,178.3 81.4,178.0 82.6,177.7 83.8,177.4 85.0,177.1 86.2,176.8 87.4,176.4 88.7,176.1 89.9,175.7 91.1,175.2 92.3,174.8 93.5,174.3 94.7,173.9 95.9,173.4 97.1,172.8 98.3,172.3 99.5,171.7 100.7,171.1 101.9,170.5 103.2,169.8 104.4,169.2 105.6,168.5 106.8,167.8 108.0,167.0 109.2,166.3 110.4,165.5 111.6,164.8 112.8,164.0 114.0,163.2 115.2,162.4 116.4,161.6 117.7,160.8 118.9,160.0 120.1,159.2 121.3,158.4 122.5,157.6 123.7,156.9 124.9,156.2 126.1,155.5 127.3,154.8 128.5,154.2 129.7,153.7 130.9,153.1 132.1,152.7 133.4,152.3 134.6,152.0 135.8,151.7 137.0,151.5 138.2,151.3 139.4,151.3 140.6,151.3 141.8,151.3 143.0,151.5 144.2,151.7 145.4,152.0 146.6,152.3 147.9,152.7 149.1,153.1 150.3,153.7 151.5,154.2 152.7,154.8 153.9,155.5 155.1,156.2 156.3,156.9 157.5,157.6 158.7,158.4 159.9,159.2 161.1,160.0 162.3,160.8 163.6,161.6 164.8,162.4 166.0,163.2 167.2,164.0 168.4,164.8 169.6,165.5 170.8,166.3 172.0,167.0 173.2,167.8 174.4,168.5 175.6,169.2 176.8,169.8 178.1,170.5 179.3,171.1 180.5,171.7 181.7,172.3 182.9,172.8 184.1,173.4 185.3,173.9 186.5,174.3 187.7,174.8 188.9,175.2 190.1,175.7 191.3,176.1 192.6,176.4 193.8,176.8 195.0,177.1 196.2,177.4 197.4,177.7 198.6,178.0 199.8,178.3 201.0,178.6 202.2,178.8 203.4,179.0 204.6,179.2 205.8,179.4 207.0,179.6 208.3,179.8 209.5,180.0 210.7,180.1 211.9,180.3 213.1,180.4 214.3,180.5 215.5,180.7 216.7,180.8 217.9,180.9 219.1,181.0 220.3,181.1 221.5,181.2 222.8,181.3 224.0,181.3 225.2,181.4 226.4,181.5 227.6,181.6 228.8,181.6 230.0,181.7" fill="none" stroke="#cf1322" stroke-width="1.5" stroke-dasharray="4,2"/>
+
+  <!-- Max deriv annotation -->
+  <circle cx="140.0" cy="151.2" r="2.5" fill="#cf1322"/>
+  <text x="148.0" y="146.2" class="anno" text-anchor="start" style="fill:#cf1322">max = 0.25</text>
+
+  <!-- Axis label -->
+  <text x="140" y="208" style="font-family:Georgia,serif;font-size:10px;fill:#555;font-style:italic" text-anchor="middle">z</text>
+
+  <!-- Legend -->
+  <line x1="55" y1="50" x2="70" y2="50" stroke="#1890ff" stroke-width="2"/>
+  <text x="74" y="53" class="anno" text-anchor="start" style="fill:#1890ff">σ(z)</text>
+  <line x1="55" y1="62" x2="70" y2="62" stroke="#cf1322" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="74" y="65" class="anno" text-anchor="start" style="fill:#cf1322">σ′(z)</text>
+
+  <!-- Vanishing gradient annotation -->
+  <!-- Vanishing gradient: arrows pointing to flat tails -->
+  <text x="140" y="220" class="anno" text-anchor="middle" style="fill:#cf1322;font-style:italic">← gradient vanishes at tails →</text>
+
+  <!-- Divider -->
+  <line x1="255" y1="30" x2="255" y2="210" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Right panel: ReLU -->
+  <text x="370" y="22" class="title">ReLU</text>
+
+  <!-- Right axes -->
+  <line x1="280" y1="45" x2="280" y2="176.2" class="axis"/>
+  <line x1="280" y1="176.2" x2="460" y2="176.2" class="axis"/>
+
+  <!-- Right grid -->
+  <line x1="280" y1="138.8" x2="460" y2="138.8" class="grid"/>
+  <line x1="280" y1="101.2" x2="460" y2="101.2" class="grid"/>
+  <line x1="280" y1="63.8" x2="460" y2="63.8" class="grid"/>
+
+  <line x1="310.0" y1="176.2" x2="310.0" y2="180.2" stroke="#999" stroke-width="0.6"/>
+  <text x="310.0" y="189.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">-2</text>
+  <line x1="370.0" y1="176.2" x2="370.0" y2="180.2" stroke="#999" stroke-width="0.6"/>
+  <text x="370.0" y="189.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">0</text>
+  <line x1="430.0" y1="176.2" x2="430.0" y2="180.2" stroke="#999" stroke-width="0.6"/>
+  <text x="430.0" y="189.2" text-anchor="middle" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">2</text>
+  <line x1="277.0" y1="138.8" x2="280.0" y2="138.8" stroke="#999" stroke-width="0.6"/>
+  <text x="274.0" y="141.8" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">1</text>
+  <line x1="277.0" y1="101.2" x2="280.0" y2="101.2" stroke="#999" stroke-width="0.6"/>
+  <text x="274.0" y="104.2" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">2</text>
+  <line x1="277.0" y1="63.8" x2="280.0" y2="63.8" stroke="#999" stroke-width="0.6"/>
+  <text x="274.0" y="66.8" text-anchor="end" style="font-family:Georgia,serif;font-size:9px;fill:#999;font-style:italic">3</text>
+
+  <!-- ReLU curve -->
+  <polyline points="280.0,176.2 281.2,176.2 282.4,176.2 283.6,176.2 284.8,176.2 286.0,176.2 287.2,176.2 288.5,176.2 289.7,176.2 290.9,176.2 292.1,176.2 293.3,176.2 294.5,176.2 295.7,176.2 296.9,176.2 298.1,176.2 299.3,176.2 300.5,176.2 301.7,176.2 303.0,176.2 304.2,176.2 305.4,176.2 306.6,176.2 307.8,176.2 309.0,176.2 310.2,176.2 311.4,176.2 312.6,176.2 313.8,176.2 315.0,176.2 316.2,176.2 317.4,176.2 318.7,176.2 319.9,176.2 321.1,176.2 322.3,176.2 323.5,176.2 324.7,176.2 325.9,176.2 327.1,176.2 328.3,176.2 329.5,176.2 330.7,176.2 331.9,176.2 333.2,176.2 334.4,176.2 335.6,176.2 336.8,176.2 338.0,176.2 339.2,176.2 340.4,176.2 341.6,176.2 342.8,176.2 344.0,176.2 345.2,176.2 346.4,176.2 347.7,176.2 348.9,176.2 350.1,176.2 351.3,176.2 352.5,176.2 353.7,176.2 354.9,176.2 356.1,176.2 357.3,176.2 358.5,176.2 359.7,176.2 360.9,176.2 362.1,176.2 363.4,176.2 364.6,176.2 365.8,176.2 367.0,176.2 368.2,176.2 369.4,176.2 370.6,175.5 371.8,174.0 373.0,172.5 374.2,171.0 375.4,169.5 376.6,167.9 377.9,166.4 379.1,164.9 380.3,163.4 381.5,161.9 382.7,160.4 383.9,158.9 385.1,157.4 386.3,155.9 387.5,154.4 388.7,152.8 389.9,151.3 391.1,149.8 392.3,148.3 393.6,146.8 394.8,145.3 396.0,143.8 397.2,142.3 398.4,140.8 399.6,139.3 400.8,137.7 402.0,136.2 403.2,134.7 404.4,133.2 405.6,131.7 406.8,130.2 408.1,128.7 409.3,127.2 410.5,125.7 411.7,124.2 412.9,122.6 414.1,121.1 415.3,119.6 416.5,118.1 417.7,116.6 418.9,115.1 420.1,113.6 421.3,112.1 422.6,110.6 423.8,109.1 425.0,107.5 426.2,106.0 427.4,104.5 428.6,103.0 429.8,101.5 431.0,100.0 432.2,98.5 433.4,97.0 434.6,95.5 435.8,94.0 437.0,92.4 438.3,90.9 439.5,89.4 440.7,87.9 441.9,86.4 443.1,84.9 444.3,83.4 445.5,81.9 446.7,80.4 447.9,78.9 449.1,77.3 450.3,75.8 451.5,74.3 452.8,72.8 454.0,71.3 455.2,69.8 456.4,68.3 457.6,66.8 458.8,65.3 460.0,63.8" fill="none" stroke="#1890ff" stroke-width="2.5"/>
+
+  <!-- ReLU derivative -->
+  <polyline points="280.0,176.2 369.4,176.2" fill="none" stroke="#52c41a" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <polyline points="370.6,138.8 460.0,138.8" fill="none" stroke="#52c41a" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <!-- Open/filled circles at discontinuity -->
+  <circle cx="370.0" cy="176.2" r="2.5" fill="#fff" stroke="#52c41a" stroke-width="1.2"/>
+  <circle cx="370.0" cy="138.8" r="2.5" fill="#52c41a"/>
+
+  <!-- Axis label -->
+  <text x="370" y="202" style="font-family:Georgia,serif;font-size:10px;fill:#555;font-style:italic" text-anchor="middle">z</text>
+
+  <!-- Legend -->
+  <line x1="285" y1="50" x2="300" y2="50" stroke="#1890ff" stroke-width="2"/>
+  <text x="304" y="53" class="anno" text-anchor="start" style="fill:#1890ff">ReLU(z)</text>
+  <line x1="285" y1="62" x2="300" y2="62" stroke="#52c41a" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <text x="304" y="65" class="anno" text-anchor="start" style="fill:#52c41a">ReLU′(z)</text>
+
+  <!-- Gradient = 1 annotation -->
+  <text x="370" y="220" class="anno" text-anchor="middle" style="fill:#52c41a;font-style:italic">gradient = 1 for z > 0</text>
+
+  <!-- Dead neuron annotation -->
+  <text x="325.0" y="170" class="anno" text-anchor="middle" style="fill:#999;font-style:italic">neuron off</text>
+
+  <!-- Bottom note -->
+  <text x="250" y="242" class="anno" text-anchor="middle" style="font-size:10px;fill:#666">Sigmoid saturates and kills gradients. ReLU passes gradients through for z > 0.</text>
+</svg>

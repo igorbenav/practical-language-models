@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 300">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-left { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: end; fill: #666; }
+    .math-text { font-family: 'Georgia', 'Times New Roman', serif; font-size: 13px; fill: #555; font-style: italic; text-anchor: middle; }
+    .axis-label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 12px; fill: #999; font-style: italic; }
+    .anno-text { font-family: 'Arial', sans-serif; font-size: 11px; fill: #555; }
+    .anno-bold { font-family: 'Arial', sans-serif; font-size: 11px; fill: #333; font-weight: bold; }
+    .axis { stroke: #ccc; stroke-width: 1.2; }
+    .grid-line { stroke: #eee; stroke-width: 0.5; }
+    .landscape { fill: none; stroke: #1890ff; stroke-width: 2.5; }
+    .landscape-fill { fill: url(#landscape-grad); stroke: none; }
+    .connector { stroke: #ccc; stroke-width: 1; stroke-dasharray: 3,2; }
+  </style>
+
+  <defs>
+    <linearGradient id="landscape-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1890ff" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#1890ff" stop-opacity="0.03"/>
+    </linearGradient>
+    <marker id="arr-down" markerWidth="8" markerHeight="8" refX="4" refY="8" orient="auto">
+      <path d="M0,0 L4,8 L8,0" fill="#fa8c16" stroke="none"/>
+    </marker>
+    <marker id="arr-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#fa8c16"/>
+    </marker>
+    <marker id="arr-right" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#ccc"/>
+    </marker>
+    <marker id="arr-up" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#ccc"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="300" class="background"/>
+
+  <!-- Title -->
+  <text x="340" y="26" class="title">The Loss Landscape</text>
+
+  <!-- Axes -->
+  <line x1="70" y1="248" x2="630" y2="248" class="axis" marker-end="url(#arr-right)"/>
+  <line x1="70" y1="248" x2="70" y2="42" class="axis" marker-end="url(#arr-up)"/>
+
+  <!-- Axis labels -->
+  <text x="350" y="272" class="axis-label" text-anchor="middle">weights</text>
+  <text x="42" y="142" class="axis-label" text-anchor="middle" transform="rotate(-90, 42, 142)">loss</text>
+
+  <!-- Grid lines -->
+  <line x1="70" y1="200" x2="630" y2="200" class="grid-line"/>
+  <line x1="70" y1="152" x2="630" y2="152" class="grid-line"/>
+  <line x1="70" y1="104" x2="630" y2="104" class="grid-line"/>
+
+  <!-- Landscape curve: rolling hills with a clear global minimum -->
+  <!-- Fill under curve -->
+  <path d="M 70,130
+           C 95,128 110,125 130,100
+           C 150,75 160,72 180,90
+           C 200,108 215,150 240,175
+           C 260,195 275,210 310,218
+           C 340,224 360,225 380,218
+           C 400,210 415,195 430,175
+           C 445,160 455,155 470,160
+           C 485,165 500,175 520,145
+           C 540,115 555,95 575,82
+           C 590,74 600,75 615,90
+           L 615,248 L 70,248 Z"
+        class="landscape-fill"/>
+
+  <!-- Landscape stroke -->
+  <path d="M 70,130
+           C 95,128 110,125 130,100
+           C 150,75 160,72 180,90
+           C 200,108 215,150 240,175
+           C 260,195 275,210 310,218
+           C 340,224 360,225 380,218
+           C 400,210 415,195 430,175
+           C 445,160 455,155 470,160
+           C 485,165 500,175 520,145
+           C 540,115 555,95 575,82
+           C 590,74 600,75 615,90"
+        class="landscape" />
+
+  <!-- Current position: on a slope (left hill) -->
+  <circle cx="205" cy="115" r="7" fill="#fa8c16" stroke="#fff" stroke-width="2"/>
+
+  <!-- Downhill arrow from current position -->
+  <path d="M 210,120 C 230,140 255,165 280,188" fill="none" stroke="#fa8c16" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr-orange)"/>
+
+  <!-- "you are here" label -->
+  <line x1="212" y1="112" x2="232" y2="86" class="connector"/>
+  <text x="234" y="84" class="anno-bold" text-anchor="start">you are here</text>
+
+  <!-- "step downhill" label -->
+  <text x="268" y="148" class="anno-text" text-anchor="start" style="fill: #d46b08">step downhill</text>
+
+  <!-- Global minimum marker -->
+  <circle cx="355" cy="225" r="5" fill="#52c41a" stroke="#fff" stroke-width="2"/>
+  <line x1="355" y1="232" x2="355" y2="248" class="connector" style="stroke: #52c41a"/>
+
+  <!-- "minimum" label -->
+  <text x="355" y="260" class="label-small" style="fill: #52c41a">minimum loss</text>
+
+  <!-- Local minimum marker (secondary valley) -->
+  <circle cx="470" cy="160" r="4" fill="#999" stroke="#fff" stroke-width="1.5"/>
+  <text x="470" y="178" class="label-small" style="fill: #999; font-size: 9px">local minimum</text>
+
+  <!-- High loss annotation -->
+  <text x="130" y="55" class="label-small" style="fill: #cf1322">high loss</text>
+  <text x="130" y="67" class="label-small" style="fill: #cf1322; font-size: 9px">(bad predictions)</text>
+
+  <!-- Low loss annotation -->
+  <text x="480" y="232" class="label-small" style="fill: #52c41a">low loss</text>
+  <text x="480" y="244" class="label-small" style="fill: #52c41a; font-size: 9px">(good predictions)</text>
+
+  <!-- Bottom note -->
+  <text x="340" y="292" class="label-small">Each point is a different setting of the weights. Gradient descent finds downhill and steps that way.</text>
+</svg>
