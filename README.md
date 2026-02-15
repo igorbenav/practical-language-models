@@ -8,7 +8,7 @@ From Intuition to Agents in Production.
    <img src="https://github.com/igorbenav/practical-language-models/blob/main/en/images/cover.png" width="30%" alt="Book Cover">
 </a>
 
-A book that teaches language models starting from the learning problem and neural networks, through word embeddings and transformers, all the way to building LLM applications, agents, and deploying them to production. Opinionated, hands-on, and meant to be read in order. Each chapter builds on the previous one.
+An open book that teaches language models starting from the learning problem and neural networks, through word embeddings and transformers, all the way to building LLM applications, agents, and deploying them to production. Opinionated, hands-on, and meant to be read in order. Each chapter builds on the previous one.
 
 Assumes Python knowledge. No prior ML experience needed.
 
