@@ -18,7 +18,7 @@ Let's make this precise. There exists some unknown function $f: X \to Y$ that we
 
 We can't access $f$ directly, we don't know it. What we have is a dataset $D = \{(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)\}$: a collection of input-output pairs where each $y_i = f(x_i)$. These are examples of this function's behavior.
 
-Our job is to use $D$ to find a function $g: X \to Y$ such that $g \approx f$. Not just on the examples we've seen, but on new inputs the machine has never encountered. That last part is what separates learning from memorization.
+Our job is to use $D$ to find a function $g: X \to Y$ such that $g \approx f$. Not just on the examples we've seen, but on new inputs the machine has never encountered. That last part is what separates learning from memorization [@abu-mostafa2012learning].
 
 ![The Learning Problem](../images/chapter1/figure-1-1-en.svg){width=80%}
 
@@ -98,7 +98,7 @@ This is the same formula as the distance between two points in space, just exten
 
 ![Images as Points in Space](../images/chapter1/figure-1-6-en.svg){width=55%}
 
-Now we have a way to compare images. The simplest possible way to classify follows immediately: given a new image, compare it to every image in the training set. Find the most similar one. Use its label as the prediction. If the closest training image is a 7, predict 7. This is what we call **nearest neighbor**.
+Now we have a way to compare images. The simplest possible way to classify follows immediately: given a new image, compare it to every image in the training set. Find the most similar one. Use its label as the prediction. If the closest training image is a 7, predict 7. This is what we call **nearest neighbor** [@cover1967nearest].
 
 ![Measuring Similarity](../images/chapter1/figure-1-7-en.svg){width=85%}
 
@@ -196,7 +196,7 @@ We talked about template matching and nearest neighbors earlier. Think about whe
 
 ## Hands-On: Recognizing Handwritten Digits
 
-We've been talking about handwritten digits the entire chapter. Now let's build the template matcher we described in the theory and see how it actually performs. We'll use MNIST: 70,000 handwritten digits, each a 28×28 pixel grayscale image labeled 0 through 9. We'll use scikit-learn to download the data, but everything else is pure NumPy. No magic function calls. We build every piece ourselves.
+We've been talking about handwritten digits the entire chapter. Now let's build the template matcher we described in the theory and see how it actually performs. We'll use MNIST [@lecun1998gradient]: 70,000 handwritten digits, each a 28×28 pixel grayscale image labeled 0 through 9. We'll use scikit-learn to download the data, but everything else is pure NumPy. No magic function calls. We build every piece ourselves.
 
 Set up your project:
 
