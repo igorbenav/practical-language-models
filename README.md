@@ -1,19 +1,31 @@
+<div align="center">
+
 # Practical Language Models
 
 From Intuition to Agents in Production.
 
-> **[Read the English version (PDF)](docs/en/Practical-Language-Models.pdf)**
+<a href="docs/en/Practical-Language-Models.pdf">
+   <img src="https://github.com/igorbenav/practical-language-models/blob/main/en/images/cover.png" width="30%" alt="Book Cover">
+</a>
 
 A book that teaches language models starting from the learning problem and neural networks, through word embeddings and transformers, all the way to building LLM applications, agents, and deploying them to production. Opinionated, hands-on, and meant to be read in order. Each chapter builds on the previous one.
 
 Assumes Python knowledge. No prior ML experience needed.
+
+**[Read the English version (PDF)](docs/en/Practical-Language-Models.pdf)**
+
+</div>
+
+---
+
+The book is highly visual, some chapters have over 20 original figures explaining concepts like loss landscapes, backpropagation and embedding spaces. Math is introduced with intuition first and formalized with equations and concrete numbers, but the text is written so that skipping the math still gives you a working understanding.
 
 ## Table of Contents
 
 ### Part I: Foundations
 
 | Chapter | Topic | Code |
-|---------|-------|------|
+|:-------:|-------|:----:|
 | 1 | The Learning Problem | [chapter1](en/code/chapter1) |
 | 2 | Learning to Learn | [chapter2](en/code/chapter2) |
 | 3 | From Words to Numbers | [chapter3](en/code/chapter3) |
@@ -23,7 +35,7 @@ Assumes Python knowledge. No prior ML experience needed.
 ### Part II: Building with LLMs
 
 | Chapter | Topic | Code |
-|---------|-------|------|
+|:-------:|-------|:----:|
 | 6 | What LLMs Can and Can't Do | |
 | 7 | Your First LLM Application | |
 | 8 | Tools: Letting Agents Act | |
@@ -35,7 +47,7 @@ Assumes Python knowledge. No prior ML experience needed.
 ### Part III: Deploying to Production
 
 | Chapter | Topic | Code |
-|---------|-------|------|
+|:-------:|-------|:----:|
 | 13 | Serving with FastAPI | |
 | 14 | Making It Reliable | |
 | 15 | Deployment | |
@@ -45,16 +57,18 @@ More chapters will be added.
 ## Available Languages
 
 | Language | Directory | Status |
-|----------|-----------|--------|
+|:--------:|:---------:|:------:|
 | English | [en/](en/) | In progress |
 
-## Prerequisites
+## Getting Started
+
+### Prerequisites
 
 - [Python 3.11+](https://www.python.org/downloads/)
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) - Python package manager
 - [Quarto](https://quarto.org/docs/get-started/) - Publishing system
 
-## Setup
+### Setup
 
 1. Clone the repository:
    ```bash
@@ -69,29 +83,13 @@ More chapters will be added.
 
 ## Building the Book
 
-### HTML (default)
-
-```bash
-uv run quarto render en/
-```
-
-The output will be in `docs/en/`. Open `docs/en/index.html` in your browser to view.
-
-### PDF
-
-```bash
-uv run quarto render en/ --to pdf
-```
+| Format | Command | Output |
+|--------|---------|--------|
+| HTML (default) | `uv run quarto render en/` | `docs/en/index.html` |
+| PDF | `uv run quarto render en/ --to pdf` | `docs/en/` |
+| Preview with live reload | `uv run quarto preview en/` | localhost |
 
 > Note: PDF rendering requires a LaTeX distribution (e.g., [TinyTeX](https://yihui.org/tinytex/), [TeX Live](https://www.tug.org/texlive/), or [MiKTeX](https://miktex.org/)).
-
-### Preview with live reload
-
-```bash
-uv run quarto preview en/
-```
-
-This starts a local server and opens the book in your browser. Changes to `.qmd` files will automatically trigger a rebuild.
 
 ## Project Structure
 
@@ -164,6 +162,17 @@ When your translation or review is merged, add yourself in the same pull request
 2. The **Contributors** table in your language's `index.qmd` (this appears in the actual book)
 
 Roles: "Translator", "Reviewer", or both.
+
+## Citation
+
+```bibtex
+@book{benav2026practical-language-models,
+  title     = {Practical Language Models: From Intuition to Agents in Production},
+  author    = {Igor Benav Magalhães},
+  year      = {2026},
+  url       = {https://github.com/igorbenav/practical-language-models}
+}
+```
 
 ## License
 
