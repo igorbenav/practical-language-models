@@ -144,7 +144,7 @@ $$\text{MAE} = \frac{1}{N} \sum_{i=1}^{N} |g(x_i) - y_i|$$
 
 That works, but it treats all errors equally. Being off by \$1,000 ten times is the same total error as being off by \$10,000 once. In practice, big errors are usually much worse than small ones. A house price model that's usually close but occasionally wildly wrong is dangerous. One that's consistently off by a small amount is useful.
 
-We need to penalyze larger errors more than small errors, so instead of taking the absolute value, we can square the error:
+We need to penalize larger errors more than small errors, so instead of taking the absolute value, we can square the error:
 
 $$(g(x_i) - y_i)^2$$
 

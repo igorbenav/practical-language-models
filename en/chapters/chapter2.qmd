@@ -266,7 +266,7 @@ The forward pass is just matrix multiplies, additions, and element-wise nonlinea
 
 We have a loss $L$ that depends on the output probabilities $\hat{y}$, which depend on $W_2$ and $b_2$, which depend on $h$, which depends on $W_1$ and $b_1$, which depend on $x$. It's clearly a chain: each quantity depends on the one before it.
 
-To update $W_1$ by gradient descent, we need $\frac{\partial L}{\partial W_1}$: how does the loss change when we teak the weights in the first layer? The loss doesn't directly involve $W_1$; it goes through $h$, then through $z$, then through $\hat{y}$. The **chain rule** from calculus tells us how to compose these dependencies:
+To update $W_1$ by gradient descent, we need $\frac{\partial L}{\partial W_1}$: how does the loss change when we tweak the weights in the first layer? The loss doesn't directly involve $W_1$; it goes through $h$, then through $z$, then through $\hat{y}$. The **chain rule** from calculus tells us how to compose these dependencies:
 
 $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z} \cdot \frac{\partial z}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
 
