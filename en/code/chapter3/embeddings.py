@@ -67,24 +67,21 @@ for w1, w2 in pairs:
         print(f"  {w1:12s} - {w2:12s}: {sim:.3f}")
 
 
+norms = np.sqrt(np.sum(vectors ** 2, axis=1))
+norms[norms == 0] = 1.0
+normalized = vectors / norms[:, np.newaxis]
+
+
 def most_similar(word, n=10):
     vec = get_vector(word)
     if vec is None:
         return []
 
-    # Normalize every word vector to length 1
-    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
-    norms[norms == 0] = 1.0
-    normalized = vectors / norms[:, np.newaxis]
-
-    # Normalize the query vector
     word_norm = np.sqrt(np.sum(vec ** 2))
     word_normalized = vec / word_norm
 
-    # Dot product of unit vectors = cosine similarity
     similarities = normalized @ word_normalized
 
-    # Sort by similarity (highest first), skip the word itself
     top_indices = np.argsort(similarities)[::-1][1:n+1]
     return [(words[i], similarities[i]) for i in top_indices]
 
@@ -101,21 +98,13 @@ def analogy(a, b, c, n=5):
     if any(v is None for v in [va, vb, vc]):
         return []
 
-    # Compute the target: b - a + c
     target = vb - va + vc
-
-    # Normalize all vectors
-    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
-    norms[norms == 0] = 1.0
-    normalized = vectors / norms[:, np.newaxis]
 
     target_norm = np.sqrt(np.sum(target ** 2))
     target_normalized = target / target_norm
 
-    # Find the closest words to the target
     similarities = normalized @ target_normalized
 
-    # Exclude the three input words from results
     for w in [a, b, c]:
         if w in word_to_index:
             similarities[word_to_index[w]] = -1

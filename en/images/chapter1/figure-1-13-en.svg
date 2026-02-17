@@ -1,196 +1,221 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 340">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 430">
   <style>
-    .background { fill: #f8f9fa; }
+    .bg { fill: #f8f9fa; }
     .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
-    .col-title { font-family: 'Arial', sans-serif; font-size: 14px; font-weight: bold; text-anchor: middle; fill: #333; }
-    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
-    .plot-border { fill: #fff; stroke: #ccc; stroke-width: 1; }
-    .boundary-bad { stroke: #ff7875; stroke-width: 2; fill: none; }
-    .boundary-good { stroke: #52c41a; stroke-width: 2; fill: none; }
-    .boundary-overfit { stroke: #ff7875; stroke-width: 1.5; fill: none; }
-    .divider { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .col-head { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; fill: #555; }
+    .row-label { font-family: 'Arial', sans-serif; font-size: 11px; font-weight: bold; text-anchor: middle; fill: #999; }
+    .caption { font-family: 'Arial', sans-serif; font-size: 10.5px; text-anchor: middle; fill: #666; }
+    .ax { stroke: #ccc; stroke-width: 1; }
+    .ax-lbl { font-family: 'Georgia', serif; font-size: 10px; fill: #aaa; font-style: italic; text-anchor: middle; }
+    .g { stroke: #eee; stroke-width: 0.5; }
+    .dist { stroke: #333; stroke-width: 2; fill: none; }
+    .fill-L { fill: #fff3e8; stroke: none; opacity: 0.6; }
+    .fill-R { fill: #e6f4ff; stroke: none; opacity: 0.6; }
+    .pen-mse { stroke: #fa8c16; stroke-width: 1.8; fill: none; stroke-dasharray: 6,4; }
+    .pen-mae { stroke: #1890ff; stroke-width: 1.8; fill: none; stroke-dasharray: 6,4; }
+    .cost-mse { stroke: #fa8c16; stroke-width: 2.5; fill: none; }
+    .cost-mae { stroke: #1890ff; stroke-width: 2.5; fill: none; }
+    .div-v { stroke: #ccc; stroke-width: 1; stroke-dasharray: 4,3; }
+    .div-h { stroke: #ddd; stroke-width: 1; }
+    .leg { font-family: 'Arial', sans-serif; font-size: 10px; fill: #555; }
+    .ann { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; }
   </style>
 
-  <!-- Background -->
-  <rect width="750" height="340" class="background" />
+  <rect width="650" height="430" class="bg"/>
 
-  <!-- Title -->
-  <text x="375" y="28" class="title">Underfitting, Good Fit, and Overfitting</text>
+  <!-- ========== STRUCTURAL ELEMENTS ========== -->
+  <text x="325" y="22" class="title">Your Loss Function Is a Bet on Your Errors</text>
+  <text x="163" y="42" class="col-head">Bell-curve errors (Gaussian)</text>
+  <text x="488" y="42" class="col-head">Heavy-tailed errors (Laplace)</text>
 
-  <line x1="250" y1="42" x2="250" y2="310" class="divider" />
-  <line x1="500" y1="42" x2="500" y2="310" class="divider" />
+  <line x1="325" y1="30" x2="325" y2="410" class="div-v"/>
+  <line x1="42" y1="216" x2="612" y2="216" class="div-h"/>
 
-  <!--
-    POINT LAYOUT (same across all three panels):
+  <text x="30" y="120" class="row-label" transform="rotate(-90,30,120)">frequency</text>
+  <text x="30" y="310" class="row-label" transform="rotate(-90,30,310)">total cost</text>
 
-    Blue cluster (upper, y 88-145):
-      (50,100) (65,118) (45,132) (88,95) (105,110)
-      (82,130) (98,138) (115,122) (72,90) (38,118)
-      (58,145) (125,105)
-    Blue stray (deep in orange territory):
-      (148,222)
+  <!-- ========== TOP-LEFT: Gaussian + penalties ========== -->
+  <!-- Plot zone: y 52-178. Axis at 183. Label at 196. Caption at 208. -->
 
-    Orange cluster (lower, y 195-248):
-      (132,198) (152,212) (142,238) (170,205) (120,225)
-      (180,230) (165,248) (195,218) (150,195) (130,248)
-      (205,240)
-    Orange stray (near blue territory):
-      (85,158)
+  <line x1="63" y1="178" x2="263" y2="178" class="g"/>
+  <line x1="63" y1="146" x2="263" y2="146" class="g"/>
+  <line x1="63" y1="115" x2="263" y2="115" class="g"/>
+  <line x1="63" y1="83" x2="263" y2="83" class="g"/>
+  <line x1="63" y1="52" x2="263" y2="52" class="g"/>
+  <line x1="63" y1="183" x2="270" y2="183" class="ax"/>
+  <text x="163" y="196" class="ax-lbl">error size</text>
 
-    Gap: y 145-195 (50px clear)
-    Strays force the overfit boundary to make dramatic detours.
-    Good fit ignores the strays. Underfit misses everything.
-  -->
+  <polygon class="fill-L" points="
+    63.0,178.0 68.1,177.9 73.3,177.8 78.4,177.6 83.5,177.2 88.6,176.5
+    93.8,175.3 98.9,173.3 104.0,170.2 109.2,165.5 114.3,159.0 119.4,150.3
+    124.5,139.2 129.7,125.9 134.8,111.0 139.9,95.3 145.1,80.1 150.2,66.9
+    155.3,57.2 160.4,52.0 165.6,52.0 170.7,57.2 175.8,66.9 180.9,80.1
+    186.1,95.3 191.2,111.0 196.3,125.9 201.5,139.2 206.6,150.3 211.7,159.0
+    216.8,165.5 222.0,170.2 227.1,173.3 232.2,175.3 237.4,176.5 242.5,177.2
+    247.6,177.6 252.7,177.8 257.9,177.9 263.0,178.0
+    263.0,178 63.0,178
+  "/>
 
-  <!-- ============================================ -->
-  <!-- === Panel 1: Underfitting === -->
-  <!-- ============================================ -->
+  <polyline class="dist" points="
+    63.0,178.0 68.1,177.9 73.3,177.8 78.4,177.6 83.5,177.2 88.6,176.5
+    93.8,175.3 98.9,173.3 104.0,170.2 109.2,165.5 114.3,159.0 119.4,150.3
+    124.5,139.2 129.7,125.9 134.8,111.0 139.9,95.3 145.1,80.1 150.2,66.9
+    155.3,57.2 160.4,52.0 165.6,52.0 170.7,57.2 175.8,66.9 180.9,80.1
+    186.1,95.3 191.2,111.0 196.3,125.9 201.5,139.2 206.6,150.3 211.7,159.0
+    216.8,165.5 222.0,170.2 227.1,173.3 232.2,175.3 237.4,176.5 242.5,177.2
+    247.6,177.6 252.7,177.8 257.9,177.9 263.0,178.0
+  "/>
 
-  <text x="125" y="58" class="col-title">Underfitting</text>
-  <rect x="20" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+  <polyline class="pen-mse" points="
+    63.0,52.0 68.1,64.6 73.3,76.5 78.4,87.8 83.5,98.4 88.6,108.3
+    93.8,117.6 98.9,126.2 104.0,134.2 109.2,141.5 114.3,148.1 119.4,154.1
+    124.5,159.4 129.7,164.0 134.8,168.0 139.9,171.3 145.1,173.9 150.2,175.9
+    155.3,177.3 160.4,177.9 165.6,177.9 170.7,177.3 175.8,175.9 180.9,173.9
+    186.1,171.3 191.2,168.0 196.3,164.0 201.5,159.4 206.6,154.1 211.7,148.1
+    216.8,141.5 222.0,134.2 227.1,126.2 232.2,117.6 237.4,108.3 242.5,98.4
+    247.6,87.8 252.7,76.5 257.9,64.6 263.0,52.0
+  "/>
 
-  <line x1="25" y1="100" x2="225" y2="260" class="boundary-bad" />
+  <polyline class="pen-mae" points="
+    63.0,146.5 68.1,148.1 73.3,149.7 78.4,151.3 83.5,153.0 88.6,154.6
+    93.8,156.2 98.9,157.8 104.0,159.4 109.2,161.0 114.3,162.7 119.4,164.3
+    124.5,165.9 129.7,167.5 134.8,169.1 139.9,170.7 145.1,172.3 150.2,174.0
+    155.3,175.6 160.4,177.2 165.6,177.2 170.7,175.6 175.8,174.0 180.9,172.3
+    186.1,170.7 191.2,169.1 196.3,167.5 201.5,165.9 206.6,164.3 211.7,162.7
+    216.8,161.0 222.0,159.4 227.1,157.8 232.2,156.2 237.4,154.6 242.5,153.0
+    247.6,151.3 252.7,149.7 257.9,148.1 263.0,146.5
+  "/>
 
-  <!-- Blue cluster -->
-  <circle cx="50" cy="100" r="5" fill="#1890ff" />
-  <circle cx="65" cy="118" r="5" fill="#1890ff" />
-  <circle cx="45" cy="132" r="5" fill="#1890ff" />
-  <circle cx="88" cy="95" r="5" fill="#1890ff" />
-  <circle cx="105" cy="110" r="5" fill="#1890ff" />
-  <circle cx="82" cy="130" r="5" fill="#1890ff" />
-  <circle cx="98" cy="138" r="5" fill="#1890ff" />
-  <circle cx="115" cy="122" r="5" fill="#1890ff" />
-  <circle cx="72" cy="90" r="5" fill="#1890ff" />
-  <circle cx="38" cy="118" r="5" fill="#1890ff" />
-  <circle cx="58" cy="145" r="5" fill="#1890ff" />
-  <circle cx="125" cy="105" r="5" fill="#1890ff" />
-  <!-- Blue stray -->
-  <circle cx="148" cy="222" r="5" fill="#1890ff" />
+  <text x="163" y="209" class="caption">Tails drop fast. MSE penalty lands where errors barely exist.</text>
 
-  <!-- Orange cluster -->
-  <circle cx="132" cy="198" r="5" fill="#fa8c16" />
-  <circle cx="152" cy="212" r="5" fill="#fa8c16" />
-  <circle cx="142" cy="238" r="5" fill="#fa8c16" />
-  <circle cx="170" cy="205" r="5" fill="#fa8c16" />
-  <circle cx="120" cy="225" r="5" fill="#fa8c16" />
-  <circle cx="180" cy="230" r="5" fill="#fa8c16" />
-  <circle cx="165" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="195" cy="218" r="5" fill="#fa8c16" />
-  <circle cx="150" cy="195" r="5" fill="#fa8c16" />
-  <circle cx="130" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="205" cy="240" r="5" fill="#fa8c16" />
-  <!-- Orange stray -->
-  <circle cx="85" cy="158" r="5" fill="#fa8c16" />
+  <!-- ========== TOP-RIGHT: Laplace + penalties ========== -->
 
-  <text x="125" y="302" class="label-small">Too simple. Misses the real pattern.</text>
+  <line x1="388" y1="178" x2="588" y2="178" class="g"/>
+  <line x1="388" y1="146" x2="588" y2="146" class="g"/>
+  <line x1="388" y1="115" x2="588" y2="115" class="g"/>
+  <line x1="388" y1="83" x2="588" y2="83" class="g"/>
+  <line x1="388" y1="52" x2="588" y2="52" class="g"/>
+  <line x1="388" y1="183" x2="595" y2="183" class="ax"/>
+  <text x="488" y="196" class="ax-lbl">error size</text>
 
-  <!-- ============================================ -->
-  <!-- === Panel 2: Good Fit === -->
-  <!-- ============================================ -->
+  <polygon class="fill-R" points="
+    388.0,175.4 393.1,174.9 398.3,174.1 403.4,173.3 408.5,172.2 413.6,170.9
+    418.8,169.2 423.9,167.3 429.0,164.8 434.2,161.8 439.3,158.1 444.4,153.6
+    449.5,148.0 454.7,141.2 459.8,132.8 464.9,122.5 470.1,109.9 475.2,94.4
+    480.3,75.4 485.4,52.0 490.6,52.0 495.7,75.4 500.8,94.4 505.9,109.9
+    511.1,122.5 516.2,132.8 521.3,141.2 526.5,148.0 531.6,153.6 536.7,158.1
+    541.8,161.8 547.0,164.8 552.1,167.3 557.2,169.2 562.4,170.9 567.5,172.2
+    572.6,173.3 577.7,174.1 582.9,174.9 588.0,175.4
+    588.0,178 388.0,178
+  "/>
 
-  <text x="375" y="58" class="col-title">Good Fit</text>
-  <rect x="270" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+  <polyline class="dist" points="
+    388.0,175.4 393.1,174.9 398.3,174.1 403.4,173.3 408.5,172.2 413.6,170.9
+    418.8,169.2 423.9,167.3 429.0,164.8 434.2,161.8 439.3,158.1 444.4,153.6
+    449.5,148.0 454.7,141.2 459.8,132.8 464.9,122.5 470.1,109.9 475.2,94.4
+    480.3,75.4 485.4,52.0 490.6,52.0 495.7,75.4 500.8,94.4 505.9,109.9
+    511.1,122.5 516.2,132.8 521.3,141.2 526.5,148.0 531.6,153.6 536.7,158.1
+    541.8,161.8 547.0,164.8 552.1,167.3 557.2,169.2 562.4,170.9 567.5,172.2
+    572.6,173.3 577.7,174.1 582.9,174.9 588.0,175.4
+  "/>
 
-  <!-- Smooth curve through the gap ~y=170. Ignores both strays. -->
-  <path d="M 270,175 Q 310,172 350,168 Q 390,165 430,170 Q 460,174 480,172" class="boundary-good" />
+  <polyline class="pen-mse" points="
+    388.0,52.0 393.1,64.6 398.3,76.5 403.4,87.8 408.5,98.4 413.6,108.3
+    418.8,117.6 423.9,126.2 429.0,134.2 434.2,141.5 439.3,148.1 444.4,154.1
+    449.5,159.4 454.7,164.0 459.8,168.0 464.9,171.3 470.1,173.9 475.2,175.9
+    480.3,177.3 485.4,177.9 490.6,177.9 495.7,177.3 500.8,175.9 505.9,173.9
+    511.1,171.3 516.2,168.0 521.3,164.0 526.5,159.4 531.6,154.1 536.7,148.1
+    541.8,141.5 547.0,134.2 552.1,126.2 557.2,117.6 562.4,108.3 567.5,98.4
+    572.6,87.8 577.7,76.5 582.9,64.6 588.0,52.0
+  "/>
 
-  <!-- Blue cluster (+250) -->
-  <circle cx="300" cy="100" r="5" fill="#1890ff" />
-  <circle cx="315" cy="118" r="5" fill="#1890ff" />
-  <circle cx="295" cy="132" r="5" fill="#1890ff" />
-  <circle cx="338" cy="95" r="5" fill="#1890ff" />
-  <circle cx="355" cy="110" r="5" fill="#1890ff" />
-  <circle cx="332" cy="130" r="5" fill="#1890ff" />
-  <circle cx="348" cy="138" r="5" fill="#1890ff" />
-  <circle cx="365" cy="122" r="5" fill="#1890ff" />
-  <circle cx="322" cy="90" r="5" fill="#1890ff" />
-  <circle cx="288" cy="118" r="5" fill="#1890ff" />
-  <circle cx="308" cy="145" r="5" fill="#1890ff" />
-  <circle cx="375" cy="105" r="5" fill="#1890ff" />
-  <!-- Blue stray (+250) — below the curve, misclassified. That's OK. -->
-  <circle cx="398" cy="222" r="5" fill="#1890ff" />
+  <polyline class="pen-mae" points="
+    388.0,146.5 393.1,148.1 398.3,149.7 403.4,151.3 408.5,153.0 413.6,154.6
+    418.8,156.2 423.9,157.8 429.0,159.4 434.2,161.0 439.3,162.7 444.4,164.3
+    449.5,165.9 454.7,167.5 459.8,169.1 464.9,170.7 470.1,172.3 475.2,174.0
+    480.3,175.6 485.4,177.2 490.6,177.2 495.7,175.6 500.8,174.0 505.9,172.3
+    511.1,170.7 516.2,169.1 521.3,167.5 526.5,165.9 531.6,164.3 536.7,162.7
+    541.8,161.0 547.0,159.4 552.1,157.8 557.2,156.2 562.4,154.6 567.5,153.0
+    572.6,151.3 577.7,149.7 582.9,148.1 588.0,146.5
+  "/>
 
-  <!-- Orange cluster (+250) -->
-  <circle cx="382" cy="198" r="5" fill="#fa8c16" />
-  <circle cx="402" cy="212" r="5" fill="#fa8c16" />
-  <circle cx="392" cy="238" r="5" fill="#fa8c16" />
-  <circle cx="420" cy="205" r="5" fill="#fa8c16" />
-  <circle cx="370" cy="225" r="5" fill="#fa8c16" />
-  <circle cx="430" cy="230" r="5" fill="#fa8c16" />
-  <circle cx="415" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="445" cy="218" r="5" fill="#fa8c16" />
-  <circle cx="400" cy="195" r="5" fill="#fa8c16" />
-  <circle cx="380" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="455" cy="240" r="5" fill="#fa8c16" />
-  <!-- Orange stray (+250) — above the curve, misclassified. That's OK. -->
-  <circle cx="335" cy="158" r="5" fill="#fa8c16" />
+  <text x="488" y="209" class="caption">Tails stay thick. MSE explodes where this distribution has data.</text>
 
-  <text x="375" y="302" class="label-small">Captures the pattern without memorizing noise.</text>
+  <!-- ========== BOTTOM-LEFT: Gaussian × losses ========== -->
+  <!-- Plot zone: y 236-362. Axis at 367. Label at 380. Caption at 394. -->
 
-  <!-- ============================================ -->
-  <!-- === Panel 3: Overfitting === -->
-  <!-- ============================================ -->
+  <line x1="63" y1="362" x2="263" y2="362" class="g"/>
+  <line x1="63" y1="331" x2="263" y2="331" class="g"/>
+  <line x1="63" y1="299" x2="263" y2="299" class="g"/>
+  <line x1="63" y1="268" x2="263" y2="268" class="g"/>
+  <line x1="63" y1="236" x2="263" y2="236" class="g"/>
+  <line x1="63" y1="367" x2="270" y2="367" class="ax"/>
+  <text x="163" y="380" class="ax-lbl">error size</text>
 
-  <text x="625" y="58" class="col-title">Overfitting</text>
-  <rect x="520" y="70" width="210" height="210" rx="3" ry="3" class="plot-border" />
+  <polyline class="cost-mse" points="
+    63.0,361.1 68.1,360.1 73.3,358.5 78.4,355.6 83.5,350.9 88.6,343.7
+    93.8,333.4 98.9,319.7 104.0,302.6 109.2,283.4 114.3,264.0 119.4,247.4
+    124.5,237.0 129.7,236.0 134.8,245.9 139.9,266.1 145.1,293.3 150.2,322.2
+    155.3,346.4 160.4,360.2 165.6,360.2 170.7,346.4 175.8,322.2 180.9,293.3
+    186.1,266.1 191.2,245.9 196.3,236.0 201.5,237.0 206.6,247.4 211.7,264.0
+    216.8,283.4 222.0,302.6 227.1,319.7 232.2,333.4 237.4,343.7 242.5,350.9
+    247.6,355.6 252.7,358.5 257.9,360.1 263.0,361.1
+  "/>
 
-  <!--
-    Overfit boundary: jagged path through gap (~y=170) with TWO dramatic detours:
+  <polyline class="cost-mae" points="
+    63.0,361.8 68.1,361.5 73.3,361.0 78.4,360.1 83.5,358.5 88.6,355.9
+    93.8,351.7 98.9,345.5 104.0,336.8 109.2,325.5 114.3,311.7 119.4,296.3
+    124.5,280.8 129.7,267.5 134.8,259.1 139.9,258.1 145.1,266.3 150.2,284.5
+    155.3,311.4 160.4,344.4 165.6,344.4 170.7,311.4 175.8,284.5 180.9,266.3
+    186.1,258.1 191.2,259.1 196.3,267.5 201.5,280.8 206.6,296.3 211.7,311.7
+    216.8,325.5 222.0,336.8 227.1,345.5 232.2,351.7 237.4,355.9 242.5,358.5
+    247.6,360.1 252.7,361.0 257.9,361.5 263.0,361.8
+  "/>
 
-    1. At x≈585: spike UP to y≈140 to go ABOVE the orange stray at (585,158),
-       keeping it on the orange (below) side. The boundary passes above this point.
+  <text x="163" y="394" class="caption">Both drop to zero at the edges. Either loss works.</text>
 
-    2. At x≈648: spike DOWN to y≈232 to go BELOW the blue stray at (648,222),
-       keeping it on the blue (above) side. The boundary passes below this point.
+  <!-- ========== BOTTOM-RIGHT: Laplace × losses ========== -->
 
-    All blue cluster points: y ≤ 145, boundary at y ≥ 155 in their x range → all above ✓
-    All orange cluster points: y ≥ 195, boundary at y ≤ 175 in their x range → all below ✓
-    Orange stray (585,158): boundary at y ≈ 140 at x=585, stray at y=158 is below → orange ✓
-    Blue stray (648,222): boundary at y ≈ 232 at x=648, stray at y=222 is above → blue ✓
-  -->
-  <path d="M 520,172
-           L 526,165 L 530,175 L 535,162 L 540,172 L 544,158 L 548,168
-           L 552,162 L 558,172 L 562,160 L 568,170
-           L 572,158 L 576,150 L 580,144 L 584,138 L 588,134
-           L 592,138 L 596,148 L 600,158
-           L 604,168 L 608,160 L 612,172 L 615,162 L 620,175 L 625,168
-           L 630,178 L 634,190 L 638,202 L 642,214 L 646,226 L 650,234
-           L 654,228 L 656,214 L 654,200 L 650,188 L 648,178
-           L 654,172 L 662,178 L 670,170 L 680,176 L 695,170 L 715,174 L 730,172" class="boundary-overfit" />
+  <line x1="388" y1="362" x2="588" y2="362" class="g"/>
+  <line x1="388" y1="331" x2="588" y2="331" class="g"/>
+  <line x1="388" y1="299" x2="588" y2="299" class="g"/>
+  <line x1="388" y1="268" x2="588" y2="268" class="g"/>
+  <line x1="388" y1="236" x2="588" y2="236" class="g"/>
+  <line x1="388" y1="367" x2="595" y2="367" class="ax"/>
+  <text x="488" y="380" class="ax-lbl">error size</text>
 
-  <!-- Blue cluster (+500) -->
-  <circle cx="550" cy="100" r="5" fill="#1890ff" />
-  <circle cx="565" cy="118" r="5" fill="#1890ff" />
-  <circle cx="545" cy="132" r="5" fill="#1890ff" />
-  <circle cx="588" cy="95" r="5" fill="#1890ff" />
-  <circle cx="605" cy="110" r="5" fill="#1890ff" />
-  <circle cx="582" cy="130" r="5" fill="#1890ff" />
-  <circle cx="598" cy="138" r="5" fill="#1890ff" />
-  <circle cx="615" cy="122" r="5" fill="#1890ff" />
-  <circle cx="572" cy="90" r="5" fill="#1890ff" />
-  <circle cx="538" cy="118" r="5" fill="#1890ff" />
-  <circle cx="558" cy="145" r="5" fill="#1890ff" />
-  <circle cx="625" cy="105" r="5" fill="#1890ff" />
-  <!-- Blue stray (+500) — boundary dips BELOW this point -->
-  <circle cx="648" cy="222" r="5" fill="#1890ff" />
+  <polyline class="cost-mse" points="
+    388.0,298.7 393.1,292.0 398.3,285.1 403.4,278.1 408.5,271.1 413.6,264.4
+    418.8,258.1 423.9,252.6 429.0,248.4 434.2,245.7 439.3,245.1 444.4,247.1
+    449.5,252.2 454.7,260.7 459.8,273.0 464.9,288.9 470.1,307.7 475.2,328.0
+    480.3,347.0 485.4,359.9 490.6,359.9 495.7,347.0 500.8,328.0 505.9,307.7
+    511.1,288.9 516.2,273.0 521.3,260.7 526.5,252.2 531.6,247.1 536.7,245.1
+    541.8,245.7 547.0,248.4 552.1,252.6 557.2,258.1 562.4,264.4 567.5,271.1
+    572.6,278.1 577.7,285.1 582.9,292.0 588.0,298.7
+  "/>
 
-  <!-- Orange cluster (+500) -->
-  <circle cx="632" cy="198" r="5" fill="#fa8c16" />
-  <circle cx="652" cy="212" r="5" fill="#fa8c16" />
-  <circle cx="642" cy="238" r="5" fill="#fa8c16" />
-  <circle cx="670" cy="205" r="5" fill="#fa8c16" />
-  <circle cx="620" cy="225" r="5" fill="#fa8c16" />
-  <circle cx="680" cy="230" r="5" fill="#fa8c16" />
-  <circle cx="665" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="695" cy="218" r="5" fill="#fa8c16" />
-  <circle cx="650" cy="195" r="5" fill="#fa8c16" />
-  <circle cx="630" cy="248" r="5" fill="#fa8c16" />
-  <circle cx="705" cy="240" r="5" fill="#fa8c16" />
-  <!-- Orange stray (+500) — boundary spikes ABOVE this point -->
-  <circle cx="585" cy="158" r="5" fill="#fa8c16" />
+  <polyline class="cost-mae" points="
+    388.0,346.2 393.1,343.6 398.3,340.6 403.4,337.2 408.5,333.4 413.6,329.2
+    418.8,324.5 423.9,319.3 429.0,313.8 434.2,308.0 439.3,302.0 444.4,296.1
+    449.5,290.6 454.7,286.1 459.8,283.1 464.9,282.8 470.1,286.3 475.2,295.6
+    480.3,313.1 485.4,342.0 490.6,342.0 495.7,313.1 500.8,295.6 505.9,286.3
+    511.1,282.8 516.2,283.1 521.3,286.1 526.5,290.6 531.6,296.1 536.7,302.0
+    541.8,308.0 547.0,313.8 552.1,319.3 557.2,324.5 562.4,329.2 567.5,333.4
+    572.6,337.2 577.7,340.6 582.9,343.6 588.0,346.2
+  "/>
 
-  <text x="625" y="302" class="label-small">Memorized the data. Will fail on new examples.</text>
+  <!-- Edge labels - right side, vertically centered on endpoints -->
+  <text x="596" y="296" class="ann" text-anchor="start" fill="#fa8c16">MSE</text>
+  <text x="596" y="349" class="ann" text-anchor="start" fill="#1890ff">MAE</text>
 
-  <!-- Bottom note -->
-  <text x="375" y="332" class="label-small">Same data, three models. Only the middle one will work on new examples.</text>
+  <text x="488" y="394" class="caption">MSE never drops back. Outliers dominate the cost.</text>
+
+  <!-- ========== LEGEND ========== -->
+  <!-- y=418, well below everything -->
+  <line x1="138" y1="418" x2="148" y2="418" stroke="#333" stroke-width="2"/>
+  <text x="153" y="422" class="leg" text-anchor="start">error distribution</text>
+  <line x1="268" y1="418" x2="288" y2="418" stroke="#fa8c16" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="293" y="422" class="leg" text-anchor="start">MSE penalty</text>
+  <line x1="378" y1="418" x2="398" y2="418" stroke="#1890ff" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="403" y="422" class="leg" text-anchor="start">MAE penalty</text>
 </svg>

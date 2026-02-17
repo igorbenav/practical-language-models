@@ -108,6 +108,12 @@ There's a practical problem with this training process. Without a trick called *
 
 ![Negative Sampling: Score Real Pairs Against Random Ones](../images/chapter3/figure-3-6-en.svg)
 
+The loss function for negative sampling looks like this. For a target word $t$, a real context word $c$, and $K$ random negative words $n_1, \ldots, n_K$:
+
+$$L = -\log \sigma(w_t \cdot w_c) - \sum_{k=1}^{K} \log \sigma(-w_t \cdot w_k)$$
+
+The first term pushes the dot product up for the real pair (make the sigmoid close to 1). Each term in the sum pushes the dot product down for the random pairs (make the sigmoid close to 0). If this looks familiar, it should: it's the same sigmoid and binary cross-entropy from Chapter 2. Each word pair is a binary classification problem: "is this a real context pair or a random one?" Word2Vec isn't a new kind of algorithm. It's logistic regression applied to a clever prediction task, run billions of times until the vectors encode meaning.
+
 The vectors that come out learn more than "these words are similar." They learn structured relationships. Mikolov et al. [-@mikolov2013linguistic] showed that you could take the vector for "king," subtract the vector for "man," add the vector for "woman," and the closest word to the result is "queen."
 
 $$\vec{\text{king}} - \vec{\text{man}} + \vec{\text{woman}} \approx \vec{\text{queen}}$$
@@ -174,7 +180,7 @@ That's enough theory. Let's load real embeddings and see what they actually enco
 
 ## Hands-On: Exploring Pre-Trained Embeddings
 
-We've talked about word embeddings as vectors that capture meaning. Now let's work with real ones. We'll load pre-trained GloVe embeddings [@pennington2014glove] (Global Vectors for Word Representation, a method closely related to Word2Vec that trains on global word co-occurrence statistics rather than local windows), compute similarity ourselves, run the analogy experiments, and investigate where the representation fails.
+We've talked about word embeddings as vectors that capture meaning, now let's work with real ones. We'll load pre-trained GloVe embeddings [@pennington2014glove] (Global Vectors for Word Representation). GloVe is closely related to Word2Vec but trains on global word co-occurrence statistics rather than local context windows; the resulting vectors exhibit the same properties: analogy arithmetic works, similar words cluster together, and biases carry over from the training text. We're using GloVe here because the pre-trained vectors are freely available and easy to load, but everything we explore in this section applies equally to Word2Vec embeddings. We'll compute similarity ourselves, run the analogy experiments, and investigate where the representation fails.
 
 GloVe embeddings come as a text file: one word per line, followed by its vector values. We're using 50-dimensional vectors trained on 6 billion tokens of text from Wikipedia and news. The file is about 66MB.
 
@@ -288,7 +294,7 @@ for w1, w2 in pairs:
 
 Run it and study the output. "Cat" and "dog" should be very high (above 0.9), which makes sense: they share enormous context overlap ("pet," "fed the ___," "took the ___ to the vet"). "Cat" and "kitten" is lower than you might expect (around 0.6), because "kitten" appears in a narrower set of contexts (cuteness, youth, smallness) while "cat" is used much more broadly. "Cat" and "car" should be moderate but lower (they share some syntactic contexts but little meaning). "Cat" and "democracy" should be near zero.
 
-Now look at "happy" and "sad." You might expect them to be far apart (they're opposites), but they're quite similar (around 0.7). This tells you something about what distributional embeddings actually capture: *relatedness*, not just *similarity*. "Happy" and "sad" are antonyms, but they appear in almost identical contexts. You say "I feel happy" and "I feel sad." You say "She seemed happy" and "She seemed sad." The distributional hypothesis puts them close because they keep the same company. The vectors can't distinguish "means the same thing" from "means the opposite thing." Keep this in mind when we build retrieval systems in Chapter 10.
+Now look at "happy" and "sad." You might expect them to be far apart (they're opposites), but they're quite similar (around 0.7). This tells you something important about what cosine similarity actually measures on distributional embeddings: **relatedness**, not substitutability. "Happy" and "sad" are antonyms, but they appear in almost identical contexts. You say "I feel happy" and "I feel sad." You say "She seemed happy" and "She seemed sad." The distributional hypothesis puts them close because they keep the same company. Cosine similarity captures how much two words have to do with each other, not whether you can swap one for the other without changing the meaning.
 
 Next, let's find the most similar words to a given word. We need to compute cosine similarity against the entire vocabulary and return the top results. Instead of a Python loop over 400,000 words, we can use a property we proved in the cosine similarity section: for unit vectors, cosine similarity is just the dot product. If we first L2-normalize every vector:
 
@@ -298,7 +304,18 @@ then finding the most similar word to a query $q$ is just:
 
 $$\text{most similar} = \arg\max_{w} \; \hat{v}_w \cdot \hat{q}$$
 
-And the dot product of one vector against all 400,000 vectors at once is a matrix-vector multiply:
+And the dot product of one vector against all 400,000 vectors at once is a matrix-vector multiply. We normalize the full matrix once up front so we don't redo it on every query:
+
+```python
+# embeddings.py
+# ...existing code above
+
+norms = np.sqrt(np.sum(vectors ** 2, axis=1))
+norms[norms == 0] = 1.0
+normalized = vectors / norms[:, np.newaxis]
+```
+
+`norms[:, np.newaxis]` reshapes the norms from a flat list into a column, so that when we divide vectors / norms[:, np.newaxis], each row gets divided by its own norm. This is the $\hat{v} = v / \|v\|$ step. Once normalized exists, every similarity query is a single matrix-vector multiply:
 
 ```python
 # embeddings.py
@@ -309,24 +326,16 @@ def most_similar(word, n=10):
     if vec is None:
         return []
 
-    # L2-normalize every word vector: v_hat = v / ||v||
-    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
-    norms[norms == 0] = 1.0
-    normalized = vectors / norms[:, np.newaxis]
-
-    # L2-normalize the query vector
     word_norm = np.sqrt(np.sum(vec ** 2))
     word_normalized = vec / word_norm
 
-    # Dot product of unit vectors = cosine similarity
     similarities = normalized @ word_normalized
 
-    # Sort by similarity (highest first), skip the word itself
     top_indices = np.argsort(similarities)[::-1][1:n+1]
     return [(words[i], similarities[i]) for i in top_indices]
 ```
 
-A few relevant things: `norms[:, np.newaxis]` reshapes the norms from a flat list into a column, so that when we divide `vectors / norms[:, np.newaxis]`, each row gets divided by its own norm. This is the $\hat{v} = v / \|v\|$ step. Once every vector is unit length, `normalized @ word_normalized` gives us 400,000 cosine similarities in a single matrix multiply. The `@` operator is matrix multiplication, and this is where NumPy is a lot better than doing it with standard Python: one line of code replaces 400,000 loops, it's done in parallel.
+`normalized @ word_normalized` gives us 400,000 cosine similarities in a single matrix multiply. The `@` operator is matrix multiplication, and this is where NumPy is a lot better than doing it with standard Python: one line of code replaces 400,000 loops, it's done in parallel.
 
 The last line chains three operations: `argsort` returns the positions that would sort the array from lowest to highest, `[::-1]` reverses it to highest-first, and `[1:n+1]` skips the first result (the query word itself, which always has similarity 1.0) and takes the next `n`.
 
@@ -362,21 +371,13 @@ def analogy(a, b, c, n=5):
     if any(v is None for v in [va, vb, vc]):
         return []
 
-    # Compute the target: t = b - a + c
     target = vb - va + vc
-
-    # Normalize all vectors
-    norms = np.sqrt(np.sum(vectors ** 2, axis=1))
-    norms[norms == 0] = 1.0
-    normalized = vectors / norms[:, np.newaxis]
 
     target_norm = np.sqrt(np.sum(target ** 2))
     target_normalized = target / target_norm
 
-    # Find the closest words to the target
     similarities = normalized @ target_normalized
 
-    # Exclude the three input words from results
     for w in [a, b, c]:
         if w in word_to_index:
             similarities[word_to_index[w]] = -1
@@ -647,4 +648,4 @@ In the next chapter, we see how attention mechanisms compute a fresh representat
 
     Define three positive pairs (words that appear together: `("cat", "pet")`, `("dog", "pet")`, `("car", "drive")`) and let every other combination be a negative pair. Write a training loop: for each positive pair, nudge their vectors closer (add a small fraction of each vector to the other). For each negative pair, nudge them apart (subtract). Run 200 iterations with a learning rate of 0.01. Plot the vectors before and after training. Do "cat," "dog," and "pet" end up clustered? Do "car," "drive," and "road" form a separate cluster? This is the core of what Word2Vec does: push co-occurring words together, push random pairs apart.
 
-6. The `most_similar` function recomputes normalized vectors on every call, scanning all 400,000 words each time. Measure how long a single call takes with `time.time()`. Now precompute the normalized matrix once, outside the function, and rewrite `most_similar` to use it. How much faster is the precomputed version? For a bigger speedup, compute similarities for multiple query words at once: `normalized @ normalized[query_indices].T` gives you all pairwise similarities between your queries and the full vocabulary in one matrix multiply. Time this batch version against calling the single-word function in a loop. This is the core trick behind vector databases, which we'll build with in Chapter 10.
+6. The `most_similar` function handles one word at a time. What if you need the neighbors of 100 words? Calling it in a loop works, but there's a faster way: compute all 100 queries at once with a single matrix multiply. `normalized[query_indices]` grabs the rows for your query words, giving you a matrix of shape `(100, 50)`. Multiply it by the full normalized matrix transposed: `(normalized @ normalized[query_indices].T)` gives you a `(400000, 100)` matrix of all pairwise similarities in one operation. Time this batch version against calling `most_similar` in a loop for 100 random words. How much faster is it? This is the core trick behind vector databases, which we'll build with in Chapter 10.

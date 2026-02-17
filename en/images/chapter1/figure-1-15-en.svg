@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 390">
+  <style>
+    .background { fill: #f8f9fa; }
+    .title { font-family: 'Arial', sans-serif; font-size: 18px; font-weight: bold; text-anchor: middle; fill: #333; }
+    .section-label { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; }
+    .label-small { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; fill: #666; }
+    .label-action { font-family: 'Arial', sans-serif; font-size: 10px; text-anchor: middle; fill: #888; }
+    .model-box { fill: #f6ffed; stroke: #52c41a; stroke-width: 1.5; }
+    .score-text { font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; text-anchor: middle; }
+    .score-label { font-family: 'Arial', sans-serif; font-size: 11px; text-anchor: middle; }
+    .box-title { font-family: 'Arial', sans-serif; font-size: 13px; font-weight: bold; text-anchor: middle; }
+  </style>
+
+  <defs>
+    <marker id="arrow-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1890ff" />
+    </marker>
+    <marker id="arrow-orange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#fa8c16" />
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#52c41a" />
+    </marker>
+  </defs>
+
+  <rect width="750" height="390" class="background" />
+
+  <text x="375" y="28" class="title">The Generalization Gap</text>
+
+  <!--
+    ROW 1: Dataset squares
+    20 squares: 16 blue (training) + 4 orange (test)
+    Square: 22×22, gap: 4px → 26px pitch
+    Total: 20 × 26 - 4 = 516
+    Start x: (750 - 516) / 2 = 117
+  -->
+
+  <!-- Training squares (16) -->
+  <rect x="117" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="143" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="169" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="195" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="221" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="247" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="273" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="299" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="325" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="351" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="377" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="403" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="429" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="455" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="481" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+  <rect x="507" y="48" width="22" height="22" rx="3" fill="#1890ff" opacity="0.6" />
+
+  <!-- Divider -->
+  <line x1="536" y1="46" x2="536" y2="74" stroke="#ccc" stroke-width="1" stroke-dasharray="3,2" />
+
+  <!-- Test squares (4) -->
+  <rect x="543" y="48" width="22" height="22" rx="3" fill="#fa8c16" opacity="0.6" />
+  <rect x="569" y="48" width="22" height="22" rx="3" fill="#fa8c16" opacity="0.6" />
+  <rect x="595" y="48" width="22" height="22" rx="3" fill="#fa8c16" opacity="0.6" />
+  <rect x="621" y="48" width="22" height="22" rx="3" fill="#fa8c16" opacity="0.6" />
+
+  <!-- Group labels -->
+  <text x="318" y="88" class="section-label" fill="#1890ff">80% Training</text>
+  <text x="582" y="88" class="section-label" fill="#fa8c16">20% Test</text>
+
+  <!--
+    ROW 2: Training data → Model
+    Arrow from training group center (318) down to model
+  -->
+  <line x1="318" y1="95" x2="318" y2="125" stroke="#1890ff" stroke-width="1.5" fill="none" marker-end="url(#arrow-blue)" />
+
+  <!-- Model box -->
+  <rect x="233" y="130" width="170" height="40" rx="6" ry="6" class="model-box" />
+  <text x="318" y="155" class="box-title" fill="#389e0d">Model</text>
+
+  <!--
+    ROW 3: Model gets evaluated on both sets
+    Left arrow: model → training accuracy
+    Right arrow: model + unseen → test accuracy
+  -->
+
+  <!-- Left: model evaluated on training data -->
+  <path d="M 280,170 L 200,210" stroke="#1890ff" stroke-width="1.5" fill="none" marker-end="url(#arrow-blue)" />
+
+  <!-- Right: model evaluated on test data -->
+  <path d="M 356,170 L 500,210" stroke="#fa8c16" stroke-width="1.5" fill="none" marker-end="url(#arrow-orange)" />
+
+  <!-- Dashed line from test squares to right arrow area, showing the held-back data being used -->
+  <path d="M 582,95 L 582,165 Q 582,185 562,195 L 530,210" stroke="#fa8c16" stroke-width="1.5" stroke-dasharray="5,3" fill="none" />
+
+  <!--
+    ROW 4: Two score boxes
+    Left: Training accuracy (blue)
+    Right: Test accuracy (orange)
+    Centered with space between
+  -->
+
+  <!-- Training accuracy -->
+  <rect x="110" y="215" width="180" height="70" rx="6" ry="6" fill="#e6f7ff" stroke="#1890ff" stroke-width="1.5" />
+  <text x="200" y="240" class="score-label" fill="#1890ff">Training accuracy</text>
+  <text x="200" y="270" class="score-text" fill="#1890ff">94%</text>
+
+  <!-- Test accuracy -->
+  <rect x="440" y="215" width="180" height="70" rx="6" ry="6" fill="#fff7e6" stroke="#fa8c16" stroke-width="1.5" />
+  <text x="530" y="240" class="score-label" fill="#d46b08">Test accuracy</text>
+  <text x="530" y="270" class="score-text" fill="#d46b08">91%</text>
+
+  <!-- Comparison: double-headed arrow between boxes with gap label above -->
+  <line x1="295" y1="250" x2="435" y2="250" stroke="#52c41a" stroke-width="1.5" marker-end="url(#arrow-green)" />
+  <line x1="435" y1="250" x2="295" y2="250" stroke="#52c41a" stroke-width="1.5" marker-end="url(#arrow-green)" />
+  <text x="365" y="243" class="label-small" fill="#389e0d">small gap ✓</text>
+
+  <!--
+    ROW 5: What different gaps mean
+    Three compact lines
+  -->
+  <text x="375" y="315" class="label-small" fill="#389e0d">94% / 91% → good generalization</text>
+  <text x="375" y="335" class="label-small" fill="#cf1322">99% / 52% → overfitting</text>
+  <text x="375" y="355" class="label-small" fill="#d46b08">55% / 53% → underfitting</text>
+
+  <!-- Bottom caption -->
+  <text x="375" y="382" class="label-small">The gap between training and test accuracy tells you what's going wrong.</text>
+</svg>

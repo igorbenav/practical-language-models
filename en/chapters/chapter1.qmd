@@ -16,7 +16,7 @@ We have data: thousands of handwritten digits that humans have already labeled. 
 
 Let's make this precise. There exists some unknown function $f: X \to Y$ that we want to learn. $X$ is the set of all possible inputs (all possible images of handwritten digits, for example). $Y$ is the set of outputs (the digits 0 through 9 in this case).
 
-We can't access $f$ directly, we don't know it. What we have is a dataset $D = \{(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)\}$: a collection of input-output pairs where each $y_i = f(x_i)$. These are examples of this function's behavior.
+We can't access $f$ directly, we don't know it. What we have is a dataset $D = \{(x_1, y_1), (x_2, y_2), \ldots, (x_N, y_N)\}$: a collection of input-output pairs where each $y_i = f(x_i)$; these are examples of this function's behavior. $D$ is a finite subset of all possible input-output pairs, a sample from the vast space of everything $f$ could be asked to classify. The hope is that the patterns in this sample are representative of the whole: that what we learn from 60,000 digits generalizes to the millions we'll never see.
 
 Our job is to use $D$ to find a function $g: X \to Y$ such that $g \approx f$. Not just on the examples we've seen, but on new inputs the machine has never encountered. That last part is what separates learning from memorization [@abu-mostafa2012learning].
 
@@ -132,7 +132,7 @@ Start with classification. Your model looks at a handwritten digit and predicts 
 
 $$\text{Accuracy} = \frac{\text{number correct}}{N}$$
 
-If your model correctly classifies 9,200 out of 10,000 test digits, its accuracy is 92%. That's straightforward.
+If your model correctly classifies 9,200 out of 10,000 test digits, its accuracy is 92%. That's straightforward, but it hides an assumption: that the classes are roughly balanced. MNIST has about 7,000 images per digit, so accuracy is a fair measure, but if 90% of your emails are not spam, a model that always predicts "not spam" gets 90% accuracy without learning any relevant pattern. For MNIST this isn't a problem, but for other datasets, you'd want to look at per-class performance, which we'll do in the hands-on with the confusion matrix.
 
 Regression is trickier. You're predicting numbers, so you'll essentially never get the exact value. You need to measure how far off you were. The simplest idea: take the difference between your prediction and the true value, and make it positive.
 
@@ -170,6 +170,10 @@ The choice of loss function shapes what the model learns. MSE pushes the model t
 
 A model that's off by $1,000 on ten houses and perfect on the rest walks the same total distance as one that nails every house but misses one by $10,000. MSE would strongly prefer the first model; MAE treats them equally.
 
+This also tells you when to use which: MSE is the right default when big errors are genuinely rare and mean something went wrong, but if your data has heavy outliers (house prices with a few mansions, sensor readings with occasional spikes), MSE overreacts to them and distorts the whole model. MAE doesn't let a few extreme values dominate the loss. When you pick a loss function, you're making a bet on what your error distribution looks like.
+
+![Distributions vs Errors](../images/chapter1/figure-1-13-en.svg){width=75%}
+
 So now we can measure how wrong a model is. But there's a trap. A model can score perfectly on the data it's seen and still be useless. Everything depends on what happens when the model encounters something new.
 
 ## Generalization
@@ -180,7 +184,7 @@ But show it a new digit it hasn't seen, and it might fail completely. It didn't 
 
 The opposite problem exists too. A model that's too simple might not capture the real patterns in the data. If you try to tell apart 0s and 1s with a single rule ("if the image is dark in the center, it's a 0"), you'll get some right but miss the complexity of real handwriting. This is **underfitting**: the model isn't powerful enough to learn what's actually there.
 
-![Underfitting, Good Fit, and Overfitting](../images/chapter1/figure-1-13-en.svg)
+![Underfitting, Good Fit, and Overfitting](../images/chapter1/figure-1-14-en.svg)
 
 Think about it in terms of studying for an exam. You have practice questions and answers from the past five years. You could memorize every answer word for word. On a test that reuses those exact questions, you'd score 100%. On a test with new questions covering the same material, you'd fail. You never learned the subject. You learned the specific answers.
 
@@ -188,9 +192,11 @@ A good student extracts the underlying principles and applies them to new questi
 
 This is why we split data into **training data** and **test data**. Train the model on one set, evaluate it on another. The test data simulates "new, unseen examples." If the model does well on training data but poorly on test data, it's overfitting. If it does poorly on both, it's underfitting. If it does well on both, it learned something real.
 
-![The Generalization Gap](../images/chapter1/figure-1-14-en.svg){width=85%}
+![The Generalization Gap](../images/chapter1/figure-1-15-en.svg){width=85%}
 
-A common split is 80% training, 20% testing. The exact ratio isn't sacred, but the principle is: never evaluate a model on data it trained on. That would be like grading students on the homework they copied. You'll see this in practice with companies claiming their language model can solve some benchmark, without mentioning that the benchmark questions were in the training data.
+A common split is 80% training, 20% testing. The exact ratio isn't sacred, but the principle is: never evaluate a model on data it trained on; that would be like grading students on the homework they copied. You'll see this in practice with companies claiming their language model can solve some benchmark, without mentioning that the benchmark questions were in the training data.
+
+Remember to shuffle the data before splitting if it's necessary; MNIST comes sorted by digit, so a naive split puts all the 0s through 7s in training and all the 8s and 9s in test. The test score would be meaningless: the model never saw those digits during training. Shuffling ensures both sets are representative of the whole dataset.
 
 We talked about template matching and nearest neighbors earlier. Think about where they fall on the overfitting/underfitting spectrum. The nearest-neighbor classifier is the ultimate memorizer: it stores every training example and matches against them. On training data, it gets 100% (every image is its own nearest neighbor). But it might not generalize as well to new data. Template matching is the opposite: ten blurry averages can't memorize anything, so it's unlikely to overfit, but it might underfit by being too simple to capture real patterns. The right model is somewhere in between. That's enough theory. Let's build something.
 
