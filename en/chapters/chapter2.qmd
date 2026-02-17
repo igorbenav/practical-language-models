@@ -74,7 +74,13 @@ With two weights, the loss surface is a 3D landscape (two weight axes plus the h
 
 This is **gradient descent** [@cauchy1847methode]. Compute the gradient, then take a step opposite to it, and repeat. Each step reduces the loss (if the learning rate isn't too large), and over many steps the weights converge toward values that make the model's predictions good.
 
-There's a practical issue. Computing the loss over the entire training set (all 56,000 images, for instance) for every single step is computationally expensive. Instead, we can compute the loss and gradient on a small random subset called a **mini-batch** (typically 32 to 256 examples). The gradient from a mini-batch is noisier than the true gradient, but it points in roughly the right direction, and we can take many more steps in the same time. This variant is called **stochastic gradient descent** (SGD), and it's what virtually every modern model uses (with some variations).
+There's a practical issue: computing the loss over the entire training set (all 56,000 images, for instance) for every single step is computationally expensive. Instead, we can compute the loss and gradient on a small random subset called a **mini-batch** (typically 32 to 256 examples). The gradient from a mini-batch is noisier than the true gradient, but it's not biased in any direction.
+
+The reason is straightforward: the full gradient is the average of per-example gradients across all 56,000 images; a random mini-batch of 64 is a random sample from those 56,000, and the average of a random sample is an unbiased estimator of the population average:
+
+$$E[\nabla L_{\text{batch}}] = \nabla L_{\text{full}}$$
+
+On any single batch the gradient might be off, but across batches it's exactly right on average. We can take many more steps in the same time, and the noise turns out to help: it prevents the optimizer from settling into sharp, narrow valleys that happen to fit the training data but don't generalize. This variant is called **stochastic gradient descent** (SGD), and it's what virtually every modern model uses (with some variations).
 
 ### What about getting stuck?
 
@@ -238,7 +244,9 @@ The result is 10 raw scores, one per digit class. These aren't probabilities yet
 
 $$\text{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{10} e^{z_j}}$$
 
-Softmax exponentiates each score (making them all positive) and divides by the total (making them sum to 1). The output is a probability distribution: "32% chance it's a 3, 61% chance it's an 8, ..." The predicted class is the one with the highest probability.
+Softmax exponentiates each score (making them all positive) and divides by the total (making them sum to 1). It's the natural choice for turning scores into probabilities: always positive, always sums to 1, and it preserves the ordering of the original scores (the highest score always gets the highest probability). The output is a probability distribution: "32% chance it's a 3, 61% chance it's an 8, ..." The predicted class is the one with the highest probability.
+
+One caveat: these numbers look like probabilities, and we'll treat them that way, but they're not necessarily well-calibrated: a model that outputs 0.9 for a digit might only be right 75% of the time when it says that. Neural networks tend to be overconfident; the relative ordering is reliable (higher scores mean the model is more sure), but the absolute numbers shouldn't be trusted as literal frequencies.
 
 The entire computation from input to prediction is the **forward pass**:
 
@@ -256,7 +264,9 @@ If the true label is digit $k$ (represented as a one-hot vector $y$ with a 1 at 
 
 $$L = -\sum_{i=0}^{9} y_i \log(\hat{y}_i) = -\log(\hat{y}_k)$$
 
-Since $y$ is one-hot, only the term where $y_i = 1$ survives. The loss is the negative log of the probability assigned to the correct class. If the model is confident and right ($\hat{y}_k$ close to 1), $-\log(1) = 0$: no loss. If the model assigns low probability to the correct answer ($\hat{y}_k$ close to 0), $-\log(\hat{y}_k)$ shoots toward infinity. The log curve rises slowly near 1 and rockets upward near 0: a model that says "I'm 95% sure this is a 7" and is wrong gets punished, but a model that says "I'm 1% sure" and is wrong gets punished a lot more.
+Since $y$ is one-hot, only the term where $y_i = 1$ survives. The loss is the negative log of the probability assigned to the correct class. If the model is confident and right ($\hat{y}_k$ close to 1), $-\log(1) = 0$: no loss. If the model assigns low probability to the correct answer ($\hat{y}_k$ close to 0), $-\log(\hat{y}_k)$ shoots toward infinity.
+
+There's another way to read this curve: think of $-\log(p)$ as measuring surprise. If the model assigns 95% to the correct class, it's not surprised when that class shows up: low loss. If it assigns 1%, it's very surprised: high loss. Cross-entropy is the model's average surprise across the training set. A perfect model is never surprised, but a bad model is constantly surprised. This is why cross-entropy is the standard for classification: it directly measures how far the model's beliefs are from reality.
 
 ![Cross-Entropy Loss](../images/chapter2/figure-2-16-en.svg)
 
@@ -266,7 +276,7 @@ The forward pass is just matrix multiplies, additions, and element-wise nonlinea
 
 We have a loss $L$ that depends on the output probabilities $\hat{y}$, which depend on $W_2$ and $b_2$, which depend on $h$, which depends on $W_1$ and $b_1$, which depend on $x$. It's clearly a chain: each quantity depends on the one before it.
 
-To update $W_1$ by gradient descent, we need $\frac{\partial L}{\partial W_1}$: how does the loss change when we teak the weights in the first layer? The loss doesn't directly involve $W_1$; it goes through $h$, then through $z$, then through $\hat{y}$. The **chain rule** from calculus tells us how to compose these dependencies:
+To update $W_1$ by gradient descent, we need $\frac{\partial L}{\partial W_1}$: how does the loss change when we tweak the weights in the first layer? The loss doesn't directly involve $W_1$; it goes through $h$, then through $z$, then through $\hat{y}$. The **chain rule** from calculus tells us how to compose these dependencies:
 
 $$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z} \cdot \frac{\partial z}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
 
@@ -284,7 +294,7 @@ Backpropagation works in reverse.
 
 $$\frac{\partial L}{\partial z_i} = \hat{y}_i - y_i$$
 
-For the correct class $k$, this is $\hat{y}_k - 1$ (the model's probability minus the target 1). For all other classes, it's just $\hat{y}_i$ (the model's probability minus the target 0). The gradient is the difference between what the model predicted and what it should have predicted. Call this $\delta_2 = \hat{y} - y$.
+For the correct class $k$, this is $\hat{y}_k - 1$ (the model's probability minus the target 1). For all other classes, it's just $\hat{y}_i$ (the model's probability minus the target 0). The gradient is the difference between what the model predicted and what it should have predicted. That's not a coincidence: softmax and cross-entropy are mathematically designed to pair together, which is why the gradient reduces to something this clean. Call this $\delta_2 = \hat{y} - y$.
 
 **Step 2: Output layer -> hidden layer.** The output scores were $z = W_2 h + b_2$. The gradients for the second layer's parameters are:
 
@@ -522,7 +532,7 @@ W1, b1, W2, b2 = initialize_weights(rng)
 print(f"Total parameters: {W1.size + b1.size + W2.size + b2.size}")
 ```
 
-The weights use Xavier initialization [@glorot2010understanding]: random values scaled by $\sqrt{2 / n_\text{in}}$, where $n_\text{in}$ is the number of inputs to the layer. This scaling keeps the variance of activations roughly constant across layers, preventing them from exploding or vanishing before training even starts. About 101,770 parameters, thirteen times more than the template matcher's 7,840 values, and every one is adjustable.
+The weights use Xavier initialization [@glorot2010understanding]: random values scaled by $\sqrt{2 / n_\text{in}}$, where $n_\text{in}$ is the number of inputs to the layer. Each neuron sums $n_\text{in}$ weighted inputs, so if the weights aren't scaled down, the output variance grows by a factor of $n_\text{in}$ at every layer and activations explode before training starts. Setting the weight variance to $2/n_\text{in}$ cancels that growth (the 2 accounts for ReLU zeroing out half the outputs). The effect is that activations stay in a reasonable range from the first layer to the last. About 101,770 parameters, thirteen times more than the template matcher's 7,840 values, and every one is adjustable.
 
 The forward pass feeds a batch through both layers:
 
@@ -668,6 +678,8 @@ print(f"Gap:               {train_accuracy - accuracy:.1%}")
 ```
 
 Training accuracy should be higher (close to 100% vs about 98% on test). A gap of about 2% means the model generalized well, though it has memorized the training data almost perfectly.
+
+A 2% gap is small here, but on harder problems or smaller datasets it can be much larger. The train/test split tells you overfitting is happening, but it doesn't fix it. The standard fix is **regularization**: adding a penalty to the loss that discourages the model from fitting noise. The most common version adds the sum of squared weights to the loss, which pushes the network toward smaller, smoother boundaries that are less likely to contort around individual training examples. We won't implement it in this chapter, but it's worth knowing that diagnosing overfitting and treating it are different things.
 
 **What happens without the nonlinearity?** We claimed in the theory that stacking linear layers without activation functions collapses into a single linear transformation. Let's see if that's true. We'll train a network with the same 784 -> 128 -> 10 architecture, but replace ReLU with the identity function (no activation at all):
 
