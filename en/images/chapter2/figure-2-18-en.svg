@@ -1,105 +1,106 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 0 410 210">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 180">
   <style>
     .bg { fill: #f8f9fa; }
-    .node-h { fill: #fff; stroke: #52c41a; stroke-width: 2; }
-    .node-out { fill: #fff; stroke: #bbb; stroke-width: 1.5; }
-    .node-wrong { fill: #fff2f0; stroke: #cf1322; stroke-width: 2; }
+    .box { fill: #fff; stroke: #1890ff; stroke-width: 1.5; rx: 5; }
+    .box-loss { fill: #fff; stroke: #cf1322; stroke-width: 1.5; rx: 5; }
+    .box-act { fill: #fff; stroke: #52c41a; stroke-width: 1.5; rx: 5; }
     .label { font-family: 'Georgia', 'Times New Roman', serif; font-size: 11px; fill: #333; font-style: italic; text-anchor: middle; }
-    .label-sm { font-family: 'Georgia', 'Times New Roman', serif; font-size: 10px; fill: #555; font-style: italic; text-anchor: middle; }
-    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #999; text-anchor: middle; }
-    .anno-b { font-family: 'Arial', sans-serif; font-size: 9.5px; fill: #666; font-weight: bold; text-anchor: middle; }
-    .conn-fwd { stroke: #ccc; stroke-width: 0.8; opacity: 0.4; }
-    .conn-err { stroke: #cf1322; stroke-width: 1.5; opacity: 0.7; }
-    .conn-err-weak { stroke: #cf1322; stroke-width: 0.7; opacity: 0.3; }
+    .label-sm { font-family: 'Georgia', 'Times New Roman', serif; font-size: 9.5px; fill: #555; font-style: italic; text-anchor: middle; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 8.5px; fill: #999; text-anchor: middle; }
+    .anno-fwd { font-family: 'Arial', sans-serif; font-size: 9px; fill: #1890ff; font-weight: bold; text-anchor: middle; }
+    .anno-bwd { font-family: 'Arial', sans-serif; font-size: 9px; fill: #cf1322; font-weight: bold; text-anchor: middle; }
+    .fwd { stroke: #1890ff; stroke-width: 1.2; fill: none; }
+    .bwd { stroke: #cf1322; stroke-width: 1.2; fill: none; stroke-dasharray: 4,2; }
   </style>
   <defs>
-    <marker id="af" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
-      <path d="M0,0 L5,2 L0,4 Z" fill="#ccc"/>
+    <marker id="arr-fwd" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#1890ff"/>
     </marker>
-    <marker id="ab" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+    <marker id="arr-bwd" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
       <path d="M0,0 L6,2 L0,4 Z" fill="#cf1322"/>
-    </marker>
-    <marker id="ab-w" markerWidth="5" markerHeight="3" refX="5" refY="1.5" orient="auto">
-      <path d="M0,0 L5,1.5 L0,3 Z" fill="#cf1322" opacity="0.35"/>
     </marker>
   </defs>
 
-  <rect x="30" width="410" height="210" class="bg"/>
+  <rect width="540" height="185" class="bg"/>
 
-  <!-- HIDDEN NEURONS (left side) -->
-  <circle cx="80" cy="45" r="16" class="node-h"/>
-  <text x="80" y="49" class="label">h₁</text>
+  <!-- FORWARD label -->
+  <text x="270" y="16" class="anno-fwd">forward pass →</text>
 
-  <circle cx="80" cy="100" r="16" class="node-h"/>
-  <text x="80" y="104" class="label">h₂</text>
+  <!-- Boxes row, y centered at 65 -->
+  <!-- x -->
+  <rect x="12" y="42" width="40" height="30" class="box"/>
+  <text x="32" y="61" class="label">x</text>
 
-  <circle cx="80" cy="155" r="16" class="node-h"/>
-  <text x="80" y="159" class="label">h₃</text>
+  <!-- W1, b1 -->
+  <rect x="80" y="42" width="58" height="30" class="box"/>
+  <text x="109" y="55" class="label-sm">W₁x + b₁</text>
+  <text x="109" y="66" class="anno">(linear)</text>
 
-  <!-- OUTPUT NEURONS (right side) -->
-  <circle cx="310" cy="35" r="16" class="node-out"/>
-  <text x="310" y="39" class="label-sm">ŷ₁</text>
-  <text x="355" y="38" class="anno" text-anchor="start" style="fill:#aaa">0.02</text>
+  <!-- ReLU -->
+  <rect x="166" y="42" width="44" height="30" class="box-act"/>
+  <text x="188" y="61" class="label">ReLU</text>
 
-  <circle cx="310" cy="80" r="16" class="node-out"/>
-  <text x="310" y="84" class="label-sm">ŷ₂</text>
-  <text x="355" y="83" class="anno" text-anchor="start" style="fill:#aaa">0.05</text>
+  <!-- h -->
+  <rect x="238" y="42" width="32" height="30" class="box"/>
+  <text x="254" y="61" class="label">h</text>
 
-  <circle cx="310" cy="125" r="16" class="node-wrong"/>
-  <text x="310" y="129" class="label-sm" style="fill:#cf1322">ŷ₇</text>
-  <text x="355" y="122" class="anno" text-anchor="start" style="fill:#cf1322">0.30</text>
-  <text x="355" y="133" class="anno" text-anchor="start" style="fill:#cf1322">should be ≈1</text>
+  <!-- W2, b2 -->
+  <rect x="298" y="42" width="58" height="30" class="box"/>
+  <text x="327" y="55" class="label-sm">W₂h + b₂</text>
+  <text x="327" y="66" class="anno">(linear)</text>
 
-  <circle cx="310" cy="170" r="16" class="node-out"/>
-  <text x="310" y="174" class="label-sm">ŷ₉</text>
-  <text x="355" y="173" class="anno" text-anchor="start" style="fill:#aaa">0.08</text>
+  <!-- softmax -->
+  <rect x="384" y="42" width="54" height="30" class="box-act"/>
+  <text x="411" y="61" class="label-sm">softmax</text>
 
-  <!-- dots between y2 and y7 -->
-  <text x="310" y="106" class="anno">⋮</text>
+  <!-- ŷ -->
+  <rect x="438" y="42" width="32" height="30" class="box"/>
+  <text x="454" y="61" class="label">ŷ</text>
 
-  <!-- dots between y7 and y9 -->
-  <text x="310" y="151" class="anno">⋮</text>
+  <!-- L -->
+  <rect x="490" y="42" width="36" height="30" class="box-loss"/>
+  <text x="508" y="61" class="label" style="fill:#cf1322">L</text>
 
-  <!-- FORWARD CONNECTIONS (faint grey, right-pointing) -->
-  <line x1="96" y1="45" x2="294" y2="35" class="conn-fwd"/>
-  <line x1="96" y1="45" x2="294" y2="80" class="conn-fwd"/>
-  <line x1="96" y1="45" x2="294" y2="125" class="conn-fwd"/>
-  <line x1="96" y1="45" x2="294" y2="170" class="conn-fwd"/>
+  <!-- FORWARD ARROWS (top, solid blue) -->
+  <line x1="52" y1="50" x2="78" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
+  <line x1="138" y1="50" x2="164" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
+  <line x1="210" y1="50" x2="236" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
+  <line x1="270" y1="50" x2="296" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
+  <line x1="356" y1="50" x2="382" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
+  <line x1="438" y1="50" x2="438" y2="50" class="fwd"/>
+  <line x1="470" y1="50" x2="488" y2="50" class="fwd" marker-end="url(#arr-fwd)"/>
 
-  <line x1="96" y1="100" x2="294" y2="35" class="conn-fwd"/>
-  <line x1="96" y1="100" x2="294" y2="80" class="conn-fwd"/>
-  <line x1="96" y1="100" x2="294" y2="125" class="conn-fwd"/>
-  <line x1="96" y1="100" x2="294" y2="170" class="conn-fwd"/>
+  <!-- BACKWARD ARROWS (bottom, dashed red) -->
+  <text x="270" y="108" class="anno-bwd">← backward pass (gradients)</text>
 
-  <line x1="96" y1="155" x2="294" y2="35" class="conn-fwd"/>
-  <line x1="96" y1="155" x2="294" y2="80" class="conn-fwd"/>
-  <line x1="96" y1="155" x2="294" y2="125" class="conn-fwd"/>
-  <line x1="96" y1="155" x2="294" y2="170" class="conn-fwd"/>
+  <line x1="490" y1="78" x2="472" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
+  <line x1="438" y1="78" x2="440" y2="78" class="bwd"/>
+  <line x1="384" y1="78" x2="360" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
+  <line x1="298" y1="78" x2="272" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
+  <line x1="238" y1="78" x2="212" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
+  <line x1="166" y1="78" x2="140" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
+  <line x1="80" y1="78" x2="54" y2="78" class="bwd" marker-end="url(#arr-bwd)"/>
 
-  <!-- BACKWARD ERROR ARROWS (red, left-pointing, from wrong output) -->
-  <!-- Strong arrows from ŷ₇ (the wrong one) back to hidden neurons -->
-  <line x1="294" y1="122" x2="98" y2="48" class="conn-err" marker-end="url(#ab)"/>
-  <line x1="294" y1="125" x2="98" y2="100" class="conn-err" marker-end="url(#ab)"/>
-  <line x1="294" y1="128" x2="98" y2="153" class="conn-err" marker-end="url(#ab)"/>
+  <!-- Gradient labels underneath each arrow -->
+  <text x="508" y="92" class="anno" style="fill:#cf1322">∂L/∂ŷ</text>
+  <text x="411" y="92" class="anno" style="fill:#cf1322">δ₂</text>
+  <text x="327" y="92" class="anno" style="fill:#cf1322">∂L/∂h</text>
+  <text x="188" y="92" class="anno" style="fill:#cf1322">δ₁</text>
+  <text x="109" y="92" class="anno" style="fill:#cf1322">∂L/∂W₁</text>
 
-  <!-- Weak arrows from other outputs -->
-  <line x1="294" y1="35" x2="98" y2="43" class="conn-err-weak" marker-end="url(#ab-w)"/>
-  <line x1="294" y1="80" x2="98" y2="97" class="conn-err-weak" marker-end="url(#ab-w)"/>
-  <line x1="294" y1="170" x2="98" y2="157" class="conn-err-weak" marker-end="url(#ab-w)"/>
+  <!-- softmax → ŷ arrow (they're adjacent) -->
+  <line x1="438" y1="57" x2="438" y2="57" class="fwd"/>
 
-  <!-- Weight labels: midpoints offset above each line, rotated to match slope -->
-  <!-- Line 1: (294,122)→(98,48), midpoint ~(196,85), slope ≈ 21° left-to-right -->
-  <text x="196" y="77" class="anno" style="fill:#cf1322" transform="rotate(21, 196, 77)">w₇₁ × error</text>
-  <!-- Line 2: (294,125)→(98,100), midpoint ~(196,112), slope ≈ 7° left-to-right -->
-  <text x="196" y="104" class="anno" style="fill:#cf1322" transform="rotate(7, 196, 104)">w₇₂ × error</text>
-  <!-- Line 3: (294,128)→(98,153), midpoint ~(196,140), slope ≈ -7° left-to-right -->
-  <text x="196" y="133" class="anno" style="fill:#cf1322" transform="rotate(-7, 196, 133)">w₇₃ × error</text>
+  <!-- Parameter callouts dropping below W1 and W2 boxes -->
+  <line x1="109" y1="72" x2="109" y2="125" stroke="#1890ff" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <text x="109" y="136" class="anno" style="fill:#1890ff">update W₁, b₁</text>
 
-  <!-- Labels -->
-  <text x="80" y="194" class="anno-b">hidden layer</text>
-  <text x="310" y="194" class="anno-b">output layer</text>
+  <line x1="327" y1="72" x2="327" y2="125" stroke="#1890ff" stroke-width="0.6" stroke-dasharray="2,2"/>
+  <text x="327" y="136" class="anno" style="fill:#1890ff">update W₂, b₂</text>
 
-  <!-- Big error annotation -->
-  <text x="403" y="125" class="anno" style="fill:#cf1322">← large</text>
-  <text x="403" y="135" class="anno" style="fill:#cf1322">   error</text>
+  <!-- Bottom note -->
+  <text x="270" y="168" class="anno">each box computes a local derivative; the chain rule multiplies them together</text>
+
+  <!-- Explanation of ŷ → L being combined -->
+  <text x="454" y="35" class="anno">−log(ŷₖ)</text>
 </svg>

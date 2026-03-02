@@ -178,6 +178,23 @@ The data isn't linearly separable: no flat boundary can sort it correctly. Digit
 
 A perceptron can't solve XOR, and it can't cleanly separate 4s from 9s. One straight boundary isn't enough. The natural next question: what if we combine multiple perceptrons, each drawing its own boundary? Could several lines working together separate regions that no single line can?
 
+There's a classical solution to this. If the data isn't separable in the space you're working in, move it to a space where it is. Take our four XOR points. No line separates them in 2D. But what if we add a third coordinate, $x_3 = x_1 \cdot x_2$?
+
+| $x_1$ | $x_2$ | $x_1 \cdot x_2$ | XOR |
+|--------|--------|----------|-----|
+| 0 | 0 | 0 | 0 |
+| 0 | 1 | 0 | 1 |
+| 1 | 0 | 0 | 1 |
+| 1 | 1 | 1 | 0 |
+
+The class-1 points both have $x_3 = 0$. The class-0 point at $(1,1)$ has $x_3 = 1$. A flat plane in this 3D space can now cut between them. We didn't change the data; we created a new feature that made the structure visible to a linear boundary.
+
+![Lifting XOR into 3D](../images/chapter2/figure-2-10-en.svg)
+
+This is the idea behind **support vector machines** (SVMs) [@cortes1995support]: pick a function (called a *kernel*) that transforms the data into a higher-dimensional space, then find the best hyperplane there. It works, and for decades it was the dominant approach. But notice the catch: *you* have to choose the right kernel. The transformation is fixed before training starts. If you pick a kernel that doesn't capture the right structure, the SVM can't recover. For XOR, $x_1 \cdot x_2$ was obvious. For 784-dimensional images of handwritten digits, the right transformation is not obvious at all.
+
+We're going to take a different path. Instead of choosing the transformation by hand, we'll make it part of the model and let the training process figure it out. That's what the hidden layer does, and it's what we'll build next.
+
 ## From Perceptions to Neural Networks
 
 We can start combining them by considering what happens if we skip the activation function entirely. The perceptron computes $z = \mathbf{w} \cdot \mathbf{x} + b$, a linear function of the input, now let's stack two of these: The first layer produces $z_1 = \mathbf{w}_1 \cdot \mathbf{x} + b_1$. The second layer takes that as input:
@@ -192,17 +209,17 @@ Think about what happens geometrically: without activation functions, each layer
 
 Actually, in 1989, George Cybenko [@cybenko1989approximation] proved this. A single layer of perceptrons with a nonlinear activation, feeding into one more perceptron, can approximate any continuous function to any desired accuracy, given enough perceptrons in that layer. This is the **universal approximation theorem**: the architecture doesn't limit *what* the model can represent, only how efficiently it does so. In principle, one layer of enough perceptrons can learn anything. In practice, "enough" might mean an absurd number, but this doesn't even take stacking more layers into account.
 
-![Perceptrons Combined](../images/chapter2/figure-2-10-en.svg)
+![Perceptrons Combined](../images/chapter2/figure-2-11-en.svg)
 
 This structure, layers of perceptrons feeding into each other with nonlinear activations between them, is a **neural network**. The name comes from a loose analogy to biology: the brain is made up of billions of interconnected cells called neurons. Each neuron receives electrical signals from other neurons, and if the combined input is strong enough, it fires and sends its own signal onward. The perceptron mirrors this at a very abstract level: it takes weighted inputs, sums them, and "activates" if the result crosses a threshold. The analogy shouldn't be taken too far, but the core idea, many simple units wired together so that each one's output becomes another's input, was enough to inspire the field. The terminology stuck: each perceptron in a network is called a **neuron**, a layer of neurons between the input and the output is a **hidden layer** (hidden because you don't observe its values directly), and the full stack is a **neural network**.
 
-![Neural Network](../images/chapter2/figure-2-11-en.svg)
+![Neural Network](../images/chapter2/figure-2-12-en.svg)
 
 The **width** of a layer is the number of neurons in it. The **depth** of a network is how many layers it has. A network with one hidden layer of 128 neurons and an output layer of 10 is a 2-layer network (we don't count the input layer, since it just passes data through). A network with many hidden layers is called a **deep network**, and training such networks is called **deep learning**. The total number of weights is what determines the network's size: a hidden layer connecting 784 inputs to 128 neurons has $784 \times 128 + 128 = 100{,}480$ weights (plus 128 biases, one per neuron). A network with more weights can represent more complex functions (but also needs more data to learn the representation well).
 
 One neuron might not help much, but 128 neurons in a hidden layer, each folding along a different hyperplane, can origami the space into something very different. After enough folds, the XOR points that no single line could separate end up neatly on one side of a new, simple boundary.
 
-![Folding the Space: Before and After the Hidden Layer](../images/chapter2/figure-2-12-en.svg)
+![Folding the Space: Before and After the Hidden Layer](../images/chapter2/figure-2-13-en.svg)
 
 The **sigmoid** we already saw is one choice of activation:
 
@@ -216,7 +233,7 @@ $$\text{ReLU}(z) = \max(0, z)$$
 
 Negative inputs become 0, positive inputs pass through unchanged. The derivative is 1 for positive inputs (the gradient flows through without shrinking) and 0 for negative inputs (the neuron is "off"). ReLU avoids the vanishing gradient problem for positive inputs and is faster to compute than sigmoid. This is the "fold" from our geometric picture: ReLU creases the space along the hyperplane where the neuron's input is zero.
 
-![Activation Functions: Sigmoid vs ReLU](../images/chapter2/figure-2-13-en.svg)
+![Activation Functions: Sigmoid vs ReLU](../images/chapter2/figure-2-14-en.svg)
 
 There are other activation functions (tanh, Leaky ReLU, GELU), each with tradeoffs, but the intuition is the same for all of them: insert nonlinearity between layers so the network can warp the space rather than merely rotating it. For this chapter, we'll use ReLU for hidden layers and a different function (softmax) for the output.
 
@@ -232,7 +249,7 @@ The matrix multiply $W_1 x$ computes all 128 dot products simultaneously, adding
 
 This vector $h$ is a completely new representation of the input. The raw pixels are the same for every task: a photo of a digit or a photo of a face all have the same pixel structure, but $h$ is task-specific. It's been shaped by training to highlight exactly the features that distinguish one digit from another. If the network learned that "there's a loop in the upper half" matters for distinguishing 8 from 1, some neurons in $h$ will fire strongly when a loop is present and stay quiet when it's not. The network isn't working with raw pixels anymore; it's working with a learned vocabulary of visual features.
 
-![Hidden Layer Activations](../images/chapter2/figure-2-14-en.svg)
+![Hidden Layer Activations](../images/chapter2/figure-2-15-en.svg)
 
 The linear classifier couldn't separate 4s from 9s because those digits overlap in pixel space, but in the hidden space $h$, after the nonlinear transformation, the network can *pull them apart*. The 128-dimensional space that $h$ lives in is a space the network designed (through training) specifically so that digits that were tangled in pixel coordinates end up in separate regions. We'll see this directly in the hands-on when we visualize the hidden representations.
 
@@ -254,7 +271,7 @@ $$x \xrightarrow{W_1, b_1} \text{ReLU}(W_1 x + b_1) = h \xrightarrow{W_2, b_2} \
 
 The hidden layer transforms the input from a space where digits overlap into a space where they're separable. The output layer draws hyperplanes through the hidden space, which works now because the hidden layer already untangled the data. This is why the neural network beats the linear classifier. The linear classifier draws hyperplanes directly through pixel space, where the data is tangled; the neural network first untangles the data, then draws the hyperplanes.
 
-![The Forward Pass](../images/chapter2/figure-2-15-en.svg)
+![The Forward Pass](../images/chapter2/figure-2-16-en.svg)
 
 The forward pass is just matrix multiplies, additions, and element-wise nonlinear functions. What makes neural networks powerful is the ability to *adjust the weights* to make this forward pass produce better predictions. For that, we need to figure out how each weight contributes to the loss.
 
@@ -268,7 +285,7 @@ Since $y$ is one-hot, only the term where $y_i = 1$ survives. The loss is the ne
 
 There's another way to read this curve: think of $-\log(p)$ as measuring surprise. If the model assigns 95% to the correct class, it's not surprised when that class shows up: low loss. If it assigns 1%, it's very surprised: high loss. Cross-entropy is the model's average surprise across the training set. A perfect model is never surprised, but a bad model is constantly surprised. This is why cross-entropy is the standard for classification: it directly measures how far the model's beliefs are from reality.
 
-![Cross-Entropy Loss](../images/chapter2/figure-2-16-en.svg)
+![Cross-Entropy Loss](../images/chapter2/figure-2-17-en.svg)
 
 The forward pass is just matrix multiplies, additions, and element-wise nonlinear functions. What makes neural networks powerful is the ability to adjust the weights to make this forward pass produce better predictions. We already know the recipe: compute the gradient of the loss with respect to every weight, then step downhill. But in a network with multiple layers, the loss doesn't depend on the first layer's weights directly; it depends on them through every layer that comes after. We need a way to trace that chain of dependencies backward.
 
@@ -288,7 +305,7 @@ $$h = \text{ReLU}(W_1 x + b_1) \qquad z = W_2 h + b_2 \qquad \hat{y} = \text{sof
 
 Backpropagation works in reverse.
 
-![Backpropagation](../images/chapter2/figure-2-17-en.svg)
+![Backpropagation](../images/chapter2/figure-2-18-en.svg)
 
 **Step 1: Loss -> softmax scores.** The gradient of cross-entropy loss combined with softmax has a clean form:
 
@@ -306,7 +323,7 @@ $$\frac{\partial L}{\partial h} = W_2^T \cdot \delta_2$$
 
 $W_2^T$ transposes the weight matrix, reversing the connections: instead of mapping hidden neurons to output scores, it maps output errors back to hidden neurons. Each hidden neuron receives a weighted sum of how much each output was wrong, weighted by how strongly that neuron was connected to each output.
 
-![Reversing the Connections](../images/chapter2/figure-2-18-en.svg)
+![Reversing the Connections](../images/chapter2/figure-2-19-en.svg)
 
 **Step 3: Hidden layer -> input layer.** The hidden layer computed $h = \text{ReLU}(W_1 x + b_1)$. The ReLU derivative is 1 where the input was positive and 0 where it was negative. So the gradient passes unchanged for active neurons and is blocked for inactive ones:
 
@@ -328,7 +345,7 @@ But one correction isn't enough. The first update fixes one batch's mistakes and
 
 One pass through the entire training set is called an **epoch**. Most models need many epochs (10 to 100 or more) before the weights settle into good values. Within each epoch, we iterate over mini-batches, updating the weights after each batch.
 
-![The Training Loop](../images/chapter2/figure-2-19-en.svg)
+![The Training Loop](../images/chapter2/figure-2-20-en.svg)
 
 The learning rate $\eta$ is the most important **hyperparameter**: a setting you choose before training, as opposed to the weights, which are learned *during* training. Too large and the updates overshoot, causing the loss to bounce or diverge; too small and training takes forever.
 
@@ -336,7 +353,7 @@ The learning rate $\eta$ is the most important **hyperparameter**: a setting you
 
 Each pass through the loop tweaks the decision boundary closer to the right shape:
 
-![Loop Visualized](../images/chapter2/figure-2-20-en.svg)
+![Loop Visualized](../images/chapter2/figure-2-21-en.svg)
 
 This loop is the same whether you're training a digit classifier with 100,000 weights or a language model with 100 billion. The architectures and loss functions might change, but the loop doesn't. Every model we build in the rest of this book (word embeddings in Chapter 3, transformers in Chapter 4) follows these exact mechanics. That's enough theory. Let's build one.
 
@@ -736,7 +753,7 @@ Let's also **project to 2D.** The hidden layer produces 128-dimensional vectors.
 
 Think about a cloud of points shaped like a cigar. Most of the spread is along the cigar's length. A little spread is along its width. Almost none is along its thickness. If you had to flatten this cloud to 2D, you'd pick the length and the width, the two directions that preserve the most information about where each point sits relative to the others. That's what PCA does: find the axes of greatest variation, discard the rest.
 
-![PCA: Finding the Axes of Greatest Variation](../images/chapter2/figure-2-21-en.svg)
+![PCA: Finding the Axes of Greatest Variation](../images/chapter2/figure-2-22-en.svg)
 
 The algorithm works in three steps. First, center the data by subtracting the mean so the cloud sits at the origin. Second, compute the **covariance matrix**: a table where entry $(i, j)$ tells you how much dimensions $i$ and $j$ vary together. If two dimensions rise and fall in sync across the data, their covariance is large; if they're unrelated, it's near zero. Third, find the **eigenvectors** of that matrix. Each eigenvector is a direction in the original space, and its eigenvalue tells you how much variance lies along that direction. The eigenvector with the largest eigenvalue is the cigar's length. The next largest is its width. To project to 2D, multiply each data point by the top two eigenvectors:
 
