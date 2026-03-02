@@ -1,0 +1,298 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 492 191">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <path d="M0,0 L6,2 L0,4 Z" fill="#bbb"/>
+    </marker>
+    <marker id="arr-loop" markerWidth="6" markerHeight="4" refX="3" refY="4" orient="auto">
+      <path d="M0,0 L6,0 L3,4 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="492" height="191" class="bg"/>
+
+  <rect x="18" y="28" width="105" height="105" rx="3" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <clipPath id="clip-p0"><rect x="18" y="28" width="105" height="105"/></clipPath>
+  <polygon points="18.0,81.7 123.0,106.1 123,28 18,28" fill="#1890ff" opacity="0.06" clip-path="url(#clip-p0)"/>
+  <polygon points="18.0,81.7 123.0,106.1 123,133 18,133" fill="#fa8c16" opacity="0.06" clip-path="url(#clip-p0)"/>
+  <line x1="18.0" y1="81.7" x2="123.0" y2="106.1" stroke="#333" stroke-width="1.5" stroke-dasharray="4,2" clip-path="url(#clip-p0)"/>
+  <circle cx="51.9" cy="74.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="52.3" cy="61.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="52.1" cy="93.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="57.9" cy="75.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="51.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="56.6" cy="54.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="62.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="44.4" cy="86.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="56.8" cy="52.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="54.2" cy="73.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="60.4" cy="93.2" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="49.8" cy="64.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="64.7" cy="75.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="58.4" cy="68.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="63.6" cy="88.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="60.9" cy="94.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="20.7" cy="80.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="42.2" cy="59.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="62.1" cy="89.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="64.4" cy="86.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="52.6" cy="76.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="55.1" cy="60.0" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="61.7" cy="66.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="61.9" cy="64.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="45.8" cy="82.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="47.8" cy="64.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="50.5" cy="37.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="43.4" cy="88.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="63.4" cy="51.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="60.1" cy="59.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="105.3" cy="97.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="69.4" cy="104.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="99.3" cy="117.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="87.7" cy="92.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="83.3" cy="85.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="94.6" cy="62.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="95.1" cy="105.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="80.2" cy="108.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="99.3" cy="104.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="86.4" cy="85.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="78.2" cy="100.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="64.1" cy="112.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="80.1" cy="90.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="102.3" cy="96.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="90.6" cy="93.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="101.0" cy="83.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="90.7" cy="111.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="98.7" cy="90.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="102.8" cy="96.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="111.9" cy="101.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="107.4" cy="94.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="80.8" cy="112.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="85.4" cy="75.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="97.6" cy="86.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="57.4" cy="86.0" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="94.3" cy="104.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="79.4" cy="96.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="109.0" cy="111.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="81.9" cy="76.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <circle cx="81.7" cy="101.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p0)"/>
+  <text x="70.5" y="16" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:10px;fill:#333;font-weight:bold">Epoch 0</text>
+  <text x="70.5" y="26" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:8px;fill:#999;font-style:italic">random weights</text>
+  <text x="70.5" y="147" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:9px;fill:#666">65% correct</text>
+  <rect x="135" y="28" width="105" height="105" rx="3" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <clipPath id="clip-p1"><rect x="135" y="28" width="105" height="105"/></clipPath>
+  <polygon points="135.0,59.7 240.0,133.0 240,28 135,28" fill="#1890ff" opacity="0.06" clip-path="url(#clip-p1)"/>
+  <polygon points="135.0,59.7 240.0,133.0 240,133 135,133" fill="#fa8c16" opacity="0.06" clip-path="url(#clip-p1)"/>
+  <line x1="135.0" y1="59.7" x2="240.0" y2="133.0" stroke="#333" stroke-width="1.5" stroke-dasharray="4,2" clip-path="url(#clip-p1)"/>
+  <circle cx="168.9" cy="74.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="169.3" cy="61.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="169.1" cy="93.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="174.9" cy="75.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="168.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="173.6" cy="54.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="179.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="161.4" cy="86.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="173.8" cy="52.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="171.2" cy="73.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="177.4" cy="93.2" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="166.8" cy="64.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="181.7" cy="75.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="175.4" cy="68.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="180.6" cy="88.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="177.9" cy="94.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="137.7" cy="80.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="159.2" cy="59.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="179.1" cy="89.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="181.4" cy="86.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="169.6" cy="76.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="172.1" cy="60.0" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="178.7" cy="66.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="178.9" cy="64.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="162.8" cy="82.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="164.8" cy="64.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="167.5" cy="37.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="160.4" cy="88.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="180.4" cy="51.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="177.1" cy="59.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="222.3" cy="97.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="186.4" cy="104.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="216.3" cy="117.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="204.7" cy="92.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="200.3" cy="85.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="211.6" cy="62.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="212.1" cy="105.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="197.2" cy="108.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="216.3" cy="104.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="203.4" cy="85.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="195.2" cy="100.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="181.1" cy="112.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="197.1" cy="90.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="219.3" cy="96.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="207.6" cy="93.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="218.0" cy="83.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="207.7" cy="111.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="215.7" cy="90.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="219.8" cy="96.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="228.9" cy="101.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="224.4" cy="94.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="197.8" cy="112.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="202.4" cy="75.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="214.6" cy="86.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="174.4" cy="86.0" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="211.3" cy="104.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="196.4" cy="96.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="226.0" cy="111.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="198.9" cy="76.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <circle cx="198.7" cy="101.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p1)"/>
+  <text x="187.5" y="16" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:10px;fill:#333;font-weight:bold">Epoch 3</text>
+  <text x="187.5" y="26" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:8px;fill:#999;font-style:italic">learning...</text>
+  <text x="187.5" y="147" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:9px;fill:#666">48% correct</text>
+  <rect x="252" y="28" width="105" height="105" rx="3" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <clipPath id="clip-p2"><rect x="252" y="28" width="105" height="105"/></clipPath>
+  <polygon points="252.0,35.3 357.0,157.4 357,28 252,28" fill="#1890ff" opacity="0.06" clip-path="url(#clip-p2)"/>
+  <polygon points="252.0,35.3 357.0,157.4 357,133 252,133" fill="#fa8c16" opacity="0.06" clip-path="url(#clip-p2)"/>
+  <line x1="252.0" y1="35.3" x2="357.0" y2="157.4" stroke="#333" stroke-width="1.5" stroke-dasharray="4,2" clip-path="url(#clip-p2)"/>
+  <circle cx="285.9" cy="74.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="286.3" cy="61.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="286.1" cy="93.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="291.9" cy="75.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="285.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="290.6" cy="54.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="296.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="278.4" cy="86.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="290.8" cy="52.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="288.2" cy="73.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="294.4" cy="93.2" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="283.8" cy="64.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="298.7" cy="75.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="292.4" cy="68.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="297.6" cy="88.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="294.9" cy="94.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="254.7" cy="80.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="276.2" cy="59.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="296.1" cy="89.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="298.4" cy="86.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="286.6" cy="76.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="289.1" cy="60.0" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="295.7" cy="66.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="295.9" cy="64.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="279.8" cy="82.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="281.8" cy="64.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="284.5" cy="37.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="277.4" cy="88.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="297.4" cy="51.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="294.1" cy="59.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="339.3" cy="97.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="303.4" cy="104.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="333.3" cy="117.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="321.7" cy="92.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="317.3" cy="85.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="328.6" cy="62.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="329.1" cy="105.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="314.2" cy="108.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="333.3" cy="104.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="320.4" cy="85.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="312.2" cy="100.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="298.1" cy="112.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="314.1" cy="90.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="336.3" cy="96.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="324.6" cy="93.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="335.0" cy="83.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="324.7" cy="111.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="332.7" cy="90.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="336.8" cy="96.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="345.9" cy="101.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="341.4" cy="94.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="314.8" cy="112.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="319.4" cy="75.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="331.6" cy="86.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="291.4" cy="86.0" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="328.3" cy="104.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="313.4" cy="96.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="343.0" cy="111.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="315.9" cy="76.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <circle cx="315.7" cy="101.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p2)"/>
+  <text x="304.5" y="16" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:10px;fill:#333;font-weight:bold">Epoch 10</text>
+  <text x="304.5" y="26" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:8px;fill:#999;font-style:italic">improving</text>
+  <text x="304.5" y="147" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:9px;fill:#666">43% correct</text>
+  <rect x="369" y="28" width="105" height="105" rx="3" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <clipPath id="clip-p3"><rect x="369" y="28" width="105" height="105"/></clipPath>
+  <polygon points="369.0,23.1 474.0,169.6 474,28 369,28" fill="#1890ff" opacity="0.06" clip-path="url(#clip-p3)"/>
+  <polygon points="369.0,23.1 474.0,169.6 474,133 369,133" fill="#fa8c16" opacity="0.06" clip-path="url(#clip-p3)"/>
+  <line x1="369.0" y1="23.1" x2="474.0" y2="169.6" stroke="#333" stroke-width="1.5" stroke-dasharray="4,2" clip-path="url(#clip-p3)"/>
+  <circle cx="402.9" cy="74.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="403.3" cy="61.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="403.1" cy="93.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="408.9" cy="75.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="402.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="407.6" cy="54.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="413.0" cy="70.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="395.4" cy="86.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="407.8" cy="52.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="405.2" cy="73.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="411.4" cy="93.2" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="400.8" cy="64.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="415.7" cy="75.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="409.4" cy="68.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="414.6" cy="88.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="411.9" cy="94.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="371.7" cy="80.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="393.2" cy="59.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="413.1" cy="89.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="415.4" cy="86.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="403.6" cy="76.3" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="406.1" cy="60.0" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="412.7" cy="66.8" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="412.9" cy="64.9" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="396.8" cy="82.5" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="398.8" cy="64.6" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="401.5" cy="37.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="394.4" cy="88.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="414.4" cy="51.1" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="411.1" cy="59.7" r="2.5" fill="#1890ff" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="456.3" cy="97.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="420.4" cy="104.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="450.3" cy="117.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="438.7" cy="92.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="434.3" cy="85.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="445.6" cy="62.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="446.1" cy="105.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="431.2" cy="108.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="450.3" cy="104.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="437.4" cy="85.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="429.2" cy="100.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="415.1" cy="112.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="431.1" cy="90.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="453.3" cy="96.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="441.6" cy="93.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="452.0" cy="83.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="441.7" cy="111.2" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="449.7" cy="90.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="453.8" cy="96.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="462.9" cy="101.6" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="458.4" cy="94.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="431.8" cy="112.9" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="436.4" cy="75.5" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="448.6" cy="86.3" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="408.4" cy="86.0" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="445.3" cy="104.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="430.4" cy="96.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="460.0" cy="111.8" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="432.9" cy="76.4" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <circle cx="432.7" cy="101.7" r="2.5" fill="#fa8c16" opacity="0.75" clip-path="url(#clip-p3)"/>
+  <text x="421.5" y="16" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:10px;fill:#333;font-weight:bold">Epoch 30</text>
+  <text x="421.5" y="26" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:8px;fill:#999;font-style:italic">converged</text>
+  <text x="421.5" y="147" text-anchor="middle" style="font-family:Arial,sans-serif;font-size:9px;fill:#666">35% correct</text>
+
+  <!-- Arrows between panels -->
+  <line x1="125.0" y1="80.5" x2="133.0" y2="80.5" stroke="#bbb" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="242.0" y1="80.5" x2="250.0" y2="80.5" stroke="#bbb" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="359.0" y1="80.5" x2="367.0" y2="80.5" stroke="#bbb" stroke-width="1.2" marker-end="url(#arr)"/>
+
+  <!-- Loop-back -->
+  <path d="M 421.5,151.0 L 421.5,161.0 L 70.5,161.0 L 70.5,155.0" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr-loop)"/>
+  <text x="246.0" y="173.0" class="anno" style="fill:#999;font-style:italic">each iteration: forward → loss → backward → update weights → repeat</text>
+</svg>
