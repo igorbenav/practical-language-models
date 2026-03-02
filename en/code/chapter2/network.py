@@ -112,18 +112,15 @@ def forward(X, W1, b1, W2, b2):
 
 def backward(X, z1, h, y_hat, y_true, W2):
     batch_size = X.shape[0]
+    delta2 = (y_hat - y_true) / batch_size    # (batch, 10)
 
-    # Step 1: output error
-    delta2 = (y_hat - y_true) / batch_size
+    dW2 = h.T @ delta2         # (128, batch) @ (batch, 10) = (128, 10)
+    db2 = delta2.sum(axis=0)   # (10,)
 
-    # Step 2: gradients for W2, b2
-    dW2 = h.T @ delta2
-    db2 = delta2.sum(axis=0)
+    delta1 = (delta2 @ W2.T) * relu_derivative(z1)  # (batch, 128)
 
-    # Step 3: propagate error back through ReLU
-    delta1 = (delta2 @ W2.T) * relu_derivative(z1)
-    dW1 = X.T @ delta1
-    db1 = delta1.sum(axis=0)
+    dW1 = X.T @ delta1         # (784, batch) @ (batch, 128) = (784, 128)
+    db1 = delta1.sum(axis=0)   # (128,)
 
     return dW1, db1, dW2, db2
 
@@ -227,7 +224,9 @@ for epoch in range(30):
         y_batch = y_shuffled[start:end]
 
         z1, h, z2, y_hat = forward_no_relu(X_batch, W1_nr, b1_nr, W2_nr, b2_nr)
-        dW1, db1, dW2, db2 = backward_no_relu(X_batch, z1, h, y_hat, y_batch, W2_nr)
+        dW1, db1, dW2, db2 = backward_no_relu(
+            X_batch, z1, h, y_hat, y_batch, W2_nr
+        )
         W1_nr, b1_nr, W2_nr, b2_nr = update_weights(
             W1_nr, b1_nr, W2_nr, b2_nr, dW1, db1, dW2, db2, lr)
 

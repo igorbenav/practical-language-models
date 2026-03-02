@@ -82,8 +82,6 @@ $$E[\nabla L_{\text{batch}}] = \nabla L_{\text{full}}$$
 
 On any single batch the gradient might be off, but across batches it's exactly right on average. We can take many more steps in the same time, and the noise turns out to help: it prevents the optimizer from settling into sharp, narrow valleys that happen to fit the training data but don't generalize. This variant is called **stochastic gradient descent** (SGD), and it's what virtually every modern model uses (with some variations).
 
-### What about getting stuck?
-
 The loss landscape has valleys, ridges, and plateaus. There might be multiple valleys (multiple settings of the weights that give low loss), and there's no guarantee gradient descent finds the deepest one. In one dimension, this is a real worry. A loss curve with two dips can trap you in the shallow one: you walk downhill, reach the bottom, and stop. The gradient is zero, so you have no direction to move. You're stuck in a **local minimum**, even though a deeper minimum exists somewhere else.
 
 ![Local Minima in Low vs. High Dimensions](../images/chapter2/figure-2-5-en.svg)
@@ -146,7 +144,7 @@ In higher dimensions, the line becomes a **hyperplane**: a flat boundary that di
 
 How well does this work for handwritten digits? If you train 10 separate perceptrons (one per digit class, each deciding "is this the digit x or not"), you get a **linear classifier**. Each perceptron draws its own hyperplane, and we can say that the prediction is whichever perceptron scores highest. Train it with gradient descent on MNIST and you can get about 92% accuracy. That's a meaningful jump from the template matcher's 81%, and it makes sense: the template matcher used fixed averages, while the linear classifier *optimized* its boundaries. The weights aren't just averages of examples; they're the boundaries that gradient descent found to best separate the classes, it captures a lot more nuance.
 
-But 92% is still a ceiling. Since the perceptron computes $z = \mathbf{w} \cdot \mathbf{x} + b$ and classifies based on the sign of $z$, its decision boundary is the set of points where $\mathbf{w} \cdot \mathbf{x} + b = 0$ — an $(n-1)$-dimensional hyperplane in $n$-dimensional space. It can only classify data that is **linearly separable**: two sets of points $X_0$ and $X_1$ in $\mathbb{R}^n$ are linearly separable if there exist $w_1, w_2, \ldots, w_n$ and $k$ such that every point $\mathbf{x} \in X_0$ satisfies $\sum_{i=1}^{n} w_i x_i > k$ and every point $\mathbf{x} \in X_1$ satisfies $\sum_{i=1}^{n} w_i x_i < k$. If your data can be split by a flat boundary, a perceptron will find it. If it can't, no amount of training will help.
+But 92% is still a ceiling. Since the perceptron computes $z = \mathbf{w} \cdot \mathbf{x} + b$ and classifies based on the sign of $z$, its decision boundary is the set of points where $\mathbf{w} \cdot \mathbf{x} + b = 0$: an $(n-1)$-dimensional hyperplane in $n$-dimensional space. It can only classify data that is **linearly separable**: two sets of points $X_0$ and $X_1$ in $\mathbb{R}^n$ are linearly separable if there exist $w_1, w_2, \ldots, w_n$ and $k$ such that every point $\mathbf{x} \in X_0$ satisfies $\sum_{i=1}^{n} w_i x_i > k$ and every point $\mathbf{x} \in X_1$ satisfies $\sum_{i=1}^{n} w_i x_i < k$. If your data can be split by a flat boundary, a perceptron will find it. If it can't, no amount of training will help.
 
 Look at the confusion matrix and you'll see the same problem as Chapter 1: 4s confused with 9s, 3s confused with 5s and 8s; the geometry tells you why it can't capture harder patterns. A 4 and a 9 have a very similar vertical stroke on the right side; in pixel space, these digits overlap: there's no single flat cut through 784-dimensional space that cleanly separates all 4s from all 9s. The hyperplane does the best it can, but the best straight boundary through a curved overlap is still not enough.
 
@@ -291,61 +289,186 @@ The forward pass is just matrix multiplies, additions, and element-wise nonlinea
 
 ## Backpropagation
 
-We have a loss $L$ that depends on the output probabilities $\hat{y}$, which depend on $W_2$ and $b_2$, which depend on $h$, which depends on $W_1$ and $b_1$, which depend on $x$. It's clearly a chain: each quantity depends on the one before it.
+The chain rule from calculus solves this directly. If the loss depends on $w_1$ through a sequence of intermediate values, we can compute $\partial L / \partial w_1$ by multiplying the local derivatives along that sequence. The math is easier to see at small scale, so before we tackle the full digit classifier, let's trace the gradients through the smallest possible neural network: one input, one hidden neuron, one output. Small enough to compute everything by hand.
 
-To update $W_1$ by gradient descent, we need $\frac{\partial L}{\partial W_1}$: how does the loss change when we tweak the weights in the first layer? The loss doesn't directly involve $W_1$; it goes through $h$, then through $z$, then through $\hat{y}$. The **chain rule** from calculus tells us how to compose these dependencies:
+The network takes a single number $x$ as input, passes it through a hidden neuron with ReLU, and produces a prediction $\hat{y}$. We'll use squared error as the loss: $L = (\hat{y} - y)^2$.
 
-$$\frac{\partial L}{\partial W_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z} \cdot \frac{\partial z}{\partial h} \cdot \frac{\partial h}{\partial W_1}$$
+![A Minimal Network](../images/chapter2/figure-2-18-en.svg)
 
-Each term is a local derivative: how does one layer's output change with respect to its input? We compute these local derivatives layer by layer, from the output back toward the input. This is **backpropagation** [@rumelhart1986learning]: the algorithm that makes training deep networks practical.
+Set the input $x = 2$, the target $y = 1$, and initialize the weights: $w_1 = 0.5$, $b_1 = 0$, $w_2 = -0.3$, $b_2 = 0$. First, the forward pass. Each step feeds into the next:
 
-The forward pass computed:
+$$z_1 = w_1 x + b_1 = 0.5 \times 2 + 0 = 1.0$$
 
-$$h = \text{ReLU}(W_1 x + b_1) \qquad z = W_2 h + b_2 \qquad \hat{y} = \text{softmax}(z) \qquad L = -\log(\hat{y}_k)$$
+$$h = \text{ReLU}(z_1) = \text{ReLU}(1.0) = 1.0$$
 
-Backpropagation works in reverse.
+$$\hat{y} = w_2 h + b_2 = -0.3 \times 1.0 + 0 = -0.3$$
 
-![Backpropagation](../images/chapter2/figure-2-18-en.svg)
+$$L = (\hat{y} - y)^2 = (-0.3 - 1)^2 = 1.69$$
 
-**Step 1: Loss -> softmax scores.** The gradient of cross-entropy loss combined with softmax has a clean form:
+The prediction is $-0.3$, the target is $1$, and the loss is $1.69$. Now we need to adjust the weights to bring that loss down. For each weight, we need to answer: if I nudge this weight slightly, how does the loss change? That's the gradient, and we compute it by working backward through the chain.
 
-$$\frac{\partial L}{\partial z_i} = \hat{y}_i - y_i$$
+Start at the end. How does the loss change when the prediction $\hat{y}$ changes?
 
-For the correct class $k$, this is $\hat{y}_k - 1$ (the model's probability minus the target 1). For all other classes, it's just $\hat{y}_i$ (the model's probability minus the target 0). The gradient is the difference between what the model predicted and what it should have predicted. That's not a coincidence: softmax and cross-entropy are mathematically designed to pair together, which is why the gradient reduces to something this clean. Call this $\delta_2 = \hat{y} - y$.
+$$\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y) = 2(-0.3 - 1) = -2.6$$
 
-**Step 2: Output layer -> hidden layer.** The output scores were $z = W_2 h + b_2$. The gradients for the second layer's parameters are:
+The negative sign tells us: increasing $\hat{y}$ would decrease the loss. That makes sense. The prediction is $-0.3$ and the target is $1$, so we want $\hat{y}$ to go up.
 
-$$\frac{\partial L}{\partial W_2} = \delta_2 \cdot h^T \qquad \frac{\partial L}{\partial b_2} = \delta_2$$
+Now, how does $\hat{y}$ change when $w_2$ changes? Since $\hat{y} = w_2 h + b_2$:
 
-To propagate the error back to the hidden layer:
+$$\frac{\partial \hat{y}}{\partial w_2} = h = 1.0$$
 
-$$\frac{\partial L}{\partial h} = W_2^T \cdot \delta_2$$
+Chain them together to get the gradient of the loss with respect to $w_2$:
 
-$W_2^T$ transposes the weight matrix, reversing the connections: instead of mapping hidden neurons to output scores, it maps output errors back to hidden neurons. Each hidden neuron receives a weighted sum of how much each output was wrong, weighted by how strongly that neuron was connected to each output.
+$$\frac{\partial L}{\partial w_2} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial w_2} = -2.6 \times 1.0 = -2.6$$
 
-![Reversing the Connections](../images/chapter2/figure-2-19-en.svg)
+Negative gradient: increasing $w_2$ would decrease the loss. Same logic for the bias, since $\frac{\partial \hat{y}}{\partial b_2} = 1$:
 
-**Step 3: Hidden layer -> input layer.** The hidden layer computed $h = \text{ReLU}(W_1 x + b_1)$. The ReLU derivative is 1 where the input was positive and 0 where it was negative. So the gradient passes unchanged for active neurons and is blocked for inactive ones:
+$$\frac{\partial L}{\partial b_2} = -2.6 \times 1 = -2.6$$
 
-$$\delta_1 = (W_2^T \cdot \delta_2) \odot \text{ReLU}'(W_1 x + b_1)$$
+That handles the output layer. Now the question that makes backpropagation necessary: what about $w_1$? The loss doesn't mention $w_1$ directly. It goes through the entire chain: $w_1$ affects $z_1$, which affects $h$, which affects $\hat{y}$, which affects $L$. We need to trace that chain link by link.
 
-where $\odot$ is element-wise multiplication and $\text{ReLU}'$ is 1 for positive values, 0 otherwise. Then:
+How does the loss change when $h$ changes? Since $\hat{y} = w_2 h + b_2$:
 
-$$\frac{\partial L}{\partial W_1} = \delta_1 \cdot x^T \qquad \frac{\partial L}{\partial b_1} = \delta_1$$
+$$\frac{\partial L}{\partial h} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} = -2.6 \times w_2 = -2.6 \times (-0.3) = 0.78$$
 
-That's the full backward pass. We now have gradients for every weight and bias in the network. Each gradient tells us: "nudging this parameter in this direction will reduce the loss by this much."
+Positive: increasing $h$ would increase the loss. That also makes sense: $w_2$ is negative, so a larger hidden value pushes the prediction further negative, away from the target.
 
-The name "backpropagation" just means applying the chain rule layer by layer from output to input. It isn't mathematically complex (the chain rule is first-year calculus) but with this algorithm you can efficiently reuse computations: each layer's gradient depends on the gradient from the layer above it, which you've already computed. The total computational cost is proportional to one forward pass, regardless of how many layers the network has.
+How does $h$ change when $z_1$ changes? Since $h = \text{ReLU}(z_1)$ and $z_1 = 1.0 > 0$, the ReLU was active (passing the input through unchanged), so:
 
-For the intuition, imagine the loss is too high because the model predicted 30% for digit 7 when it should have predicted near 100%; backpropagation traces backward: which output weights made the 7-score too low? Which hidden neurons fed those weights? Which input weights controlled those hidden neurons? Every weight gets a tweak proportional to how much it contributed to the mistake. Weights that had nothing to do with the error (because their neurons were inactive, or they connected to irrelevant outputs) get small or zero gradients. The network doesn't change everywhere at once; it changes most where the mistake originated.
+$$\frac{\partial h}{\partial z_1} = 1$$
 
-But one correction isn't enough. The first update fixes one batch's mistakes and might introduces new ones; the network needs to see the data again and again, each time refining the weights a little further.
+And finally, how does $z_1$ change when $w_1$ changes? Since $z_1 = w_1 x + b_1$:
+
+$$\frac{\partial z_1}{\partial w_1} = x = 2$$
+
+Chain everything together:
+
+$$\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial h} \cdot \frac{\partial h}{\partial z_1} \cdot \frac{\partial z_1}{\partial w_1} = -2.6 \times (-0.3) \times 1 \times 2 = 1.56$$
+
+And for the first bias ($\frac{\partial z_1}{\partial b_1} = 1$):
+
+$$\frac{\partial L}{\partial b_1} = -2.6 \times (-0.3) \times 1 \times 1 = 0.78$$
+
+Now update every weight. With a learning rate $\eta = 0.1$:
+
+$$w_1 \leftarrow 0.5 - 0.1 \times 1.56 = 0.344$$
+$$b_1 \leftarrow 0 - 0.1 \times 0.78 = -0.078$$
+$$w_2 \leftarrow -0.3 - 0.1 \times (-2.6) = -0.04$$
+$$b_2 \leftarrow 0 - 0.1 \times (-2.6) = 0.26$$
+
+Did it work? Run the forward pass again with the new weights:
+
+$$z_1 = 0.344 \times 2 + (-0.078) = 0.61$$
+$$h = \text{ReLU}(0.61) = 0.61$$
+$$\hat{y} = -0.04 \times 0.61 + 0.26 = 0.236$$
+$$L = (0.236 - 1)^2 = 0.584$$
+
+The loss dropped from 1.69 to 0.584. The prediction moved from $-0.3$ to $0.236$, closer to the target of 1. One step of gradient descent, and every weight shifted in the right direction. Repeat this enough times and the network converges.
+
+That's the full picture at the smallest scale: four weights, four gradients, each computed by chaining local derivatives from output back to input. This is **backpropagation** [@rumelhart1986learning]: the algorithm that makes training deep networks practical. The name means applying the **chain rule** layer by layer from output to input. Each operation in the forward pass has a local derivative, and the chain rule says we multiply them together walking backward to get the gradient of $L$ with respect to anything.
+
+Before we move on, notice the pattern. At each layer, we did the same thing. The gradient of a weight was always the error arriving from above times the activation coming from below: for $w_2$, error $(-2.6)$ times activation $h$ $(1.0)$ gave $-2.6$; for $w_1$, error $(0.78)$ times input $x$ $(2)$ gave $1.56$. The error flowing backward was always the error from above times the weight of the connection: for $h$, error $(-2.6)$ times weight $w_2$ $(-0.3)$ gave $0.78$. The bias gradient was the error itself, always. And the ReLU either passed the error through (if active) or blocked it (if off). Here it passed, since $\text{ReLU}'(1.0) = 1$.
+
+![The Backward Pass](../images/chapter2/figure-2-19-en.svg)
+
+These four operations are all any layer ever does. In general: values flow forward through the network (each layer computes a weighted sum, adds a bias, applies the activation), and gradients flow backward (each layer multiplies by its local derivative and passes the result to the layer before it). The forward pass asks "what does the network predict?" The backward pass asks "how should each weight change?"
+
+![Forward and Backward](../images/chapter2/figure-2-20-en.svg)
+
+The same pattern will appear in the digit classifier, just with vectors and matrices instead of numbers.
+
+## From Scalars to Vectors
+
+Now we need to apply this to our digit classifier, where the input is 784 pixels instead of one number, the hidden layer has 128 neurons instead of one, and the output has 10 classes instead of one value. The computation graph is the same, the chain rule is the same, and the pattern at each layer is the same. The only thing that changes is what "multiply" means when we move from scalars to matrices.
+
+In the scalar example, $x$ is a number, $w_1$ is a number, and $z_1 = w_1 x + b_1$ is one multiplication plus one addition. In the digit classifier, $x$ is a vector of 784 pixel values and the hidden layer has 128 neurons, each with its own set of 784 weights. We stack all those weights into a matrix $W_1$ of shape $(784 \times 128)$, where each column holds the 784 weights of one neuron:
+
+$$W_1 = \begin{bmatrix} | & | & & | \\ w^{(1)} & w^{(2)} & \cdots & w^{(128)} \\ | & | & & | \end{bmatrix} \quad (784 \times 128)$$
+
+To compute the activation of one neuron, we take the dot product of its 784 weights with the 784 pixels, then add its bias. That's the same $w_1 x + b_1$ from the scalar case, but with 784 terms in the sum instead of 1. To compute all 128 neurons at once, we use matrix multiplication. $W_1$ is stored as $(784 \times 128)$, with each neuron's weights in a column, but matrix multiplication needs the shared dimension on the inside: $(128 \times 784) \times (784 \times 1) = (128 \times 1)$. So we transpose $W_1$ to put each neuron's weights in a row:
+
+$$z_1 = W_1^T x + b_1 = \underbrace{\begin{bmatrix} \text{--- } w^{(1)T} \text{ ---} \\ \text{--- } w^{(2)T} \text{ ---} \\ \vdots \\ \text{--- } w^{(128)T} \text{ ---} \end{bmatrix}}_{128 \times 784} \underbrace{\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_{784} \end{bmatrix}}_{784 \times 1} + \underbrace{\begin{bmatrix} b^{(1)} \\ \vdots \\ b^{(128)} \end{bmatrix}}_{128 \times 1} = \underbrace{\begin{bmatrix} w^{(1)} \cdot x + b^{(1)} \\ w^{(2)} \cdot x + b^{(2)} \\ \vdots \\ w^{(128)} \cdot x + b^{(128)} \end{bmatrix}}_{128 \times 1}$$
+
+Row 1 times $x$ gives the dot product of neuron 1's weights with the pixels. Row 2 times $x$ gives neuron 2. And so on: 128 rows, 128 dot products in parallel. The result is a vector of 128 values, the direct analogue of the scalar $z_1 = w_1 x + b_1$ repeated 128 times.
+
+The transpose is there to make the shapes line up: we store each neuron as a column but need it as a row for the multiplication, but it also has a geometric meaning. $W_1^T x$ is a linear transformation: it takes a point in 784-dimensional pixel space and maps it to a point in a new 128-dimensional space. Each row of $W_1^T$ defines a direction in pixel space, and the dot product measures how far the input extends along that direction. The 128 rows are 128 learned directions, and $z_1$ gives the input's coordinates in this new space. Training adjusts those directions until they capture the features that matter for telling digits apart.
+
+ReLU applies element by element, each of the 128 values either passes (if positive) or gets zeroed (if negative). Shape doesn't change:
+
+$$h = \text{ReLU}(z_1) = \begin{bmatrix} \text{ReLU}(z_1^{(1)}) \\ \text{ReLU}(z_1^{(2)}) \\ \vdots \\ \text{ReLU}(z_1^{(128)}) \end{bmatrix} \quad (128 \times 1)$$
+
+The second layer does the same thing. $W_2$ is $(128 \times 10)$: 128 weights per class, 10 classes. Transpose gives $(10 \times 128)$, and each of the 10 rows does a dot product with $h$ to produce one class score:
+
+$$z_2 = W_2^T h + b_2 \quad \underbrace{(10 \times 128)}_{W_2^T} \times \underbrace{(128 \times 1)}_{h} + \underbrace{(10 \times 1)}_{b_2} = \underbrace{(10 \times 1)}_{z_2}$$
+
+Softmax turns the 10 scores into 10 probabilities (shape doesn't change), and cross-entropy collapses them into a single number: the loss. The full pipeline, with shapes at every stage:
+
+![The Forward Pass with Shapes](../images/chapter2/figure-2-21-en.svg)
+
+Now we trace the gradients backward, the same way we did in the scalar example. At each layer we'll compute the same four things: the weight gradient, the bias gradient, the error flowing backward, and the ReLU gate. The shapes are different, but the logic is identical.
+
+Start at the output. In the scalar case, the error was one number: $\frac{\partial L}{\partial \hat{y}} = 2(\hat{y} - y) = -2.6$. In the digit classifier, with softmax and cross-entropy, the error is a vector of 10:
+
+$$\delta_2 = \hat{y} - y = \begin{bmatrix} 0.05 \\ 0.02 \\ 0.03 \\ -0.39 \\ \vdots \end{bmatrix} \quad (10 \times 1)$$
+
+One error per class. For the correct class, this is $\hat{y}_k - 1$ (the model's probability minus the target). For all other classes, it's just $\hat{y}_i$ (the probability minus zero). Softmax and cross-entropy are mathematically designed to pair together, which is why the gradient simplifies to this clean form: prediction minus target.
+
+Now the gradient for $W_2$. In the scalar case: error times activation, $\frac{\partial L}{\partial \hat{y}} \cdot h = -2.6 \times 1.0 = -2.6$. One number times one number.
+
+In the digit classifier, $W_2$ has 1,280 weights. Each weight $W_{2,ji}$ connects hidden neuron $j$ to output class $i$, and its gradient is the same formula: error at output $i$ times activation of neuron $j$. To compute all 1,280 gradients at once, we use the **outer product**:
+
+$$\frac{\partial L}{\partial W_2} = h \cdot \delta_2^T = \underbrace{\begin{bmatrix} h_1 \\ h_2 \\ \vdots \\ h_{128} \end{bmatrix}}_{128 \times 1} \underbrace{\begin{bmatrix} \delta_1 & \delta_2 & \cdots & \delta_{10} \end{bmatrix}}_{1 \times 10} = \underbrace{\begin{bmatrix} h_1 \delta_1 & h_1 \delta_2 & \cdots & h_1 \delta_{10} \\ h_2 \delta_1 & h_2 \delta_2 & \cdots & h_2 \delta_{10} \\ \vdots & \vdots & \ddots & \vdots \\ h_{128} \delta_1 & h_{128} \delta_2 & \cdots & h_{128} \delta_{10} \end{bmatrix}}_{128 \times 10}$$
+
+Every entry is error times activation, the same formula as the scalar case. The result has shape $(128 \times 10)$, matching $W_2$. The transpose on $\delta_2$ is mechanical: $h$ is a column $(128 \times 1)$ and $\delta_2$ is a column $(10 \times 1)$, and you can't multiply two columns together. Transposing $\delta_2$ into a row $(1 \times 10)$ gives $(128 \times 1) \times (1 \times 10) = (128 \times 10)$. The transpose exists to make the shapes line up for the outer product.
+
+The bias gradient is the error itself, since the derivative of $W^T h + b$ with respect to $b$ is the identity:
+
+$$\frac{\partial L}{\partial b_2} = \delta_2 \quad (10 \times 1)$$
+
+Next we need to send the error backward to $h$. In the scalar case: error times weight, $-2.6 \times (-0.3) = 0.78$. The error travels backward through the same wire.
+
+In the digit classifier, each hidden neuron $j$ is connected to all 10 outputs. The error reaching it is the sum of all 10 output errors, each weighted by the connection strength:
+
+$$\frac{\partial L}{\partial h_j} = \sum_{i=1}^{10} W_{2,ji} \cdot \delta_{2,i}$$
+
+That's a dot product: row $j$ of $W_2$ times $\delta_2$. To compute all 128 at once:
+
+$$\frac{\partial L}{\partial h} = W_2 \cdot \delta_2 = \underbrace{(128 \times 10)}_{W_2} \times \underbrace{(10 \times 1)}_{\delta_2} = \underbrace{(128 \times 1)}$$
+
+During the forward pass, $W_2^T$ with shape $(10 \times 128)$ carried 128 activations forward to 10 outputs. During the backward pass, $W_2$ with shape $(128 \times 10)$ carries 10 errors back to 128 neurons. Same wires, opposite direction.
+
+Geometrically, the forward pass compressed 128 dimensions down to 10 by projecting onto 10 learned directions. The backward pass reverses that projection: it spreads 10 error signals back across the 128 dimensions they came from, weighted by the same connections. Every transpose in backpropagation has this same explanation: the same linear map, running in reverse.
+
+![Reversing the Connections](../images/chapter2/figure-2-22-en.svg)
+
+The error then passes through the ReLU gate. In the scalar case, $\text{ReLU}'(z_1) = 1$ because $z_1 = 1.0 > 0$, and the gradient passed through unchanged. In the digit classifier, ReLU applies to 128 neurons independently:
+
+$$\delta_1 = \frac{\partial L}{\partial h} \odot \text{ReLU}'(z_1) = \underbrace{\begin{bmatrix} \partial L / \partial h_1 \\ \partial L / \partial h_2 \\ \vdots \end{bmatrix}}_{128 \times 1} \odot \underbrace{\begin{bmatrix} 1 \\ 0 \\ \vdots \end{bmatrix}}_{128 \times 1} = \underbrace{\begin{bmatrix} \partial L / \partial h_1 \\ 0 \\ \vdots \end{bmatrix}}_{128 \times 1}$$
+
+The symbol $\odot$ means element-wise multiplication. $\text{ReLU}'(z_1)$ is a vector of 1s and 0s: 1 where the neuron was active during the forward pass, 0 where it was off. Active neurons pass their error through. Dead neurons block it. Same gate as the scalar case, applied 128 times in parallel.
+
+Finally, the gradient for $W_1$ and $b_1$ follows the same pattern as $W_2$. Error times input, using an outer product:
+
+$$\frac{\partial L}{\partial W_1} = x \cdot \delta_1^T = \underbrace{\begin{bmatrix} x_1 \\ x_2 \\ \vdots \\ x_{784} \end{bmatrix}}_{784 \times 1} \underbrace{\begin{bmatrix} \delta_1^{(1)} & \delta_1^{(2)} & \cdots & \delta_1^{(128)} \end{bmatrix}}_{1 \times 128} = \underbrace{(784 \times 128)}_{\text{same shape as } W_1}$$
+
+$$\frac{\partial L}{\partial b_1} = \delta_1 \quad (128 \times 1)$$
+
+That's the full backward pass. We now have gradients for all 101,770 parameters, each telling us how much nudging that parameter would change the loss. The scalar example had four gradients computed by four chain-rule multiplications. The vector version has 101,770 gradients, but the same four operations repeated at each layer.
+
+Look back at what we did. At every layer, exactly four things happened. First, the error passed through the ReLU gate: $\delta = \text{error from above} \odot \text{ReLU}'(z)$, where active neurons pass the error and dead neurons block it. Second, the weight gradient was computed as an outer product of the input and the error: $\frac{\partial L}{\partial W} = \text{input to this layer} \cdot \delta^T$, so every entry is error times activation, the same formula as the scalar case. Third, the bias gradient equaled the error itself: $\frac{\partial L}{\partial b} = \delta$. Fourth, the error flowed backward through the weight matrix: $\frac{\partial L}{\partial \text{input}} = W \cdot \delta$, where the matrix without the transpose used in the forward pass reverses the direction.
+
+That's all any layer ever does. You could have 50 layers and the backward pass would be a loop applying these four operations at each one. The network's depth doesn't change the algorithm; it changes how many times you repeat it. This is why frameworks like PyTorch can compute gradients automatically on any architecture: each operation knows its own local derivative, and the chain rule stitches them together.
+
+For the intuition, imagine the loss is too high because the model predicted 30% for digit 7 when it should have predicted near 100%. Backpropagation traces backward: which output weights made the 7-score too low? Which hidden neurons fed those weights? Which input weights controlled those hidden neurons? Every weight gets a tweak proportional to how much it contributed to the mistake. Weights that had nothing to do with the error (because their neurons were inactive, or they connected to irrelevant outputs) get small or zero gradients. The network doesn't change everywhere at once; it changes most where the mistake originated.
+
+But one correction isn't enough. The first update fixes one batch's mistakes and might introduce new ones; the network needs to see the data again and again, each time refining the weights a little further.
+
 
 ## The Training Loop
 
 One pass through the entire training set is called an **epoch**. Most models need many epochs (10 to 100 or more) before the weights settle into good values. Within each epoch, we iterate over mini-batches, updating the weights after each batch.
 
-![The Training Loop](../images/chapter2/figure-2-20-en.svg)
+![The Training Loop](../images/chapter2/figure-2-23-en.svg)
 
 The learning rate $\eta$ is the most important **hyperparameter**: a setting you choose before training, as opposed to the weights, which are learned *during* training. Too large and the updates overshoot, causing the loss to bounce or diverge; too small and training takes forever.
 
@@ -353,9 +476,10 @@ The learning rate $\eta$ is the most important **hyperparameter**: a setting you
 
 Each pass through the loop tweaks the decision boundary closer to the right shape:
 
-![Loop Visualized](../images/chapter2/figure-2-21-en.svg)
+![Loop Visualized](../images/chapter2/figure-2-24-en.svg)
 
 This loop is the same whether you're training a digit classifier with 100,000 weights or a language model with 100 billion. The architectures and loss functions might change, but the loop doesn't. Every model we build in the rest of this book (word embeddings in Chapter 3, transformers in Chapter 4) follows these exact mechanics. That's enough theory. Let's build one.
+
 
 ## Hands-On: A Neural Network in NumPy
 
@@ -381,6 +505,13 @@ import matplotlib.pyplot as plt
 mnist = fetch_openml("mnist_784", version=1, as_frame=False, parser="auto")
 X = mnist.data / 255.0
 y = mnist.target.astype(int)
+```
+
+One difference from Chapter 1: we divide pixel values by 255, scaling them from the range $[0, 255]$ to $[0, 1]$. Neural networks train better when inputs are small numbers. Large input values produce large dot products, which push activations into their flat regions where gradients vanish. Scaling to $[0, 1]$ keeps everything in a reasonable range. This is called **feature scaling**, and it's standard practice.
+
+```python
+# network.py
+# ...existing code above
 
 rng = np.random.default_rng(42)
 indices = rng.permutation(len(X))
@@ -393,9 +524,7 @@ y_train, y_test = y[:split], y[split:]
 print(f"Training: {len(X_train)}, Test: {len(X_test)}")
 ```
 
-One difference from Chapter 1: we divide pixel values by 255, scaling them from the range $[0, 255]$ to $[0, 1]$. Neural networks train better when inputs are small numbers. Large input values produce large dot products, which push sigmoid activations into their flat regions (where gradients vanish, as we discussed). Scaling to $[0, 1]$ keeps everything in a reasonable range. This is called **feature scaling**, and it's standard practice.
-
-Next, we need to convert the integer labels (0 through 9) into one-hot vectors for the cross-entropy loss. The label "3" becomes `[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]`:
+In the theory, we defined cross-entropy loss as $L = -\sum_{i} y_i \log(\hat{y}_i)$, where $y$ is a **one-hot vector**: all zeros except for a 1 at the correct class. The label "3" becomes `[0, 0, 0, 1, 0, 0, 0, 0, 0, 0]`. We need to convert our integer labels into that form:
 
 ```python
 # network.py
@@ -413,7 +542,7 @@ y_test_oh = one_hot(y_test)
 
 `np.zeros` creates an array of all zeros. For each image, we set a single position to 1.0. The result is a matrix with 56,000 rows and 10 columns: each row is mostly zeros with one 1.
 
-Now the activation functions. ReLU for hidden layers, softmax for the output:
+Now the activation functions from the theory. ReLU was $\text{ReLU}(z) = \max(0, z)$: pass positive values through, zero out negatives. In NumPy that's one line:
 
 ```python
 # network.py
@@ -421,14 +550,21 @@ Now the activation functions. ReLU for hidden layers, softmax for the output:
 
 def relu(z):
     return np.maximum(0, z)
+```
+
+`np.maximum(0, z)` compares each element to 0 and keeps the larger one. We also need its derivative for backpropagation. In the theory, the ReLU gate passes the gradient where the neuron was active ($z > 0$) and blocks it where the neuron was off ($z \leq 0$). That's a vector of 1s and 0s:
+
+```python
+# network.py
+# ...existing code above
 
 def relu_derivative(z):
     return (z > 0).astype(float)
 ```
 
-`np.maximum(0, z)` compares each element to 0 and keeps the larger one. The derivative function uses a boolean trick: `z > 0` produces `True` where positive and `False` where not, and `.astype(float)` converts those to 1.0 and 0.0. This is the ReLU gate from the backpropagation section: gradient flows through where the neuron was active, and gets blocked where it wasn't.
+A boolean trick: `z > 0` produces `True` where positive and `False` where not, and `.astype(float)` converts those to 1.0 and 0.0. This is the exact gate we traced through in the scalar example, where $\text{ReLU}'(1.0) = 1$ because $z_1$ was positive.
 
-Softmax needs a numerical trick:
+For the output, we need softmax: $\text{softmax}(z)_i = e^{z_i} / \sum_j e^{z_j}$, which turns 10 raw scores into 10 probabilities that sum to 1. The code needs one extra trick the theory didn't mention:
 
 ```python
 # network.py
@@ -440,9 +576,9 @@ def softmax(z):
     return exp_z / exp_z.sum(axis=1, keepdims=True)
 ```
 
-The formula says to exponentiate each score and divide by the total. But $e^{z_i}$ overflows when $z_i$ is large (say, 1000), so we'll subtract the maximum value before exponentiating. This doesn't change the result (the subtracted constant cancels between numerator and denominator) but keeps the numbers from exploding. The `axis=1` means "operate across columns within each row," so each image in a batch gets its own maximum. The `keepdims=True` preserves the shape for broadcasting, the same mechanism Chapter 1 used when we divided arrays element-wise.
+We subtract the maximum value before exponentiating. This doesn't change the result (the subtracted constant cancels between numerator and denominator) but prevents $e^{z_i}$ from overflowing when $z_i$ is large. The `axis=1` means "operate across columns within each row," so each image in a batch gets its own maximum. The `keepdims=True` preserves the shape for broadcasting, the same mechanism Chapter 1 used when we divided arrays element-wise.
 
-And the cross-entropy loss, averaged over a batch:
+And the cross-entropy loss. In the theory: $L = -\log(\hat{y}_k)$, where $k$ is the correct class. We wrote this as $L = -\sum_i y_i \log(\hat{y}_i)$ using the one-hot vector, which zeroes out every term except the correct class. In NumPy, averaged over a batch:
 
 ```python
 # network.py
@@ -453,9 +589,11 @@ def cross_entropy_loss(y_hat, y_true):
     return -np.mean(np.sum(y_true * np.log(y_hat_clipped), axis=1))
 ```
 
-`np.clip` ensures no value is exactly 0 before we take the log (since $\log(0)$ is negative infinity). The `y_true * np.log(...)` multiplies element-wise; since `y_true` is one-hot, this zeroes out every term except the correct class. `.sum(axis=1)` gives one loss per image, and `np.mean` averages over the batch.
+`np.clip` ensures no value is exactly 0 before we take the log (since $\log(0)$ is negative infinity). The `y_true * np.log(...)` multiplies element-wise; since `y_true` is one-hot, only the correct class contributes. `.sum(axis=1)` gives one loss per image, and `np.mean` averages over the batch.
 
-Now let's first build the model without a hidden layer: input (784) straight to softmax (10). This is **the linear classifier.** from the theory. One weight matrix and one bias vector:
+That's all the building blocks. Now let's use them.
+
+In the theory, we said a single perceptron draws a hyperplane through the input space, and 10 perceptrons (one per digit) form a linear classifier. Let's build that first: input (784) straight to softmax (10), no hidden layer. Each perceptron has 784 weights (one per pixel) and one bias. We stack all 10 weight vectors into a single matrix:
 
 ```python
 # network.py
@@ -467,7 +605,7 @@ b_lin = np.zeros(10)
 
 `rng.normal(0, 0.01, size=(784, 10))` draws 7,840 random numbers from a normal distribution with mean 0 and standard deviation 0.01. Small random values: enough to break symmetry, not so large that they push softmax into weird territory. The biases start at zero.
 
-The training loop follows the same pattern from the theory: forward pass, compute loss, backward pass, update:
+The optimization loop from the theory had three steps that repeat: forward pass (make predictions), backward pass (compute gradients), update (adjust weights). We also said that in practice we use mini-batches instead of the full training set, because the gradient from a random subset is an unbiased estimate of the full gradient but much cheaper to compute. Here's that loop:
 
 ```python
 # network.py
@@ -500,7 +638,9 @@ for epoch in range(epochs):
         b_lin -= lr * db
 ```
 
-Each epoch shuffles the training data (so batches are different every time), then iterates through 64-image mini-batches. The forward pass is one line: `X_batch @ W_lin + b_lin` computes all 10 scores for all 64 images at once, and `softmax` turns them into probabilities. The gradient `y_hat - y_batch` is the elegant cross-entropy + softmax derivative from the backpropagation section. `X_batch.T @ delta` multiplies the transposed inputs by the errors, giving us the gradient for each weight: how much did this pixel, connected to this output, contribute to the mistake?
+Each epoch shuffles the training data (so batches are different every time), then iterates through 64-image mini-batches. The forward pass computes $z = W^T x + b$ for all 64 images at once (`X_batch @ W_lin + b_lin`), and `softmax` turns the scores into probabilities.
+
+The gradient `y_hat - y_batch` is the cross-entropy + softmax derivative we derived in the backpropagation section: prediction minus target, the same $\delta = \hat{y} - y$. `X_batch.T @ delta` is the weight gradient: in the theory, we computed this as an outer product of the input and the error. Here the matrix multiply does 64 outer products and sums them in one operation. And `W_lin -= lr * dW` is gradient descent: $w \leftarrow w - \eta \nabla L$.
 
 ```python
 # network.py
@@ -532,7 +672,7 @@ plt.show()
 
 Blue regions are pixels whose brightness makes the model more confident in that digit; red regions are pixels that make it less confident. Compare these to the template matcher's blurry averages from Chapter 1. These are sharper: gradient descent didn't just average, it learned *which pixels discriminate*. But they're still global patterns over the full image. The linear model can't learn "there's a loop" or "two lines meet at an angle," because those are spatial relationships that require combining pixels nonlinearly, not just weighting individual ones.
 
-Now we add a hidden layer and make it a **neural network**. The architecture becomes 784 -> 128 -> 10:
+Now we add a hidden layer and make it a **neural network**. The architecture becomes 784 -> 128 -> 10. In the theory, we said all weights should start as small random values (not zero, because then every neuron computes the same thing and gradient descent can't break the symmetry). We'll use He initialization [@he2015delving], which scales the random values by $\sqrt{2 / n_\text{in}}$:
 
 ```python
 # network.py
@@ -549,9 +689,9 @@ W1, b1, W2, b2 = initialize_weights(rng)
 print(f"Total parameters: {W1.size + b1.size + W2.size + b2.size}")
 ```
 
-The weights use Xavier initialization [@glorot2010understanding]: random values scaled by $\sqrt{2 / n_\text{in}}$, where $n_\text{in}$ is the number of inputs to the layer. Each neuron sums $n_\text{in}$ weighted inputs, so if the weights aren't scaled down, the output variance grows by a factor of $n_\text{in}$ at every layer and activations explode before training starts. Setting the weight variance to $2/n_\text{in}$ cancels that growth (the 2 accounts for ReLU zeroing out half the outputs). The effect is that activations stay in a reasonable range from the first layer to the last. About 101,770 parameters, thirteen times more than the template matcher's 7,840 values, and every one is adjustable.
+Why $\sqrt{2 / n_\text{in}}$? Each neuron sums $n_\text{in}$ weighted inputs. If the weights aren't scaled down, the output variance grows by a factor of $n_\text{in}$ at every layer and activations explode before training starts. Setting the weight variance to $2/n_\text{in}$ cancels that growth (the 2 accounts for ReLU zeroing out half the outputs). About 101,770 parameters, thirteen times more than the linear classifier's 7,840, and every one is adjustable.
 
-The forward pass feeds a batch through both layers:
+In the theory, the forward pass was $x \to W_1^T x + b_1 \to \text{ReLU} \to W_2^T h + b_2 \to \text{softmax}$: two matrix multiplies with a ReLU in between. Here's that in NumPy:
 
 ```python
 # network.py
@@ -565,9 +705,9 @@ def forward(X, W1, b1, W2, b2):
     return z1, h, z2, y_hat
 ```
 
-We write $X W_1$ rather than $W_1 X$ because our images are stored as rows. The shapes in the comments let you trace the dimensions: 784 inputs become 128 hidden features become 10 class probabilities. The function returns intermediate values `z1` and `h` because backpropagation needs them.
+One thing to notice: we write `X @ W1` rather than `W1.T @ X`. In the theory, we wrote $W_1^T x$ because $x$ was a column vector and the matrix had to go on the left. Here our images are stored as rows: `X` has shape `(batch, 784)`, so `X @ W1` gives `(batch, 784) @ (784, 128) = (batch, 128)`. Same 128 dot products per image, written to match NumPy's row-major convention. We return the intermediate values `z1` and `h` because backpropagation needs them, as we'll see next.
 
-The backward pass computes gradients for all four parameter groups. Each line maps to a step from the theory:
+Now the backward pass. In the theory, we traced four operations at each layer: compute the output error, compute the weight gradient as an outer product, pass the error backward through the weight matrix, and apply the ReLU gate. Here's all of that in one function:
 
 ```python
 # network.py
@@ -575,23 +715,32 @@ The backward pass computes gradients for all four parameter groups. Each line ma
 
 def backward(X, z1, h, y_hat, y_true, W2):
     batch_size = X.shape[0]
+    delta2 = (y_hat - y_true) / batch_size    # (batch, 10)
 
-    # Step 1: output error
-    delta2 = (y_hat - y_true) / batch_size
+    dW2 = h.T @ delta2         # (128, batch) @ (batch, 10) = (128, 10)
+    db2 = delta2.sum(axis=0)   # (10,)
 
-    # Step 2: gradients for W2, b2
-    dW2 = h.T @ delta2
-    db2 = delta2.sum(axis=0)
+    delta1 = (delta2 @ W2.T) * relu_derivative(z1)  # (batch, 128)
 
-    # Step 3: propagate error back through ReLU
-    delta1 = (delta2 @ W2.T) * relu_derivative(z1)
-    dW1 = X.T @ delta1
-    db1 = delta1.sum(axis=0)
+    dW1 = X.T @ delta1         # (784, batch) @ (batch, 128) = (784, 128)
+    db1 = delta1.sum(axis=0)   # (128,)
 
     return dW1, db1, dW2, db2
 ```
 
-`delta2 = y_hat - y_true` is the output error. `h.T @ delta2` gives the gradient for $W_2$: how much each hidden neuron, connected to each output, contributed to the error. `delta2 @ W2.T` propagates the error backward through the weight matrix, reversing the connections. `* relu_derivative(z1)` masks out the neurons that were inactive during the forward pass; their gradient is zero because they didn't contribute. The `.sum(axis=0)` for bias gradients adds up contributions from every example in the batch.
+Let's connect each line back to the theory.
+
+`delta2 = y_hat - y_true` is the output error $\delta_2 = \hat{y} - y$: prediction minus target, one error per class per image. In the scalar example this was a single number ($-2.6$). Here it's a matrix with 64 rows (one per image in the batch) and 10 columns (one per class).
+
+`h.T @ delta2` is the weight gradient for $W_2$. In the theory, we wrote $\nabla W_2 = h \cdot \delta_2^T$ as an outer product of two column vectors, giving a $(128 \times 10)$ matrix where each entry is "activation of hidden neuron $j$ times error at output $i$." In code, `h` and `delta2` each have a batch dimension (64 images), so the transpose goes on `h` instead: `(128, batch) @ (batch, 10) = (128, 10)`. The matrix multiply sums over the batch, giving us the average gradient across all 64 images. Same result, different route through the shapes.
+
+`delta2 @ W2.T` propagates the error backward. In the theory, $W_2 \cdot \delta_2$ multiplied $(128 \times 10)$ by $(10 \times 1)$ to carry 10 errors back to 128 neurons. In code, the batch dimension comes first, so we write `delta2 @ W2.T`: `(batch, 10) @ (10, 128) = (batch, 128)`. The `.T` on `W2` reverses the connections: during the forward pass, `W2` mapped 128 hidden values to 10 outputs; now `W2.T` maps 10 errors back to 128 neurons.
+
+`* relu_derivative(z1)` is the ReLU gate. A matrix of 1s and 0s, one per neuron per image, that blocks the gradient where the neuron was inactive during the forward pass. In the scalar example, this was multiplying by 1 (because $z_1 = 1.0 > 0$). Here it applies to all 128 neurons for all 64 images at once.
+
+`.sum(axis=0)` for the bias gradients adds up contributions from every image in the batch. In the theory, the bias gradient was the error itself, $\nabla b = \delta$. With a batch, each image contributes its own error vector, and the sum gives the total gradient.
+
+Finally, the update step. In the theory: $w \leftarrow w - \eta \nabla L$. In code:
 
 ```python
 # network.py
@@ -605,7 +754,7 @@ def update_weights(W1, b1, W2, b2, dW1, db1, dW2, db2, lr):
     return W1, b1, W2, b2
 ```
 
-Now the training loop. Same structure as the linear classifier, but with the hidden layer in between:
+Now the training loop. Same structure as the linear classifier, but calling our `forward`, `backward`, and `update_weights` functions:
 
 ```python
 # network.py
@@ -644,7 +793,7 @@ for epoch in range(epochs):
         print(f"Epoch {epoch+1:3d} | Loss: {avg_loss:.4f}")
 ```
 
-Run this. The loss starts around 2.3, which is $-\log(1/10)$: the loss when the model assigns equal 10% probability to every class, essentially guessing randomly. Watch it drop as the network learns:
+The loss starts around 2.3, which is $-\log(1/10)$: the loss when the model assigns equal 10% probability to every class, essentially guessing randomly. Watch it drop:
 
 ```python
 # network.py
@@ -663,7 +812,7 @@ plt.show()
 
 The curve drops steeply in the first few epochs and then levels off: fast initial progress as the network learns the obvious patterns, then diminishing returns as it refines subtle ones.
 
-Now the comparison:
+Now the comparison we've been building toward:
 
 ```python
 # network.py
@@ -681,7 +830,7 @@ print(f"Neural network:    {accuracy:.1%}")
 
 You should see about 97% for the neural network versus 92% for the linear classifier. Same data, same loss function, same gradient descent. The only difference is the hidden layer.
 
-Let's check for overfitting:
+In Chapter 1, we introduced the generalization gap: the difference between training accuracy and test accuracy. Let's check it here:
 
 ```python
 # network.py
@@ -694,11 +843,11 @@ print(f"Test accuracy:     {accuracy:.1%}")
 print(f"Gap:               {train_accuracy - accuracy:.1%}")
 ```
 
-Training accuracy should be higher (close to 100% vs about 98% on test). A gap of about 2% means the model generalized well, though it has memorized the training data almost perfectly.
+Training accuracy should be higher (close to 100% versus about 98% on test). A gap of about 2% means the model generalized well, though it has memorized the training data almost perfectly.
 
 A 2% gap is small here, but on harder problems or smaller datasets it can be much larger. The train/test split tells you overfitting is happening, but it doesn't fix it. The standard fix is **regularization**: adding a penalty to the loss that discourages the model from fitting noise. The most common version adds the sum of squared weights to the loss, which pushes the network toward smaller, smoother boundaries that are less likely to contort around individual training examples. We won't implement it in this chapter, but it's worth knowing that diagnosing overfitting and treating it are different things.
 
-**What happens without the nonlinearity?** We claimed in the theory that stacking linear layers without activation functions collapses into a single linear transformation. Let's see if that's true. We'll train a network with the same 784 -> 128 -> 10 architecture, but replace ReLU with the identity function (no activation at all):
+In the theory, we proved that stacking linear layers without activation functions collapses into a single linear transformation: a linear function of a linear function is still linear. Let's verify. We'll train a network with the same 784 -> 128 -> 10 architecture, but replace ReLU with the identity function (no activation at all):
 
 ```python
 # network.py
@@ -710,6 +859,13 @@ def forward_no_relu(X, W1, b1, W2, b2):
     z2 = h @ W2 + b2
     y_hat = softmax(z2)
     return z1, h, z2, y_hat
+```
+
+The backward pass is the same, minus the ReLU gate:
+
+```python
+# network.py
+# ...existing code above
 
 def backward_no_relu(X, z1, h, y_hat, y_true, W2):
     batch_size = X.shape[0]
@@ -720,6 +876,13 @@ def backward_no_relu(X, z1, h, y_hat, y_true, W2):
     dW1 = X.T @ delta1
     db1 = delta1.sum(axis=0)
     return dW1, db1, dW2, db2
+```
+
+Now train it:
+
+```python
+# network.py
+# ...existing code above
 
 W1_nr, b1_nr, W2_nr, b2_nr = initialize_weights(np.random.default_rng(42))
 
@@ -734,7 +897,9 @@ for epoch in range(30):
         y_batch = y_shuffled[start:end]
 
         z1, h, z2, y_hat = forward_no_relu(X_batch, W1_nr, b1_nr, W2_nr, b2_nr)
-        dW1, db1, dW2, db2 = backward_no_relu(X_batch, z1, h, y_hat, y_batch, W2_nr)
+        dW1, db1, dW2, db2 = backward_no_relu(
+            X_batch, z1, h, y_hat, y_batch, W2_nr
+        )
         W1_nr, b1_nr, W2_nr, b2_nr = update_weights(
             W1_nr, b1_nr, W2_nr, b2_nr, dW1, db1, dW2, db2, lr)
 
@@ -745,15 +910,15 @@ print(f"Two layers, no ReLU:                 {acc_nr:.1%}")
 print(f"Neural network (with ReLU):          {accuracy:.1%}")
 ```
 
-Run it. The two-layer model without ReLU gets about 92%, the same as the linear classifier. 101,770 parameters, and it can't do any better than 7,850, because without the nonlinearity, the two matrices $W_1$ and $W_2$ multiply into one: $X W_1 W_2 = X W_\text{combined}$. The extra layer bought nothing. The hidden layer only helps when ReLU is there to fold the space.
+The two-layer model without ReLU gets about 92%, the same as the linear classifier. 101,770 parameters, and it can't do any better than 7,850, because without the nonlinearity the two matrices $W_1$ and $W_2$ multiply into one: $X W_1 W_2 = X W_\text{combined}$. The extra layer bought nothing. The hidden layer only helps when ReLU is there to fold the space.
 
-Now let's see **What the hidden layer learned.** We claimed that the hidden layer transforms the data into a space where digits are easier to separate. Let's see it. We'll run the test set through the first layer to get the 128-dimensional hidden representations, then project them to 2D so we can look at them.
+Now let's see what the hidden layer actually learned. In the theory, we said the hidden layer transforms the data into a new space where digits that overlap in pixel coordinates end up in separate regions. Let's look. We'll run the test set through the first layer to get 128-dimensional hidden representations, then project them to 2D so we can plot them.
 
-Let's also **project to 2D.** The hidden layer produces 128-dimensional vectors. We need to get them down to 2 so we can plot them. **Principal component analysis** (PCA) does this by finding the directions along which the data varies the most, then projecting onto just those directions.
+128 dimensions is too many to visualize directly. **Principal component analysis** (PCA) gets us down to 2 by finding the directions along which the data varies the most, then projecting onto those directions.
 
-Think about a cloud of points shaped like a cigar. Most of the spread is along the cigar's length. A little spread is along its width. Almost none is along its thickness. If you had to flatten this cloud to 2D, you'd pick the length and the width, the two directions that preserve the most information about where each point sits relative to the others. That's what PCA does: find the axes of greatest variation, discard the rest.
+Think about a cloud of points shaped like a cigar. Most of the spread is along the cigar's length. A little spread is along its width. Almost none is along its thickness. If you had to flatten this cloud to 2D, you'd pick the length and the width: the two directions that preserve the most information about where each point sits relative to the others. That's what PCA does.
 
-![PCA: Finding the Axes of Greatest Variation](../images/chapter2/figure-2-22-en.svg)
+![PCA: Finding the Axes of Greatest Variation](../images/chapter2/figure-2-25-en.svg)
 
 The algorithm works in three steps. First, center the data by subtracting the mean so the cloud sits at the origin. Second, compute the **covariance matrix**: a table where entry $(i, j)$ tells you how much dimensions $i$ and $j$ vary together. If two dimensions rise and fall in sync across the data, their covariance is large; if they're unrelated, it's near zero. Third, find the **eigenvectors** of that matrix. Each eigenvector is a direction in the original space, and its eigenvalue tells you how much variance lies along that direction. The eigenvector with the largest eigenvalue is the cigar's length. The next largest is its width. To project to 2D, multiply each data point by the top two eigenvectors:
 
@@ -771,7 +936,7 @@ def pca_2d(vecs):
 
 `np.cov` computes the covariance matrix. `np.linalg.eigh` returns eigenvalues sorted smallest to largest, so `[:, -2:]` grabs the last two columns (the two largest) and `[:, ::-1]` flips them so the largest comes first. The final `centered @ top2` projects every 128-dimensional point onto these two directions, giving us an $(N, 2)$ array we can plot.
 
-Now we project both the raw pixels and the hidden representations side by side:
+Now we project both the raw pixels and the hidden representations side by side. First the data:
 
 ```python
 # network.py
@@ -788,7 +953,7 @@ pixel_2d = pca_2d(X_sample)
 hidden_2d = pca_2d(h_sample)
 ```
 
-Raw representations:
+Then the plot:
 
 ```python
 # network.py
@@ -834,6 +999,13 @@ def confusion_matrix(y_true, y_pred):
     return matrix
 
 confusion = confusion_matrix(y_test, test_preds)
+```
+
+And plot it:
+
+```python
+# network.py
+# ...existing code above
 
 fig, ax = plt.subplots(figsize=(8, 8))
 im = ax.imshow(confusion, cmap="Blues")

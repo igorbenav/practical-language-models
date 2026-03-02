@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 175">
+  <style>
+    .bg { fill: #f8f9fa; }
+    .box { rx: 6; ry: 6; stroke-width: 2; }
+    .name { font-family: 'Arial', sans-serif; font-size: 10px; font-weight: bold; text-anchor: middle; }
+    .detail { font-family: 'Georgia', serif; font-size: 8.5px; fill: #666; font-style: italic; text-anchor: middle; }
+    .anno { font-family: 'Arial', sans-serif; font-size: 9px; fill: #888; text-anchor: middle; }
+  </style>
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5 Z" fill="#aaa"/>
+    </marker>
+    <marker id="arr-up" markerWidth="5" markerHeight="7" refX="2.5" refY="0" orient="0">
+      <path d="M0,7 L2.5,0 L5,7 Z" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="520" height="175" class="bg"/>
+
+  <!-- 1. Mini-batch -->
+  <rect x="10" y="25" width="84" height="52" class="box" fill="#e6f7ff" stroke="#1890ff"/>
+  <text x="52" y="47" class="name" style="fill:#1890ff">Mini-batch</text>
+  <text x="52" y="62" class="detail">sample x, y</text>
+
+  <!-- Arrow 1→2 (touch box edges) -->
+  <line x1="94" y1="51" x2="119" y2="51" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 2. Forward pass -->
+  <rect x="119" y="25" width="84" height="52" class="box" fill="#f6ffed" stroke="#52c41a"/>
+  <text x="161" y="47" class="name" style="fill:#389e0d">Forward pass</text>
+  <text x="161" y="62" class="detail">ŷ = f(x; W)</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="203" y1="51" x2="228" y2="51" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 3. Loss -->
+  <rect x="228" y="25" width="76" height="52" class="box" fill="#fff1f0" stroke="#cf1322"/>
+  <text x="266" y="47" class="name" style="fill:#cf1322">Loss</text>
+  <text x="266" y="62" class="detail">L = −log(ŷₖ)</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="304" y1="51" x2="329" y2="51" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 4. Backward pass -->
+  <rect x="329" y="25" width="84" height="52" class="box" fill="#fff7e6" stroke="#fa8c16"/>
+  <text x="371" y="47" class="name" style="fill:#d46b08">Backprop</text>
+  <text x="371" y="62" class="detail">compute ∂L/∂W</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="413" y1="51" x2="438" y2="51" stroke="#aaa" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- 5. Update -->
+  <rect x="438" y="25" width="72" height="52" class="box" fill="#f9f0ff" stroke="#722ed1"/>
+  <text x="474" y="47" class="name" style="fill:#722ed1">Update</text>
+  <text x="474" y="62" class="detail">W ← W−η∇L</text>
+
+  <!-- Loop-back: down from Update, across, up to Mini-batch -->
+  <!-- Vertical down -->
+  <line x1="474" y1="77" x2="474" y2="108" stroke="#999" stroke-width="1.8"/>
+  <!-- Horizontal across -->
+  <line x1="474" y1="108" x2="52" y2="108" stroke="#999" stroke-width="1.8"/>
+  <!-- Vertical up with upward arrow -->
+  <line x1="52" y1="108" x2="52" y2="77" stroke="#999" stroke-width="1.8" marker-end="url(#arr-up)"/>
+
+  <!-- "repeat" label on loop-back -->
+  <text x="260" y="122" class="anno" style="fill:#999;font-style:italic;font-size:10px">repeat for each mini-batch</text>
+
+  <!-- Bottom note -->
+  <text x="260" y="155" class="anno" style="font-size:10px;fill:#666">One full pass through all batches = one epoch. Typical training: 10–100 epochs.</text>
+</svg>
